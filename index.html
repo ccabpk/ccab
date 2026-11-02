@@ -124,6 +124,12 @@
         <div id="myPassengerRides"></div>
       </div>
 
+      <!-- مسافر کے لیے تمام آن لائن ڈرائیورز کی لسٹ -->
+      <div class="box">
+        <div class="box-title" style="justify-content: flex-start;">🟢 تمام دستیاب آن لائن ڈرائیورز</div>
+        <div id="passengerAllOnlineDrivers"></div>
+      </div>
+
       <div class="box">
         <div class="box-title" style="justify-content: flex-start;">📅 ڈرائیورز کی روٹ آفرز، بڈز اور شیڈول</div>
         <div id="passengerScheduledRides"></div>
@@ -225,14 +231,14 @@
       <p id="astatus" class="status-msg"></p>
     </div>
 
-    <!-- ایڈمن کنٹینٹ (صحیح پاس ورڈ پر شو ہوگا، ساتھ لاگ آؤٹ بٹن) -->
+    <!-- ایڈمن کنٹینرس (صحیح پاس ورڈ پر شو ہوگا) -->
     <div id="adminContent" class="hidden">
       <div class="box" style="background: #f0fdf4; text-align: center; border-right: 4px solid #16a34a;">
         <p style="font-weight: bold; color: #166534; font-size: 14px;">✅ آپ ایڈمن کے طور پر لاگ ان ہیں</p>
         <button onclick="adminLogout()" class="btn btn-red" style="padding: 6px 12px; margin-top: 8px; font-size: 12px; width: auto;">🔒 ایڈمن لاگ آؤٹ کریں</button>
       </div>
 
-      <!-- صرف ایک وقت میں ایک سیکشن کھلنے والا اکارڈین (Accordion) سسٹم -->
+      <!-- صرف ایک وقت میں ایک سیکشن کھلنے والا سخت اکارڈین سسٹم -->
       <div class="box">
         <div class="box-title" onclick="toggleAdminSection('secPassengers')">👥 تمام رجسٹرڈ مسافر <span style="font-size: 12px; color: #16a34a;">(کلک کریں 🔽)</span></div>
         <div id="secPassengers" class="collapsible-content hidden"><div id="adminPassengers"></div></div>
@@ -244,13 +250,13 @@
       </div>
 
       <div class="box">
-        <div class="box-title" onclick="toggleAdminSection('secPassengerRides')">📊 تمام مسافروں کی رائیڈ آفرز <span style="font-size: 12px; color: #16a34a;">(کلک کریں 🔽)</span></div>
-        <div id="secPassengerRides" class="collapsible-content hidden"><div id="adminPassengerRidesView"></div></div>
-      </div>
-
-      <div class="box">
-        <div class="box-title" onclick="toggleAdminSection('secDriverSchedules')">🗺️ تمام ڈرائیورز کی روٹ آفرز <span style="font-size: 12px; color: #16a34a;">(کلک کریں 🔽)</span></div>
-        <div id="secDriverSchedules" class="collapsible-content hidden"><div id="adminDriverSchedulesView"></div></div>
+        <div class="box-title" onclick="toggleAdminSection('secRidesOffers')">📊 تمام رائیڈ آفرز (مسافر اور ڈرائیورز) <span style="font-size: 12px; color: #16a34a;">(کلک کریں 🔽)</span></div>
+        <div id="secRidesOffers" class="collapsible-content hidden">
+          <div style="font-weight: bold; color: #16a34a; margin-bottom: 5px;">مسافروں کی رائیڈز:</div>
+          <div id="adminPassengerRidesView"></div>
+          <div style="font-weight: bold; color: #0284c7; margin-top: 15px; margin-bottom: 5px;">ڈرائیورز روٹ بڈز:</div>
+          <div id="adminDriverSchedulesView"></div>
+        </div>
       </div>
 
       <div class="box">
@@ -296,7 +302,7 @@ const locations = [
   "Chak Ibrahim چک ابراہیم", "Petrol Pump پٹرول پمپ", "Khole Mureed کھولے مرید", "Khole Jaimil کھولے جیمل", 
   "Sohag Pul سہاگ پل", "Chak Bota چک بوٹا", "Mahboob Shah محبوب شاہ", "Gilani Chowk گیلانی چوک", 
   "Mohalla Exchange ایکسچینج", "Depalpur دیپالپور", "Hujra Shah Muqaam حجرہ شاہ مقیم", 
-  "Haveli Lakha حویلی لکھا", "Okara اوکاڑہ", "Mandi Ahmad Abad منڈی احمد آباد", "Sahiwal ساہیوال", 
+  "Haveli Lakha حویلی لکھا", "Okara اوکاڑہ", "Mandi Ahmad Abad منڈی احمد آباد", "Sahiwal سahiwal", 
   "Kasur قصور", "Lahore لاہور"
 ];
 
@@ -326,7 +332,7 @@ window.switchTab = function(tabId) {
 
 // ایڈمن کے لیے ایک وقت میں صرف ایک سیکشن کھولنے کا فنکشن (Accordion)
 window.toggleAdminSection = function(id) {
-  const sections = ['secPassengers', 'secDrivers', 'secPassengerRides', 'secDriverSchedules', 'secBlocked'];
+  const sections = ['secPassengers', 'secDrivers', 'secRidesOffers', 'secBlocked'];
   sections.forEach(secId => {
     const el = document.getElementById(secId);
     if(secId === id) {
@@ -643,16 +649,24 @@ document.getElementById('btnPostSchedule').addEventListener('click', async () =>
   alert('✅ آپ کا روٹ اور شیڈول کامیابی سے پوسٹ ہو گیا ہے!');
 });
 
-// رجسٹرڈ مسافروں کا ایڈمن میں ڈسپلے
+// رجسٹرڈ مسافروں کا ایڈمن میں ڈسپلے (مع بلاک اور ریمو کے چھوٹے الگ الگ بٹن جو ایک دوسرے کو چھپائیں)
 onValue(ref(db, 'passengers'), snap => {
   const data = snap.val(); const passengers = data ? Object.values(data) : [];
-  document.getElementById('adminPassengers').innerHTML = passengers.map(p => `
-    <div class="card">
-      <b>👤 ${p.name}</b> (${p.phone}) - شہر: ${p.city}<br>
-      ${isBlocked(p.phone)?`<button onclick="unblockUser('${p.phone}')" class="btn btn-green" style="padding:5px;margin-top:4px;">ان بلاک</button>`:`<button onclick="blockUser('${p.phone}','passenger')" class="btn btn-red" style="padding:5px;margin-top:4px;">بلاک کریں</button>`}
-      <button onclick="deletePassenger('${p.phone}')" class="btn btn-black" style="padding:5px;margin-top:4px;">🗑️ مسافر ریمو کریں</button>
-    </div>
-  `).join('') || '<p style="font-size:12px;color:#666;">کوئی رجسٹرڈ مسافر نہیں</p>';
+  document.getElementById('adminPassengers').innerHTML = passengers.map(p => {
+    const blocked = isBlocked(p.phone);
+    return `
+      <div class="card" id="passengerCard_${p.phone}">
+        <b>👤 ${p.name}</b> (${p.phone}) - شہر: ${p.city}<br>
+        <div style="display: flex; gap: 5px; margin-top: 5px;">
+          ${blocked ? 
+            `<button onclick="unblockUser('${p.phone}')" class="btn btn-green" style="padding:4px 8px; font-size:12px; margin-top:0;">ان بلاک</button>` : 
+            `<button onclick="blockUser('${p.phone}','passenger')" class="btn btn-red" id="blockBtn_${p.phone}" style="padding:4px 8px; font-size:12px; margin-top:0;">بلاک</button>
+             <button onclick="deletePassenger('${p.phone}')" class="btn btn-black" id="delBtn_${p.phone}" style="padding:4px 8px; font-size:12px; margin-top:0;">ریموو</button>`
+          }
+        </div>
+      </div>
+    `;
+  }).join('') || '<p style="font-size:12px;color:#666;">کوئی رجسٹرڈ مسافر نہیں</p>';
 });
 
 window.deletePassenger = function(phone) {
@@ -691,7 +705,7 @@ onValue(ref(db, 'schedules'), snap => {
   `).join('') : '<p style="font-size:12px;color:#666;">کوئی شیڈولڈ روٹ موجود نہیں</p>';
 
   document.getElementById('passengerScheduledRides').innerHTML = scheduleHtml;
-  document.getElementById('driverScheduledRidesView').innerHTML = scheduleHtml;
+  document.getElementById('driverScheduledRidesView').innerHTML = adminScheduleHtml;
   document.getElementById('adminDriverSchedulesView').innerHTML = adminScheduleHtml;
 });
 
@@ -734,10 +748,39 @@ onValue(ref(db,'bookings'), snap=>{
   document.getElementById('blockedList').innerHTML = Object.keys(blockedPhones).length? Object.values(blockedPhones).map(b=>`<div class="card" style="background:#fee2e2;"><b>${b.phone}</b> (${b.type}) <button onclick="unblockUser('${b.phone}')" style="background:#16a34a;color:#fff;border:0;padding:4px 8px;border-radius:4px;cursor:pointer;">ان بلاک</button> <button onclick="removeBlockedPermanently('${b.phone}')" style="background:#dc2626;color:#fff;border:0;padding:4px 8px;border-radius:4px;cursor:pointer;margin-right:5px;">🗑️ مکمل ریموو کریں</button></div>`).join('') : '<p>کوئی نمبر بلاک نہیں ہے</p>';
 });
 
-// رجسٹرڈ ڈرائیورز کا ایڈمن میں سنک
+// رجسٹرڈ ڈرائیورز کا سنک (مسافروں کے لیے تمام آن لائن ڈرائیورز اور ایڈمن کے لیے ڈرائیورز لسٹ)
 onValue(ref(db,'drivers'), snap=>{
   const data=snap.val(); const drivers=data?Object.values(data):[];
-  document.getElementById('adminDrivers').innerHTML = drivers.map(d=>`<div class="card">${d.name} (${d.phone}) - ${d.online?`🟢 آن لائن (سے: ${d.onlineTime||''})`:`🔴 آف لائن (تک: ${d.offlineTime||''})`} - ${d.car}<br>${isBlocked(d.phone)?`<button onclick="unblockUser('${d.phone}')" class="btn btn-green" style="padding:6px;margin-top:5px;">✅ ان بلاک کریں</button>`:`<button onclick="blockUser('${d.phone}','driver')" class="btn btn-red" style="padding:6px;margin-top:5px;">🚫 بلاک کریں</button>`} <button onclick="deleteDriver('${d.phone}')" class="btn btn-black" style="padding:6px;margin-top:5px;">🗑️ ڈرائیور ریموو کریں</button></div>`).join('') || '<p>کوئی رجسٹرڈ ڈرائیور نہیں</p>';
+  const online=drivers.filter(d=>d.online && !isBlocked(d.phone));
+
+  // مسافر کے لیے تمام آن لائن ڈرائیورز کا سیکشن
+  const renderOnlineCard = d => `
+    <div class="card" style="border-right:4px solid #16a34a; background:#f0fdf4;">
+      <b>🟢 ${d.name}</b><br>
+      گاڑی: ${d.car} (${d.veh})<br>
+      📞 ${d.phone}<br>
+      <span class="time-text">🕒 آن لائن وقت: ${d.onlineTime || 'حال ہی میں'}</span>
+      <button onclick="openWhatsApp('${d.phone}', 'سلام! مجھے CCab پر آپ کی آن لائن گاڑی کا معلوم کرنا ہے۔')" class="btn btn-whatsapp" style="padding:6px; margin-top:5px; font-size:12px;">💬 رابطہ کریں</button>
+    </div>
+  `;
+  document.getElementById('passengerAllOnlineDrivers').innerHTML = online.length ? online.map(renderOnlineCard).join('') : '<p style="font-size:12px;color:#888;">اس وقت کوئی بھی ڈرائیور آن لائن نہیں ہے</p>';
+
+  // ایڈمن کے لیے ڈرائیورز لسٹ (مع چھوٹے الگ الگ بلاک اور ریمو بٹن)
+  document.getElementById('adminDrivers').innerHTML = drivers.map(d=>{
+    const blocked = isBlocked(d.phone);
+    return `
+      <div class="card">
+        ${d.name} (${d.phone}) - ${d.online?`🟢 آن لائن`:`🔴 آف لائن`} - ${d.car}<br>
+        <div style="display: flex; gap: 5px; margin-top: 5px;">
+          ${blocked ? 
+            `<button onclick="unblockUser('${d.phone}')" class="btn btn-green" style="padding:4px 8px; font-size:12px; margin-top:0;">ان بلاک</button>` : 
+            `<button onclick="blockUser('${d.phone}','driver')" class="btn btn-red" style="padding:4px 8px; font-size:12px; margin-top:0;">بلاک</button>
+             <button onclick="deleteDriver('${d.phone}')" class="btn btn-black" style="padding:4px 8px; font-size:12px; margin-top:0;">ریموو</button>`
+          }
+        </div>
+      </div>
+    `;
+  }).join('') || '<p>کوئی رجسٹرڈ ڈرائیور نہیں</p>';
 });
 
 window.cancelMyRide = function(id) {
