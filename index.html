@@ -261,7 +261,7 @@ const locations = [
   "Chak Ibrahim چک ابراہیم", "Petrol Pump پٹرول پمپ", "Khole Mureed کھولے مرید", "Khole Jaimil کھولے جیمل", 
   "Sohag Pul سہاگ پل", "Chak Bota چک بوٹا", "Mahboob Shah محبوب شاہ", "Gilani Chowk گیلانی چوک", 
   "Mohalla Exchange ایکسچینج", "Depalpur دیپالپور", "Hujra Shah Muqaam حجرہ شاہ مقیم", 
-  "Haveli Lakha حویلی لکھا", "Okara اوکاڑہ", "Mandi Ahmad Abad منڈی احمد آباد", "Sahiwal ساہیوال", 
+  "Haveli Lakha حویلی لکھا", "Okara اوکاڑہ", "Mandi Ahmad Abad منڈی احمد آباد", "Sahiwal سahiwal", 
   "Kasur قصور", "Lahore لاہور"
 ];
 
@@ -324,17 +324,29 @@ function checkPassengerSession() {
 function checkDriverSession() {
   const savedDPhone = localStorage.getItem('ccab_dphone');
   if(savedDPhone) {
+    // دونوں ان پٹس (آن لائن سوئچ اور رجسٹریشن فارم) میں فون نمبر آٹو فل کریں
     document.getElementById('dphone').value = savedDPhone;
+    const dphoneRegInput = document.getElementById('dphoneReg');
+    if(dphoneRegInput) dphoneRegInput.value = savedDPhone;
+
     verifyDriverActive(savedDPhone);
   }
 }
 
 async function verifyDriverActive(phone) {
   const snap = await get(ref(db, 'drivers/' + phone));
-  if(snap.exists() && snap.val().online) {
-    document.getElementById('driverMainContent').classList.remove('hidden');
-  } else {
-    document.getElementById('driverMainContent').classList.add('hidden');
+  if(snap.exists()) {
+    const data = snap.val();
+    if(data.name) document.getElementById('dname').value = data.name;
+    if(data.lic) document.getElementById('dlicense').value = data.lic;
+    if(data.veh) document.getElementById('dvehicle').value = data.veh;
+    if(data.car) document.getElementById('dcar').value = data.car;
+
+    if(data.online) {
+      document.getElementById('driverMainContent').classList.remove('hidden');
+    } else {
+      document.getElementById('driverMainContent').classList.add('hidden');
+    }
   }
 }
 
@@ -371,7 +383,7 @@ let blockedPhones = {};
 onValue(ref(db,'blocked'), snap=>{ blockedPhones = snap.val()||{}; });
 function isBlocked(ph){ return blockedPhones[ph]?.blocked; }
 
-// پسنجر رجسٹریشن (لاگ ان ہونے پر ہی مین کنٹینٹ شو ہوگا)
+// پسنجر رجسٹریشن
 document.getElementById('btnRegisterPassenger').addEventListener('click', () => {
   const phone = document.getElementById('pregPhone').value.trim();
   const name = document.getElementById('pregName').value.trim();
@@ -402,7 +414,7 @@ document.getElementById('btnBook').addEventListener('click', () => {
   const name = document.getElementById('pname').value.trim() || 'پسنجر';
   
   if(!phone){ alert('موبائل نمبر لازمی ہے'); return; }
-  if(isBlocked(phone)){ alert('🚫 آپ کو بلاک کر دیا گیا ہے'); return; }
+  if(isBlocked(phone)){ alert('🚫 آپ کو بلاک کیا گیا ہے'); return; }
 
   const from = document.getElementById('pfrom').value; 
   const to = document.getElementById('pto').value;
@@ -437,7 +449,7 @@ document.getElementById('btnRegisterDriver').addEventListener('click', () => {
   document.getElementById('dstatus').innerText="✅ ڈرائیور پروفائل محفوظ ہو گئی! اب 'آن لائن ہوں' بٹن دبائیں۔";
 });
 
-// ڈرائیور آن لائن بٹن (آن لائن ہوتے ہی مسافروں کی آفرز شو ہوں گی)
+// ڈرائیور آن لائن بٹن
 document.getElementById('btnDriverOnline').addEventListener('click', async () => {
   const phone = document.getElementById('dphone').value.trim();
   if(!phone){ alert('پہلے اپنا موبائل نمبر درج کریں'); return; }
@@ -561,7 +573,7 @@ onValue(ref(db,'bookings'), snap=>{
   
   document.getElementById('driverOpenRides').innerHTML = open.length? open.map(b=>`<div class="card" style="background:#f0fdf4;"><b>👤 مسافر: ${b.name}</b> | 📞 ${b.phone}<br><b>روٹ:</b> ${b.from} ➔ ${b.to}<br><b>پیشکش کرایہ: Rs ${b.fare}</b><span class="time-text">🕒 بکنگ وقت: ${b.timeStr || 'حالیہ'}</span><br><a href="${b.locLink}" target="_blank" style="display:inline-block; margin-top:4px;">📍 مسافر کی لوکیشن دیکھیں</a><br><input type="number" id="driverOffer_${b.id}" value="${b.fare}" style="margin-top:5px;"><button onclick="sendOffer('${b.id}','${b.phone}')" style="background:#0284c7;color:#fff;border:none;padding:8px;border-radius:6px;width:100%;margin-top:5px;font-weight:bold;cursor:pointer;">💵 آفر واٹس ایپ پر بھیجیں</button></div>`).join('') : '<p style="font-size:12px;color:#666;">کوئی ایکٹو رائیڈ آفر دستیاب نہیں</p>';
   
-  document.getElementById('adminBookings').innerHTML = bookings.map(b=>`<div class="card">${b.name} (${b.phone}) - ${b.from} to ${b.to} - Rs ${b.fare} - ${b.status} - ${isBlocked(b.phone)?'🚫 بلاک شدہ':'✅ فعال'}<br><span class="time-text">🕒 بکنگ: ${b.timeStr || ''}</span><br>${isBlocked(b.phone)?`<button onclick="unblockUser('${b.phone}')" class="btn btn-green" style="padding:5px;margin-top:4px;">ان بلاک</button>`:`<button onclick="blockUser('${b.phone}','passenger')" class="btn btn-red" style="padding:5px;margin-top:4px;">بلاک کریں</button>`} <button onclick="deleteBooking('${b.id}')" class="btn btn-black" style="padding:5px;margin-top:4px;">حذف کریں</button></div>`).join('') || '<p>کوئی بکنگ نہیں</p>';
+  document.getElementById('adminBookings').innerHTML = bookings.map(b=>`<div class="card">${b.name} (${b.phone}) - ${b.from} to ${b.to} - Rs ${b.fare} - ${b.status} - ${isBlocked(b.phone)?`🚫 بلاک شدہ`:`✅ فعال`}<br><span class="time-text">🕒 بکنگ: ${b.timeStr || ''}</span><br>${isBlocked(b.phone)?`<button onclick="unblockUser('${b.phone}')" class="btn btn-green" style="padding:5px;margin-top:4px;">ان بلاک</button>`:`<button onclick="blockUser('${b.phone}','passenger')" class="btn btn-red" style="padding:5px;margin-top:4px;">بلاک کریں</button>`} <button onclick="deleteBooking('${b.id}')" class="btn btn-black" style="padding:5px;margin-top:4px;">حذف کریں</button></div>`).join('') || '<p>کوئی بکنگ نہیں</p>';
   
   document.getElementById('blockedList').innerHTML = Object.keys(blockedPhones).length? Object.values(blockedPhones).map(b=>`<div class="card" style="background:#fee2e2;"><b>${b.phone}</b> (${b.type}) <button onclick="unblockUser('${b.phone}')" style="background:#16a34a;color:#fff;border:0;padding:4px 8px;border-radius:4px;cursor:pointer;">ان بلاک</button> <button onclick="removeBlockedPermanently('${b.phone}')" style="background:#dc2626;color:#fff;border:0;padding:4px 8px;border-radius:4px;cursor:pointer;margin-right:5px;">🗑️ مکمل ریموو کریں</button></div>`).join('') : '<p>کوئی نمبر بلاک نہیں ہے</p>';
 });
