@@ -147,7 +147,7 @@
     </div>
 
     <!-- ڈرائیور آن لائن / آف لائن سوئچ -->
-    <div class="box">
+    <div class="box" id="driverSwitchBox">
       <div class="box-title" style="justify-content: flex-start;">🚗 ڈرائیور آن لائن / آف لائن سوئچ</div>
       <p style="font-size:12px; color:#555; margin-bottom:8px;">اگر آپ پہلے سے رجسٹرڈ ہیں تو صرف موبائل نمبر درج کر کے آن لائن ہوں۔</p>
       <label>موبایل / WhatsApp نمبر *</label>
@@ -155,7 +155,7 @@
       
       <div style="display:flex; gap:10px; margin-top:10px;">
         <button class="btn btn-green" id="btnDriverOnline">🟢 آن لائن ہوں</button>
-        <button class="btn btn-gray" id="btnDriverOffline">🔴 آف لائن ہوں</button>
+        <button class="btn btn-gray hidden" id="btnDriverOffline">🔴 آف لائن ہوں</button>
       </div>
       <p id="dstatus" class="status-msg"></p>
     </div>
@@ -204,12 +204,6 @@
         <label>کرایہ فی سواری / کل کرایہ (روپے)</label>
         <input type="number" id="dsFare" placeholder="500">
         <button class="btn btn-green" id="btnPostSchedule">روٹ اور شیڈول پوسٹ کریں</button>
-      </div>
-
-      <!-- تمام ڈرائیورز کی روٹس اور بڈز -->
-      <div class="box">
-        <div class="box-title" style="justify-content: flex-start;">📋 تمام ڈرائیورز کی روٹ آفرز اور بڈز</div>
-        <div id="driverScheduledRidesView"></div>
       </div>
 
       <div class="box">
@@ -302,7 +296,7 @@ const locations = [
   "Chak Ibrahim چک ابراہیم", "Petrol Pump پٹرول پمپ", "Khole Mureed کھولے مرید", "Khole Jaimil کھولے جیمل", 
   "Sohag Pul سہاگ پل", "Chak Bota چک بوٹا", "Mahboob Shah محبوب شاہ", "Gilani Chowk گیلانی چوک", 
   "Mohalla Exchange ایکسچینج", "Depalpur دیپالپور", "Hujra Shah Muqaam حجرہ شاہ مقیم", 
-  "Haveli Lakha حویلی لکھا", "Okara اوکاڑہ", "Mandi Ahmad Abad منڈی احمد آباد", "Sahiwal سahiwal", 
+  "Haveli Lakha حویلی لکھا", "Okara اوکاڑہ", "Mandi Ahmad Abad منڈی احمد آباد", "Sahiwal ساہیوال", 
   "Kasur قصور", "Lahore لاہور"
 ];
 
@@ -422,8 +416,12 @@ async function verifyDriverActive(phone) {
 
     if(data.online) {
       document.getElementById('driverMainContent').classList.remove('hidden');
+      document.getElementById('btnDriverOnline').classList.add('hidden');
+      document.getElementById('btnDriverOffline').classList.remove('hidden');
     } else {
       document.getElementById('driverMainContent').classList.add('hidden');
+      document.getElementById('btnDriverOnline').classList.remove('hidden');
+      document.getElementById('btnDriverOffline').classList.add('hidden');
     }
   }
 }
@@ -434,6 +432,8 @@ window.resetDriverSession = function() {
   document.getElementById('driverWelcomeBox').classList.add('hidden');
   document.getElementById('driverMainContent').classList.add('hidden');
   document.getElementById('driverOtpSection').classList.add('hidden');
+  document.getElementById('btnDriverOnline').classList.remove('hidden');
+  document.getElementById('btnDriverOffline').classList.add('hidden');
   document.getElementById('dphone').value = '';
   document.getElementById('dphoneReg').value = '';
 };
@@ -601,6 +601,11 @@ document.getElementById('btnDriverOnline').addEventListener('click', async () =>
   document.getElementById('driverWelcomeBox').classList.remove('hidden');
   document.getElementById('driverWelcomeMsg').innerText = `🚗 خوش آمدید ڈرائیور: ${driverData.name} (${phone})`;
   document.getElementById('driverMainContent').classList.remove('hidden');
+  
+  // آن لائن ہونے پر آن لائن بٹن چھپا دیں اور صرف آف لائن بٹن شو کریں
+  document.getElementById('btnDriverOnline').classList.add('hidden');
+  document.getElementById('btnDriverOffline').classList.remove('hidden');
+
   document.getElementById('dstatus').innerText=`🟢 خوش آمدید ${driverData.name}! آپ اب آن لائن ہیں (${timeStr})۔`;
 });
 
@@ -614,6 +619,11 @@ document.getElementById('btnDriverOffline').addEventListener('click', () => {
 
   update(ref(db,'drivers/'+phone),{online:false, offlineTime: timeStr, time:Date.now()});
   document.getElementById('driverMainContent').classList.add('hidden');
+  
+  // آف لائن ہونے پر آف لائن بٹن چھپا دیں اور دوبارہ آن لائن بٹن شو کریں
+  document.getElementById('btnDriverOffline').classList.add('hidden');
+  document.getElementById('btnDriverOnline').classList.remove('hidden');
+
   document.getElementById('dstatus').innerText=`🔴 آپ اب آف لائن ہو چکے ہیں۔ (${timeStr})`;
 });
 
@@ -649,7 +659,7 @@ document.getElementById('btnPostSchedule').addEventListener('click', async () =>
   alert('✅ آپ کا روٹ اور شیڈول کامیابی سے پوسٹ ہو گیا ہے!');
 });
 
-// رجسٹرڈ مسافروں کا ایڈمن میں ڈسپلے (مع بلاک اور ریمو کے چھوٹے الگ الگ بٹن جو ایک دوسرے کو چھپائیں)
+// رجسٹرڈ مسافروں کا ایڈمن میں ڈسپلے (مع بلاک اور ریمو کے چھوٹے الگ الگ بٹن)
 onValue(ref(db, 'passengers'), snap => {
   const data = snap.val(); const passengers = data ? Object.values(data) : [];
   document.getElementById('adminPassengers').innerHTML = passengers.map(p => {
@@ -676,7 +686,7 @@ window.deletePassenger = function(phone) {
   }
 }
 
-// ڈرائیورز کے شیڈولڈ روٹس اور بڈز ڈسپلے کرنا
+// ڈرائیورز کے شیڈولڈ روٹس اور بڈز ڈسپلے کرنا (صرف پسنجر اور ایڈمن کے لیے)
 onValue(ref(db, 'schedules'), snap => {
   const data = snap.val(); const list = data ? Object.values(data).reverse() : [];
   const currentDriverPhone = localStorage.getItem('ccab_dphone') || '';
@@ -705,7 +715,6 @@ onValue(ref(db, 'schedules'), snap => {
   `).join('') : '<p style="font-size:12px;color:#666;">کوئی شیڈولڈ روٹ موجود نہیں</p>';
 
   document.getElementById('passengerScheduledRides').innerHTML = scheduleHtml;
-  document.getElementById('driverScheduledRidesView').innerHTML = adminScheduleHtml;
   document.getElementById('adminDriverSchedulesView').innerHTML = adminScheduleHtml;
 });
 
@@ -765,7 +774,7 @@ onValue(ref(db,'drivers'), snap=>{
   `;
   document.getElementById('passengerAllOnlineDrivers').innerHTML = online.length ? online.map(renderOnlineCard).join('') : '<p style="font-size:12px;color:#888;">اس وقت کوئی بھی ڈرائیور آن لائن نہیں ہے</p>';
 
-  // ایڈمن کے لیے ڈرائیورز لسٹ (مع چھوٹے الگ الگ بلاک اور ریمو بٹن)
+  // ایڈمن کے لیے ڈرائیورز لسٹ
   document.getElementById('adminDrivers').innerHTML = drivers.map(d=>{
     const blocked = isBlocked(d.phone);
     return `
