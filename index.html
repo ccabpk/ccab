@@ -149,7 +149,7 @@
     <!-- ڈرائیور آن لائن / آف لائن سوئچ -->
     <div class="box" id="driverSwitchBox">
       <div class="box-title" style="justify-content: flex-start;">🚗 ڈرائیور آن لائن / آف لائن سوئچ</div>
-      <p style="font-size:12px; color:#555; margin-bottom:8px;">اگر آپ پہلے سے رجسٹرڈ ہیں تو صرف موبائل نمبر درج کر کے آن لائن ہوں۔</p>
+      <p style="font-size:12px; color:#555; margin-bottom:8px;">صرف وہی ڈرائیور آن لائن ہو سکتا ہے جس کا اکاؤنٹ اس موبائل میں رجسٹرڈ ہو۔</p>
       <label>موبایل / WhatsApp نمبر *</label>
       <input type="tel" id="dphone" placeholder="03001234567">
       
@@ -578,15 +578,25 @@ document.getElementById('btnBook').addEventListener('click', () => {
   alert('✅ آپ کی رائیڈ آفر خودکار وقت کے ساتھ کامیابی سے پوسٹ ہو گئی ہے!');
 });
 
-// ڈرائیور آن لائن بٹن
+// ڈرائیور آن لائن بٹن (صرف اس ڈیوائیس کے رجسٹرڈ فون نمبر سے آن لائن ہونے کی اجازت)
 document.getElementById('btnDriverOnline').addEventListener('click', async () => {
   const phone = document.getElementById('dphone').value.trim();
+  const registeredPhone = localStorage.getItem('ccab_dphone');
+
   if(!phone){ alert('پہلے اپنا موبائل نمبر درج کریں'); return; }
+  
+  // سیکیورٹی چیک: جو نمبر درج کیا گیا ہے کیا وہ اسی فون (براؤزر) میں رجسٹرڈ ہے؟
+  if(!registeredPhone || registeredPhone !== phone) {
+    alert('❌ سیکیورٹی ایرر: آپ اس موبائل یا براؤزر سے اس نمبر پر آن لائن نہیں ہو سکتے کیونکہ یہ اکاؤنٹ اس ڈیوائیس پر رجسٹرڈ نہیں ہے!');
+    document.getElementById('dstatus').innerText = "❌ غلط یا غیر رجسٹرڈ موبائل نمبر!";
+    return;
+  }
+
   if(isBlocked(phone)){ alert('🚫 آپ کو بلاک کیا گیا ہے'); document.getElementById('dstatus').innerText="🚫 آپ بلاک ہیں"; return; }
 
   const snap = await get(ref(db, 'drivers/' + phone));
   if(!snap.exists()) {
-    alert('⚠️ اس فون نمبر سے کوئی ڈرائیور اکاؤنٹ نہیں ملا۔ براہ کرم نیچے فارم میں ڈرائیور رجسٹریشن کریں!');
+    alert('⚠️ اس فون نمبر سے کوئی ڈرائیور اکاؤنٹ نہیں ملا۔');
     return;
   }
 
@@ -595,7 +605,6 @@ document.getElementById('btnDriverOnline').addEventListener('click', async () =>
   const timeStr = now.toLocaleTimeString('ur-PK', { hour: '2-digit', minute: '2-digit' });
 
   update(ref(db,'drivers/'+phone),{ online:true, onlineTime: timeStr, time:Date.now()});
-  localStorage.setItem('ccab_dphone', phone);
   
   document.getElementById('driverRegBox').classList.add('hidden');
   document.getElementById('driverWelcomeBox').classList.remove('hidden');
@@ -612,7 +621,9 @@ document.getElementById('btnDriverOnline').addEventListener('click', async () =>
 // ڈرائیور آف لائن بٹن
 document.getElementById('btnDriverOffline').addEventListener('click', () => {
   const phone = document.getElementById('dphone').value.trim();
-  if(!phone){ alert('پہلے اپنا موبائل نمبر درج کریں'); return; }
+  const registeredPhone = localStorage.getItem('ccab_dphone');
+
+  if(!phone || registeredPhone !== phone){ alert('صحیح رجسٹرڈ نمبر درج کریں'); return; }
   
   const now = new Date();
   const timeStr = now.toLocaleTimeString('ur-PK', { hour: '2-digit', minute: '2-digit' });
@@ -630,6 +641,13 @@ document.getElementById('btnDriverOffline').addEventListener('click', () => {
 // ڈرائیور کا اپنا روٹ اور شیڈول پوسٹ کرنا
 document.getElementById('btnPostSchedule').addEventListener('click', async () => {
   const dPhone = document.getElementById('dphone').value.trim();
+  const registeredPhone = localStorage.getItem('ccab_dphone');
+  
+  if(registeredPhone !== dPhone) {
+    alert('❌ تصدیق ناکام! یہ نمبر اس ڈیوائیس پر رجسٹرڈ نہیں ہے۔');
+    return;
+  }
+
   const from = document.getElementById('dsFrom').value.trim();
   const to = document.getElementById('dsTo').value.trim();
   const stops = document.getElementById('dsStops').value.trim();
@@ -637,7 +655,7 @@ document.getElementById('btnPostSchedule').addEventListener('click', async () =>
   const fareVal = document.getElementById('dsFare').value;
 
   if(!dPhone || !from || !to || !time) {
-    alert('براہ کرم ڈرائیور فون نمبر، شروعاتی مقام، آخری منزل اور ٹائم درج کریں!');
+    alert('براہ کرم تمام لازمی فیلڈز درج کریں!');
     return;
   }
   if(isBlocked(dPhone)){ alert('🚫 آپ بلاک ہیں'); return; }
@@ -826,9 +844,10 @@ window.deleteDriver = function(phone){
 window.sendOffer = async function(bookId, passengerPhone){
   const val = document.getElementById('driverOffer_'+bookId).value; 
   const dPhone = document.getElementById('dphone').value.trim();
+  const registeredPhone = localStorage.getItem('ccab_dphone');
   
-  if(!dPhone) {
-    alert('براہ کرم اوپر ڈرائیور پورٹل میں اپنا فون نمبر درج کریں!');
+  if(!dPhone || registeredPhone !== dPhone) {
+    alert('❌ تصدیق ناکام! یہ نمبر اس ڈیوائیس پر رجسٹرڈ نہیں ہے۔');
     return;
   }
   if(isBlocked(dPhone)){ alert('آپ بلاک ہیں، آفر نہیں بھیج سکتے'); return; }
