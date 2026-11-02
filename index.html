@@ -74,7 +74,7 @@
       <a href="https://wa.me/923422477885?text=سلام!%20مجھے%20CCab%20کے%20متعلق%20معلومات%20درکار%20ہیں۔" target="_blank" class="btn btn-whatsapp">📱 واٹس ایپ پر رابطہ کریں</a>
     </div>
 
-    <!-- پسنجر رجسٹریشن / پروفائل -->
+    <!-- پسنجر پروفائل (صرف پسنجر پورٹل پر) -->
     <div class="box">
       <div class="box-title">👤 پسنجر پروفائل (سائن ان / رجسٹریشن)</div>
       <p style="font-size:12px; color:#555; margin-bottom:8px;">ایک بار اپنا نام اور فون نمبر درج کریں، تاکہ دوبارہ ضرورت نہ پڑے۔</p>
@@ -138,12 +138,13 @@
     <div class="box" style="text-align: center; background: #f0fdf4;">
       <div class="box-title" style="text-align: right;">💬 واٹس ایپ سپورٹ</div>
       <p style="font-size: 13px; margin-bottom: 8px; color: #166534;">کسی بھی قسم کی معلومات یا مدد کیلئے ہمارے واٹس ایپ پر رابطہ کریں</p>
-      <a href="https://wa.me/923422477885?text=سلام!%20بطور%20ڈرائیور%20مجھے%20CCab%20کے%20متعلق%20معلومات%20درکار%20ہیں۔" target="_blank" class="btn btn-whatsapp">📱 واٹس ایپ پر رابطہ کریں</a>
+      <a href="https://wa.me/923422477885?text=سلام!%20بطور%20ڈرائیور%20मुझे%20CCab%20کے%20متعلق%20معلومات%20درکار%20ہیں۔" target="_blank" class="btn btn-whatsapp">📱 واٹس ایپ پر رابطہ کریں</a>
     </div>
 
+    <!-- ڈرائیور آن لائن / آف لائن سوئچ (صرف ڈرائیور پورٹل پر) -->
     <div class="box">
       <div class="box-title">🚗 ڈرائیور آن لائن / آف لائن سوئچ</div>
-      <p style="font-size:12px; color:#555; margin-bottom:8px;">اگر آپ پہلی بار آ رہے ہیں تو رجسٹریشن کریں۔ اگر پہلے سے رجسٹرڈ ہیں تو صرف موبائل نمبر درج کر کے آن لائن ہوں۔</p>
+      <p style="font-size:12px; color:#555; margin-bottom:8px;">اگر آپ پہلی بار آ رہے ہیں تو نیچے رجسٹریشن کریں۔ اگر پہلے سے رجسٹرڈ ہیں تو صرف موبائل نمبر درج کر کے آن لائن ہوں۔</p>
       <label>موبائل / WhatsApp نمبر *</label>
       <input type="tel" id="dphone" placeholder="03001234567">
       
@@ -375,7 +376,7 @@ document.getElementById('btnRegisterPassenger').addEventListener('click', () => 
   document.getElementById('pRegStatus').innerText = "✅ پسنجر پروفائل کامیابی سے محفوظ ہو گئی!";
 });
 
-// پسنجر بکنگ (آటో ٹائم کے ساتھ)
+// پسنجر بکنگ (آٹو ٹائم کے ساتھ)
 document.getElementById('btnBook').addEventListener('click', () => {
   const phone = document.getElementById('pphone').value.trim();
   const name = document.getElementById('pname').value.trim() || 'پسنجر';
