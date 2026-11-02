@@ -70,19 +70,25 @@
 
     <!-- واٹس ایپ رابطہ کا بٹن -->
     <div class="box" style="text-align: center; background: #f0fdf4;">
-      <div class="box-title" style="text-align: right; justify-content: flex-start;">💬 واٹس ایپ سپورٹ</div>
+      <div class="box-title" style="justify-content: flex-start;">💬 واٹس ایپ سپورٹ</div>
       <p style="font-size: 13px; margin-bottom: 8px; color: #166534;">کسی بھی قسم کی معلومات یا مدد کیلئے ہمارے واٹس ایپ پر رابطہ کریں</p>
       <a href="https://wa.me/923422477885?text=سلام!%20मुझे%20CCab%20کے%20متعلق%20معلومات%20درکار%20ہیں۔" target="_blank" class="btn btn-whatsapp">📱 واٹس ایپ پر رابطہ کریں</a>
     </div>
 
-    <!-- پسنجر پروفائل (رجسٹریشن کے بعد ہائڈ ہو جائے گا) -->
+    <!-- پسنجر پروفائل (واٹس ایپ OTP ویریفیکیشن کے ساتھ) -->
     <div class="box" id="passengerRegBox">
-      <div class="box-title" style="justify-content: flex-start;">👤 پسنجر پروفائل (سائن ان / رجسٹریشن)</div>
-      <p style="font-size:12px; color:#555; margin-bottom:8px;">پہلے یہاں اپنا نام اور فون نمبر محفوظ کریں تاکہ ڈرائیورز اور روٹس دیکھ سکیں۔</p>
+      <div class="box-title" style="justify-content: flex-start;">👤 پسنجر رجسٹریشن (واٹس ایپ ویریفیکیشن)</div>
       <label>آپ کا نام *</label><input type="text" id="pregName" placeholder="مثال: چوہدری احمد">
       <label>موبایل / WhatsApp نمبر *</label><input type="tel" id="pregPhone" placeholder="03001234567">
       <label>آپ کا شہر / علاقہ</label><input type="text" id="pregCity" placeholder="مثال: بصیرپور">
-      <button class="btn btn-black" id="btnRegisterPassenger">پسنجر پروفائل محفوظ کریں</button>
+      
+      <button class="btn btn-whatsapp" id="btnSendPassengerOtp" style="margin-top: 12px;">📱 واٹس ایپ پر ویریفیکیشن کوڈ منگوائیں</button>
+
+      <div id="passengerOtpSection" class="hidden" style="margin-top: 12px; background: #f0fdf4; padding: 10px; border-radius: 8px;">
+        <label>واٹس ایپ پر موصول ہونے والا 4 ہندسوں کا کوڈ درج کریں *</label>
+        <input type="text" id="pEnteredOtp" placeholder="مثال: 4321">
+        <button class="btn btn-green" id="btnVerifyPassengerOtp">✅ کوڈ تصدیق کریں اور رجسٹر ہوں</button>
+      </div>
       <p id="pRegStatus" class="status-msg"></p>
     </div>
 
@@ -138,7 +144,7 @@
     <div class="box">
       <div class="box-title" style="justify-content: flex-start;">🚗 ڈرائیور آن لائن / آف لائن سوئچ</div>
       <p style="font-size:12px; color:#555; margin-bottom:8px;">اگر آپ پہلے سے رجسٹرڈ ہیں تو صرف موبائل نمبر درج کر کے آن لائن ہوں۔</p>
-      <label>موبائل / WhatsApp نمبر *</label>
+      <label>موبایل / WhatsApp نمبر *</label>
       <input type="tel" id="dphone" placeholder="03001234567">
       
       <div style="display:flex; gap:10px; margin-top:10px;">
@@ -148,11 +154,11 @@
       <p id="dstatus" class="status-msg"></p>
     </div>
 
-    <!-- ڈرائیور رجسٹریشن فارم (رجسٹریشن کے بعد ہائڈ ہو جائے گا) -->
+    <!-- ڈرائیور رجسٹریشن فارم (واٹس ایپ OTP ویریفیکیشن کے ساتھ) -->
     <div class="box" id="driverRegBox">
-      <div class="box-title" style="justify-content: flex-start;">📝 نیا ڈرائیور اکاؤنٹ بنائیں (Registration)</div>
+      <div class="box-title" style="justify-content: flex-start;">📝 نیا ڈرائیور اکاؤنٹ بنائیں (واٹس ایپ ویریفیکیشن)</div>
       <label>ڈرائیور کا نام *</label><input type="text" id="dname" placeholder="محمد علی">
-      <label>موبائل / WhatsApp نمبر *</label><input type="tel" id="dphoneReg" placeholder="03001234567">
+      <label>موبایل / WhatsApp نمبر *</label><input type="tel" id="dphoneReg" placeholder="03001234567">
       <label>لائسنس نمبر *</label><input type="text" id="dlicense" placeholder="DL-98765">
       <label>گاڑی نمبر *</label><input type="text" id="dvehicle" placeholder="LEB-5678">
       <label>گاڑی کی قسم *</label>
@@ -162,7 +168,14 @@
         <option value="بس / کوسٹر">🚌 بس / کوسٹر (Bus / Coaster)</option>
         <option value="ٹرک / لوڈر">🚛 ٹرک / لوڈر / شاہزور (Truck / Loader)</option>
       </select>
-      <button class="btn btn-black" id="btnRegisterDriver">ڈرائیور پروفائل محفوظ کریں</button>
+      
+      <button class="btn btn-whatsapp" id="btnSendDriverOtp" style="margin-top: 12px;">📱 واٹس ایپ پر ویریفیکیشن کوڈ منگوائیں</button>
+
+      <div id="driverOtpSection" class="hidden" style="margin-top: 12px; background: #f0fdf4; padding: 10px; border-radius: 8px;">
+        <label>واٹس ایپ پر موصول ہونے والا 4 ہندسوں کا کوڈ درج کریں *</label>
+        <input type="text" id="dEnteredOtp" placeholder="مثال: 4321">
+        <button class="btn btn-green" id="btnVerifyDriverOtp">✅ کوڈ تصدیق کریں اور ڈرائیور رجسٹر ہوں</button>
+      </div>
     </div>
 
     <!-- ڈرائیور ویلکم اور ری سیٹ باکس -->
@@ -219,29 +232,29 @@
         <button onclick="adminLogout()" class="btn btn-red" style="padding: 6px 12px; margin-top: 8px; font-size: 12px; width: auto;">🔒 ایڈمن لاگ آؤٹ کریں</button>
       </div>
 
-      <!-- کلک ایبل یا ٹوگل ہونے والے سیکشنز -->
+      <!-- صرف ایک وقت میں ایک سیکشن کھلنے والا اکارڈین (Accordion) سسٹم -->
       <div class="box">
-        <div class="box-title" onclick="toggleSection('secPassengers')">👥 تمام رجسٹرڈ مسافر <span style="font-size: 12px; color: #16a34a;">(کلک کر کے کھولیں/بند کریں 🔽)</span></div>
+        <div class="box-title" onclick="toggleAdminSection('secPassengers')">👥 تمام رجسٹرڈ مسافر <span style="font-size: 12px; color: #16a34a;">(کلک کریں 🔽)</span></div>
         <div id="secPassengers" class="collapsible-content hidden"><div id="adminPassengers"></div></div>
       </div>
 
       <div class="box">
-        <div class="box-title" onclick="toggleSection('secPassengerRides')">📊 تمام مسافروں کی رائیڈ آفرز <span style="font-size: 12px; color: #16a34a;">(کلک کر کے کھولیں/بند کریں 🔽)</span></div>
-        <div id="secPassengerRides" class="collapsible-content hidden"><div id="adminPassengerRidesView"></div></div>
-      </div>
-
-      <div class="box">
-        <div class="box-title" onclick="toggleSection('secDriverSchedules')">🗺️ تمام ڈرائیورز کی روٹ آفرز اور بڈز <span style="font-size: 12px; color: #16a34a;">(کلک کر کے کھولیں/بند کریں 🔽)</span></div>
-        <div id="secDriverSchedules" class="collapsible-content hidden"><div id="adminDriverSchedulesView"></div></div>
-      </div>
-
-      <div class="box">
-        <div class="box-title" onclick="toggleSection('secDrivers')">🚘 تمام رجسٹرڈ ڈرائیورز (کنٹرول و ریموو) <span style="font-size: 12px; color: #16a34a;">(کلک کر کے کھولیں/بند کریں 🔽)</span></div>
+        <div class="box-title" onclick="toggleAdminSection('secDrivers')">🚘 تمام رجسٹرڈ ڈرائیورز <span style="font-size: 12px; color: #16a34a;">(کلک کریں 🔽)</span></div>
         <div id="secDrivers" class="collapsible-content hidden"><div id="adminDrivers"></div></div>
       </div>
 
       <div class="box">
-        <div class="box-title" onclick="toggleSection('secBlocked')">🚫 بلاک لسٹ (مستقل ڈیلیٹ بھی کریں) <span style="font-size: 12px; color: #16a34a;">(کلک کر کے کھولیں/بند کریں 🔽)</span></div>
+        <div class="box-title" onclick="toggleAdminSection('secPassengerRides')">📊 تمام مسافروں کی رائیڈ آفرز <span style="font-size: 12px; color: #16a34a;">(کلک کریں 🔽)</span></div>
+        <div id="secPassengerRides" class="collapsible-content hidden"><div id="adminPassengerRidesView"></div></div>
+      </div>
+
+      <div class="box">
+        <div class="box-title" onclick="toggleAdminSection('secDriverSchedules')">🗺️ تمام ڈرائیورز کی روٹ آفرز <span style="font-size: 12px; color: #16a34a;">(کلک کریں 🔽)</span></div>
+        <div id="secDriverSchedules" class="collapsible-content hidden"><div id="adminDriverSchedulesView"></div></div>
+      </div>
+
+      <div class="box">
+        <div class="box-title" onclick="toggleAdminSection('secBlocked')">🚫 بلاک لسٹ مینجمنٹ <span style="font-size: 12px; color: #16a34a;">(کلک کریں 🔽)</span></div>
         <div id="secBlocked" class="collapsible-content hidden"><div id="blockedList"></div></div>
       </div>
     </div>
@@ -311,14 +324,21 @@ window.switchTab = function(tabId) {
   }
 }
 
-// سیکشن کو کھولنے/بند کرنے کا فنکشن (Toggle)
-window.toggleSection = function(id) {
-  const el = document.getElementById(id);
-  if(el.classList.contains('hidden')) {
-    el.classList.remove('hidden');
-  } else {
-    el.classList.add('hidden');
-  }
+// ایڈمن کے لیے ایک وقت میں صرف ایک سیکشن کھولنے کا فنکشن (Accordion)
+window.toggleAdminSection = function(id) {
+  const sections = ['secPassengers', 'secDrivers', 'secPassengerRides', 'secDriverSchedules', 'secBlocked'];
+  sections.forEach(secId => {
+    const el = document.getElementById(secId);
+    if(secId === id) {
+      if(el.classList.contains('hidden')) {
+        el.classList.remove('hidden');
+      } else {
+        el.classList.add('hidden');
+      }
+    } else {
+      el.classList.add('hidden');
+    }
+  });
 }
 
 // SOS فنکشن
@@ -364,6 +384,7 @@ window.resetPassengerSession = function() {
   localStorage.removeItem('ccab_pphone');
   document.getElementById('passengerRegBox').classList.remove('hidden');
   document.getElementById('passengerMainContent').classList.add('hidden');
+  document.getElementById('passengerOtpSection').classList.add('hidden');
   document.getElementById('pregName').value = '';
   document.getElementById('pregPhone').value = '';
 };
@@ -406,6 +427,7 @@ window.resetDriverSession = function() {
   document.getElementById('driverRegBox').classList.remove('hidden');
   document.getElementById('driverWelcomeBox').classList.add('hidden');
   document.getElementById('driverMainContent').classList.add('hidden');
+  document.getElementById('driverOtpSection').classList.add('hidden');
   document.getElementById('dphone').value = '';
   document.getElementById('dphoneReg').value = '';
 };
@@ -443,31 +465,85 @@ let blockedPhones = {};
 onValue(ref(db,'blocked'), snap=>{ blockedPhones = snap.val()||{}; });
 function isBlocked(ph){ return blockedPhones[ph]?.blocked; }
 
-// پسنجر رجسٹریشن
-document.getElementById('btnRegisterPassenger').addEventListener('click', () => {
+// --- پسنجر واٹس ایپ OTP ویریفیکیشن ---
+let generatedPassengerOtp = "";
+document.getElementById('btnSendPassengerOtp').addEventListener('click', () => {
   const phone = document.getElementById('pregPhone').value.trim();
   const name = document.getElementById('pregName').value.trim();
-  const city = document.getElementById('pregCity').value.trim();
-
   if(!phone || !name) {
-    alert('نام اور موبائل نمبر درج کرنا لازمی ہے');
+    alert('نام اور موبائل نمبر درج کرنا لازمی ہے!');
     return;
   }
   if(isBlocked(phone)){ alert('🚫 آپ کو بلاک کیا گیا ہے'); return; }
 
-  set(ref(db, 'passengers/' + phone), {
-    name, phone, city: city || 'بصیرپور', registeredAt: Date.now()
-  });
+  generatedPassengerOtp = Math.floor(1000 + Math.random() * 9000);
+  const msg = `سلام ${name}! CCab میں آپ کا پسنجر ویریفیکیشن کوڈ (OTP) یہ ہے: *${generatedPassengerOtp}*`;
+  openWhatsApp(phone, msg);
+  document.getElementById('passengerOtpSection').classList.remove('hidden');
+});
 
-  localStorage.setItem('ccab_pname', name);
-  localStorage.setItem('ccab_pphone', phone);
-  document.getElementById('pname').value = name;
-  document.getElementById('pphone').value = phone;
+document.getElementById('btnVerifyPassengerOtp').addEventListener('click', () => {
+  const entered = document.getElementById('pEnteredOtp').value.trim();
+  if(entered === generatedPassengerOtp.toString()) {
+    const phone = document.getElementById('pregPhone').value.trim();
+    const name = document.getElementById('pregName').value.trim();
+    const city = document.getElementById('pregCity').value.trim();
 
-  document.getElementById('passengerRegBox').classList.add('hidden');
-  document.getElementById('passengerMainContent').classList.remove('hidden');
-  document.getElementById('passengerWelcomeMsg').innerText = `👤 خوش آمدید، ${name} (${phone})`;
-  document.getElementById('pRegStatus').innerText = "✅ پسنجر پروفائل محفوظ ہو گئی!";
+    set(ref(db, 'passengers/' + phone), {
+      name, phone, city: city || 'بصیرپور', registeredAt: Date.now()
+    });
+
+    localStorage.setItem('ccab_pname', name);
+    localStorage.setItem('ccab_pphone', phone);
+    document.getElementById('pname').value = name;
+    document.getElementById('pphone').value = phone;
+
+    document.getElementById('passengerRegBox').classList.add('hidden');
+    document.getElementById('passengerMainContent').classList.remove('hidden');
+    document.getElementById('passengerWelcomeMsg').innerText = `👤 خوش آمدید، ${name} (${phone})`;
+    alert('✅ پسنجر پروفائل کامیابی سے تصدیق اور محفوظ ہو گئی ہے!');
+  } else {
+    alert('❌ غلط کوڈ! براہ کرم واٹس ایپ والا صحیح کوڈ درج کریں۔');
+  }
+});
+
+// --- ڈرائیور واٹس ایپ OTP ویریفیکیشن ---
+let generatedDriverOtp = "";
+document.getElementById('btnSendDriverOtp').addEventListener('click', () => {
+  const phone = document.getElementById('dphoneReg').value.trim();
+  const name = document.getElementById('dname').value.trim();
+  if(!phone || !name) {
+    alert('ڈرائیور کا نام اور موبائل نمبر درج کرنا لازمی ہے!');
+    return;
+  }
+  if(isBlocked(phone)){ alert('🚫 آپ بلاک ہیں'); return; }
+
+  generatedDriverOtp = Math.floor(1000 + Math.random() * 9000);
+  const msg = `سلام ${name}! CCab میں بطور ڈرائیور آپ کا ویریفیکیشن کوڈ (OTP) یہ ہے: *${generatedDriverOtp}*`;
+  openWhatsApp(phone, msg);
+  document.getElementById('driverOtpSection').classList.remove('hidden');
+});
+
+document.getElementById('btnVerifyDriverOtp').addEventListener('click', () => {
+  const entered = document.getElementById('dEnteredOtp').value.trim();
+  if(entered === generatedDriverOtp.toString()) {
+    const phone = document.getElementById('dphoneReg').value.trim();
+    const name = document.getElementById('dname').value.trim();
+    const lic = document.getElementById('dlicense').value.trim();
+    const veh = document.getElementById('dvehicle').value.trim();
+    const car = document.getElementById('dcar').value;
+
+    set(ref(db,'drivers/'+phone), {name, phone, lic, veh, car, online:false, time:Date.now()});
+    localStorage.setItem('ccab_dphone', phone);
+    document.getElementById('dphone').value = phone;
+
+    document.getElementById('driverRegBox').classList.add('hidden');
+    document.getElementById('driverWelcomeBox').classList.remove('hidden');
+    document.getElementById('driverWelcomeMsg').innerText = `🚗 خوش آمدید ڈرائیور: ${name} (${phone})`;
+    alert('✅ ڈرائیور پروفائل ویریفائی ہو گئی ہے! اب اوپر "آن لائن ہوں" کا بٹن دبائیں۔');
+  } else {
+    alert('❌ غلط کوڈ! براہ کرم واٹس ایپ والا صحیح کوڈ درج کریں۔');
+  }
 });
 
 // پسنجر بکنگ
@@ -494,26 +570,6 @@ document.getElementById('btnBook').addEventListener('click', () => {
     time:Date.now()
   });
   alert('✅ آپ کی رائیڈ آفر خودکار وقت کے ساتھ کامیابی سے پوسٹ ہو گئی ہے!');
-});
-
-// ڈرائیور رجسٹر
-document.getElementById('btnRegisterDriver').addEventListener('click', () => {
-  const phone = document.getElementById('dphoneReg').value.trim();
-  if(!phone){ alert('موبائل نمبر درج کرنا لازمی ہے!'); return; }
-  if(isBlocked(phone)){ alert('🚫 آپ بلاک ہیں'); return; }
-  const name = document.getElementById('dname').value.trim() || 'ڈرائیور'; 
-  const lic = document.getElementById('dlicense').value.trim(); 
-  const veh = document.getElementById('dvehicle').value.trim(); 
-  const car = document.getElementById('dcar').value;
-  
-  set(ref(db,'drivers/'+phone),{name, phone, lic, veh, car, online:false, time:Date.now()});
-  localStorage.setItem('ccab_dphone', phone);
-  document.getElementById('dphone').value = phone; 
-
-  document.getElementById('driverRegBox').classList.add('hidden');
-  document.getElementById('driverWelcomeBox').classList.remove('hidden');
-  document.getElementById('driverWelcomeMsg').innerText = `🚗 خوش آمدید ڈرائیور: ${name} (${phone})`;
-  alert('✅ ڈرائیور پروفائل محفوظ ہو گئی ہے! اب اوپر "آن لائن ہوں" کا بٹن دبائیں۔');
 });
 
 // ڈرائیور آن لائن بٹن
@@ -587,7 +643,7 @@ document.getElementById('btnPostSchedule').addEventListener('click', async () =>
   alert('✅ آپ کا روٹ اور شیڈول کامیابی سے پوسٹ ہو گیا ہے!');
 });
 
-// رجسٹرڈ مسافروں کا ایڈمن میں ڈسپلے (مع ریمو بٹن)
+// رجسٹرڈ مسافروں کا ایڈمن میں ڈسپلے
 onValue(ref(db, 'passengers'), snap => {
   const data = snap.val(); const passengers = data ? Object.values(data) : [];
   document.getElementById('adminPassengers').innerHTML = passengers.map(p => `
@@ -651,7 +707,6 @@ onValue(ref(db,'bookings'), snap=>{
   const open=bookings.filter(b=>b.status==='Open Offer' && !isBlocked(b.phone));
   const currentPassengerPhone = localStorage.getItem('ccab_pphone') || '';
   
-  // پسنجر کی اپنی فعال آفرز
   const myRides = bookings.filter(b => b.phone === currentPassengerPhone && b.status === 'Open Offer');
   document.getElementById('myPassengerRides').innerHTML = myRides.length ? myRides.map(b => `
     <div class="card" style="border-right: 4px solid #f59e0b; background: #fffbeb;">
@@ -664,7 +719,6 @@ onValue(ref(db,'bookings'), snap=>{
 
   document.getElementById('driverOpenRides').innerHTML = open.length? open.map(b=>`<div class="card" style="background:#f0fdf4;"><b>👤 مسافر: ${b.name}</b> | 📞 ${b.phone}<br><b>روٹ:</b> ${b.from} ➔ ${b.to}<br><b>پیشکش کرایہ: Rs ${b.fare}</b><span class="time-text">🕒 بکنگ وقت: ${b.timeStr || 'حالیہ'}</span><br><a href="${b.locLink}" target="_blank" style="display:inline-block; margin-top:4px;">📍 مسافر کی لوکیشن دیکھیں</a><br><input type="number" id="driverOffer_${b.id}" value="${b.fare}" style="margin-top:5px;"><button onclick="sendOffer('${b.id}','${b.phone}')" style="background:#0284c7;color:#fff;border:none;padding:8px;border-radius:6px;width:100%;margin-top:5px;font-weight:bold;cursor:pointer;">💵 آفر واٹس ایپ پر بھیجیں</button></div>`).join('') : '<p style="font-size:12px;color:#666;">کوئی ایکٹو رائیڈ آفر دستیاب نہیں</p>';
   
-  // ایڈمن کے لیے پسنجر رائیڈز ویو
   const adminPassengerRidesHtml = bookings.length ? bookings.map(b => `
     <div class="card" style="border-right:4px solid #16a34a;">
       <b>👤 مسافر: ${b.name}</b> (${b.phone})<br>
