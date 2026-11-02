@@ -71,11 +71,11 @@
     <div class="box" style="text-align: center; background: #f0fdf4;">
       <div class="box-title" style="text-align: right;">💬 واٹس ایپ سپورٹ</div>
       <p style="font-size: 13px; margin-bottom: 8px; color: #166534;">کسی بھی قسم کی معلومات یا مدد کیلئے ہمارے واٹس ایپ پر رابطہ کریں</p>
-      <a href="https://wa.me/923422477885?text=سلام!%20मुझे%20CCab%20کے%20متعلق%20معلومات%20درکار%20ہیں۔" target="_blank" class="btn btn-whatsapp">📱 واٹس ایپ پر رابطہ کریں</a>
+      <a href="https://wa.me/923422477885?text=سلام!%20مجھے%20CCab%20کے%20متعلق%20معلومات%20درکار%20ہیں۔" target="_blank" class="btn btn-whatsapp">📱 واٹس ایپ پر رابطہ کریں</a>
     </div>
 
-    <!-- پسنجر پروفائل -->
-    <div class="box">
+    <!-- پسنجر پروفائل (رجسٹریشن کے بعد ہائڈ ہو جائے گا) -->
+    <div class="box" id="passengerRegBox">
       <div class="box-title">👤 پسنجر پروفائل (سائن ان / رجسٹریشن)</div>
       <p style="font-size:12px; color:#555; margin-bottom:8px;">پہلے یہاں اپنا نام اور فون نمبر محفوظ کریں تاکہ ڈرائیورز اور روٹس دیکھ سکیں۔</p>
       <label>آپ کا نام *</label><input type="text" id="pregName" placeholder="مثال: چوہدری احمد">
@@ -86,6 +86,12 @@
     </div>
 
     <div id="passengerMainContent" class="hidden">
+      <!-- خوش آمدید ویلکم میسج اور ری سیٹ بٹن -->
+      <div class="box" style="background: #f0fdf4; text-align: center; border-right: 4px solid #16a34a;">
+        <p id="passengerWelcomeMsg" style="font-weight: bold; color: #166534; font-size: 14px;"></p>
+        <button onclick="resetPassengerSession()" class="btn btn-gray" style="padding: 6px 12px; margin-top: 8px; font-size: 12px; width: auto;">🔄 پروفائل تبدیل کریں</button>
+      </div>
+
       <div class="box">
         <div class="box-title">📲 نئی رائیڈ آفر پوسٹ کریں</div>
         <label>آپ کا نام *</label><input type="text" id="pname" placeholder="مثال: احمد خان" readonly>
@@ -103,6 +109,12 @@
         <button class="btn btn-blue" id="btnGetLoc">📡 میری لائیو لوکیشن دکھائیں</button>
         <div id="map"></div>
         <p id="pstatus" class="status-msg"></p>
+      </div>
+
+      <!-- مسافر کی اپنی فعال بکنگز -->
+      <div class="box">
+        <div class="box-title">📋 میری فعال رائیڈ آفرز (منسوخ کرنے کی سہولت)</div>
+        <div id="myPassengerRides"></div>
       </div>
 
       <div class="box">
@@ -128,7 +140,7 @@
       </div>
 
       <div class="box">
-        <div class="box-title">📋 تمام موجودہ رائیڈ آفرز (LIVE)</div>
+        <div class="box-title">📋 تمام مسافروں کی رائیڈ آفرز (LIVE)</div>
         <div id="openRidesList"></div>
       </div>
     </div>
@@ -157,8 +169,8 @@
       <p id="dstatus" class="status-msg"></p>
     </div>
 
-    <!-- ڈرائیور رجسٹریشن فارم (موبایل نمبر سمیت) -->
-    <div class="box">
+    <!-- ڈرائیور رجسٹریشن فارم (رجسٹریشن کے بعد ہائڈ ہو جائے گا) -->
+    <div class="box" id="driverRegBox">
       <div class="box-title">📝 نیا ڈرائیور اکاؤنٹ بنائیں (Registration)</div>
       <label>ڈرائیور کا نام *</label><input type="text" id="dname" placeholder="محمد علی">
       <label>موبائل / WhatsApp نمبر *</label><input type="tel" id="dphoneReg" placeholder="03001234567">
@@ -172,6 +184,12 @@
         <option value="ٹرک / لوڈر">🚛 ٹرک / لوڈر / شاہزور (Truck / Loader)</option>
       </select>
       <button class="btn btn-black" id="btnRegisterDriver">ڈرائیور پروفائل محفوظ کریں</button>
+    </div>
+
+    <!-- ڈرائیور ویلکم اور ری سیٹ باکس -->
+    <div class="box hidden" id="driverWelcomeBox" style="background: #f0fdf4; text-align: center; border-right: 4px solid #16a34a;">
+      <p id="driverWelcomeMsg" style="font-weight: bold; color: #166534; font-size: 14px;"></p>
+      <button onclick="resetDriverSession()" class="btn btn-gray" style="padding: 6px 12px; margin-top: 8px; font-size: 12px; width: auto;">🔄 پروفائل تبدیل کریں</button>
     </div>
 
     <div id="driverMainContent" class="hidden">
@@ -188,6 +206,12 @@
         <label>کرایہ فی سواری / کل کرایہ (روپے)</label>
         <input type="number" id="dsFare" placeholder="500">
         <button class="btn btn-green" id="btnPostSchedule">روٹ اور شیڈول پوسٹ کریں</button>
+      </div>
+
+      <!-- تمام ڈرائیورز کی روٹس اور بڈز (بشمول خود ڈرائیور کے اپنے روٹس ڈیلیٹ کرنے کی سہولت کے ساتھ) -->
+      <div class="box">
+        <div class="box-title">📋 تمام ڈرائیورز کی روٹ آفرز اور بڈز</div>
+        <div id="driverScheduledRidesView"></div>
       </div>
 
       <div class="box">
@@ -261,7 +285,7 @@ const locations = [
   "Mohalla Dars محلہ درس", "Allama Iqbal Town علامہ اقبال ٹائون", "Gali Postmaster والی گلی", 
   "Ghaus Pura غوث پورہ", "Tariq Pura طارق پورہ", "Thokar Gamman ٹھوکر گاماں", "Chak Ahmed Shah چک احمد شاہ", 
   "Chak Ibrahim چک ابراہیم", "Petrol Pump پٹرول پمپ", "Khole Mureed کھولے مرید", "Khole Jaimil کھولے جیمل", 
-  "Sohag Pul سہاگ پل", "Chak Bota چک بوٹا", "Mahboob Shah محبوب شاہ", "Gilani Chowk گیلانی گیلانی", 
+  "Sohag Pul سہاگ پل", "Chak Bota چک بوٹا", "Mahboob Shah محبوب شاہ", "Gilani Chowk گیلانی چوک", 
   "Mohalla Exchange ایکسچینج", "Depalpur دیپالپور", "Hujra Shah Muqaam حجرہ شاہ مقیم", 
   "Haveli Lakha حویلی لکھا", "Okara اوکاڑہ", "Mandi Ahmad Abad منڈی احمد آباد", "Sahiwal ساہیوال", 
   "Kasur قصور", "Lahore لاہور"
@@ -318,9 +342,20 @@ function checkPassengerSession() {
     document.getElementById('pregPhone').value = savedPPhone;
     document.getElementById('pname').value = savedPName;
     document.getElementById('pphone').value = savedPPhone;
+    document.getElementById('passengerRegBox').classList.add('hidden');
     document.getElementById('passengerMainContent').classList.remove('hidden');
+    document.getElementById('passengerWelcomeMsg').innerText = `👤 خوش آمدید، ${savedPName} (${savedPPhone})`;
   }
 }
+
+window.resetPassengerSession = function() {
+  localStorage.removeItem('ccab_pname');
+  localStorage.removeItem('ccab_pphone');
+  document.getElementById('passengerRegBox').classList.remove('hidden');
+  document.getElementById('passengerMainContent').classList.add('hidden');
+  document.getElementById('pregName').value = '';
+  document.getElementById('pregPhone').value = '';
+};
 
 function checkDriverSession() {
   const savedDPhone = localStorage.getItem('ccab_dphone');
@@ -343,6 +378,10 @@ async function verifyDriverActive(phone) {
     if(data.veh) document.getElementById('dvehicle').value = data.veh;
     if(data.car) document.getElementById('dcar').value = data.car;
 
+    document.getElementById('driverRegBox').classList.add('hidden');
+    document.getElementById('driverWelcomeBox').classList.remove('hidden');
+    document.getElementById('driverWelcomeMsg').innerText = `🚗 خوش آمدید ڈرائیور: ${data.name} (${data.phone})`;
+
     if(data.online) {
       document.getElementById('driverMainContent').classList.remove('hidden');
     } else {
@@ -350,6 +389,15 @@ async function verifyDriverActive(phone) {
     }
   }
 }
+
+window.resetDriverSession = function() {
+  localStorage.removeItem('ccab_dphone');
+  document.getElementById('driverRegBox').classList.remove('hidden');
+  document.getElementById('driverWelcomeBox').classList.add('hidden');
+  document.getElementById('driverMainContent').classList.add('hidden');
+  document.getElementById('dphone').value = '';
+  document.getElementById('dphoneReg').value = '';
+};
 
 document.getElementById('btnGetLoc').addEventListener('click', () => {
   const status = document.getElementById('pstatus');
@@ -405,8 +453,10 @@ document.getElementById('btnRegisterPassenger').addEventListener('click', () => 
   document.getElementById('pname').value = name;
   document.getElementById('pphone').value = phone;
 
+  document.getElementById('passengerRegBox').classList.add('hidden');
   document.getElementById('passengerMainContent').classList.remove('hidden');
-  document.getElementById('pRegStatus').innerText = "✅ پسنجر پروفائل محفوظ ہو گئی! اب آپ کو ڈرائیورز نظر آ رہے ہیں۔";
+  document.getElementById('passengerWelcomeMsg').innerText = `👤 خوش آمدید، ${name} (${phone})`;
+  document.getElementById('pRegStatus').innerText = "✅ پسنجر پروفائل محفوظ ہو گئی!";
 });
 
 // پسنجر بکنگ
@@ -435,7 +485,7 @@ document.getElementById('btnBook').addEventListener('click', () => {
   alert('✅ آپ کی رائیڈ آفر خودکار وقت کے ساتھ کامیابی سے پوسٹ ہو گئی ہے!');
 });
 
-// ڈرائیور رجسٹر (رجسٹریشن فارم والے موبائل نمبر سے)
+// ڈرائیور رجسٹر
 document.getElementById('btnRegisterDriver').addEventListener('click', () => {
   const phone = document.getElementById('dphoneReg').value.trim();
   if(!phone){ alert('موبائل نمبر درج کرنا لازمی ہے!'); return; }
@@ -447,8 +497,12 @@ document.getElementById('btnRegisterDriver').addEventListener('click', () => {
   
   set(ref(db,'drivers/'+phone),{name, phone, lic, veh, car, online:false, time:Date.now()});
   localStorage.setItem('ccab_dphone', phone);
-  document.getElementById('dphone').value = phone; // آن لائن سوئچ والے ان پٹ کو بھی اپڈیٹ کریں
-  alert('✅ ڈرائیور پروفائل کامیابی سے محفوظ ہو گئی ہے! اب اوپر "آن لائن ہوں" کا بٹن دبائیں۔');
+  document.getElementById('dphone').value = phone; 
+
+  document.getElementById('driverRegBox').classList.add('hidden');
+  document.getElementById('driverWelcomeBox').classList.remove('hidden');
+  document.getElementById('driverWelcomeMsg').innerText = `🚗 خوش آمدید ڈرائیور: ${name} (${phone})`;
+  alert('✅ ڈرائیور پروفائل محفوظ ہو گئی ہے! اب اوپر "آن لائن ہوں" کا بٹن دبائیں۔');
 });
 
 // ڈرائیور آن لائن بٹن
@@ -470,6 +524,9 @@ document.getElementById('btnDriverOnline').addEventListener('click', async () =>
   update(ref(db,'drivers/'+phone),{ online:true, onlineTime: timeStr, time:Date.now()});
   localStorage.setItem('ccab_dphone', phone);
   
+  document.getElementById('driverRegBox').classList.add('hidden');
+  document.getElementById('driverWelcomeBox').classList.remove('hidden');
+  document.getElementById('driverWelcomeMsg').innerText = `🚗 خوش آمدید ڈرائیور: ${driverData.name} (${phone})`;
   document.getElementById('driverMainContent').classList.remove('hidden');
   document.getElementById('dstatus').innerText=`🟢 خوش آمدید ${driverData.name}! آپ اب آن لائن ہیں (${timeStr})۔`;
 });
@@ -550,10 +607,12 @@ onValue(ref(db, 'passengers'), snap => {
   `).join('') || '<p style="font-size:12px;color:#666;">کوئی رجسٹرڈ مسافر نہیں</p>';
 });
 
-// ڈرائیورز کے شیڈولڈ روٹس اور بڈز ڈسپلے کرنا
+// ڈرائیورز کے شیڈولڈ روٹس اور بڈز ڈسپلے کرنا (پسنجر اور ڈرائیور دونوں کے لیے)
 onValue(ref(db, 'schedules'), snap => {
   const data = snap.val(); const list = data ? Object.values(data).reverse() : [];
-  document.getElementById('passengerScheduledRides').innerHTML = list.length ? list.map(s => `
+  const currentDriverPhone = localStorage.getItem('ccab_dphone') || '';
+
+  const scheduleHtml = list.length ? list.map(s => `
     <div class="card" style="border-right:4px solid #0284c7; background:#f0f9ff;">
       <span class="badge">ڈرائیور پیشکش / بڈ</span><br>
       <b>🚗 ڈرائیور: ${s.driverName}</b> (${s.driverPhone})<br>
@@ -562,15 +621,38 @@ onValue(ref(db, 'schedules'), snap => {
       <b>وقت/تاریخ:</b> ${s.dateTime ? s.dateTime.replace('T', ' ') : 'فوری'}<br>
       <b>کرایہ / پیشکش:</b> Rs ${s.fare}<br>
       <button onclick="openWhatsApp('${s.driverPhone}', 'سلام! میں آپ کی شیڈول شدہ گاڑی / بڈ آفر (روٹ: ${s.from} تا ${s.to}) پر سیٹ بک کرنا چاہتا ہوں۔')" class="btn btn-blue" style="padding:6px;margin-top:5px;">💬 ڈرائیور سے رابطہ کریں (WhatsApp)</button>
+      ${s.driverPhone === currentDriverPhone ? `<button onclick="deleteSchedule('${s.id}')" class="btn btn-red" style="padding:6px;margin-top:5px;">🗑️ روٹ ریموو کریں</button>` : ''}
     </div>
   `).join('') : '<p style="font-size:12px;color:#666;">کوئی شیڈول شدہ روٹ / بڈ موجود نہیں</p>';
+
+  document.getElementById('passengerScheduledRides').innerHTML = scheduleHtml;
+  document.getElementById('driverScheduledRidesView').innerHTML = scheduleHtml;
 });
+
+// ڈرائیور کی طرف سے اپنا روٹ ریموو کرنا
+window.deleteSchedule = function(id) {
+  if(confirm('کیا آپ اس روٹ کو حذف کرنا چاہتے ہیں؟')) {
+    remove(ref(db, 'schedules/' + id));
+  }
+};
 
 // رائیڈ آفرز اور ایڈمن بکنگز
 onValue(ref(db,'bookings'), snap=>{
   const data=snap.val(); const bookings=data?Object.values(data).reverse():[];
   const open=bookings.filter(b=>b.status==='Open Offer' && !isBlocked(b.phone));
+  const currentPassengerPhone = localStorage.getItem('ccab_pphone') || '';
   
+  // پسنجر کی اپنی فعال آفرز (منسوخ کرنے کی سہولت کے ساتھ)
+  const myRides = bookings.filter(b => b.phone === currentPassengerPhone && b.status === 'Open Offer');
+  document.getElementById('myPassengerRides').innerHTML = myRides.length ? myRides.map(b => `
+    <div class="card" style="border-right: 4px solid #f59e0b; background: #fffbeb;">
+      <b>روٹ:</b> ${b.from} ➔ ${b.to}<br>
+      <b>پیشکش کرایہ:</b> Rs ${b.fare}<br>
+      <span class="time-text">🕒 وقت: ${b.timeStr || ''}</span>
+      <button onclick="cancelMyRide('${b.id}')" class="btn btn-red" style="padding:6px; margin-top:5px; font-size:12px;">❌ رائیڈ منسوخ کریں</button>
+    </div>
+  `).join('') : '<p style="font-size:12px;color:#666;">آپ کی کوئی فعال رائیڈ موجود نہیں ہے</p>';
+
   document.getElementById('openRidesList').innerHTML = open.length? open.map(b=>`<div class="card" style="border-right:4px solid #16a34a;"><b>${b.name}</b> (${b.phone})<br>${b.from} ➔ ${b.to}<br><b>Rs ${b.fare}</b><span class="time-text">🕒 بکنگ وقت: ${b.timeStr || 'حالیہ'}</span></div>`).join('') : '<p style="font-size:12px;color:#666;">کوئی رائیڈ آفر موجود نہیں</p>';
   
   document.getElementById('driverOpenRides').innerHTML = open.length? open.map(b=>`<div class="card" style="background:#f0fdf4;"><b>👤 مسافر: ${b.name}</b> | 📞 ${b.phone}<br><b>روٹ:</b> ${b.from} ➔ ${b.to}<br><b>پیشکش کرایہ: Rs ${b.fare}</b><span class="time-text">🕒 بکنگ وقت: ${b.timeStr || 'حالیہ'}</span><br><a href="${b.locLink}" target="_blank" style="display:inline-block; margin-top:4px;">📍 مسافر کی لوکیشن دیکھیں</a><br><input type="number" id="driverOffer_${b.id}" value="${b.fare}" style="margin-top:5px;"><button onclick="sendOffer('${b.id}','${b.phone}')" style="background:#0284c7;color:#fff;border:none;padding:8px;border-radius:6px;width:100%;margin-top:5px;font-weight:bold;cursor:pointer;">💵 آفر واٹس ایپ پر بھیجیں</button></div>`).join('') : '<p style="font-size:12px;color:#666;">کوئی ایکٹو رائیڈ آفر دستیاب نہیں</p>';
@@ -579,6 +661,13 @@ onValue(ref(db,'bookings'), snap=>{
   
   document.getElementById('blockedList').innerHTML = Object.keys(blockedPhones).length? Object.values(blockedPhones).map(b=>`<div class="card" style="background:#fee2e2;"><b>${b.phone}</b> (${b.type}) <button onclick="unblockUser('${b.phone}')" style="background:#16a34a;color:#fff;border:0;padding:4px 8px;border-radius:4px;cursor:pointer;">ان بلاک</button> <button onclick="removeBlockedPermanently('${b.phone}')" style="background:#dc2626;color:#fff;border:0;padding:4px 8px;border-radius:4px;cursor:pointer;margin-right:5px;">🗑️ مکمل ریموو کریں</button></div>`).join('') : '<p>کوئی نمبر بلاک نہیں ہے</p>';
 });
+
+// پسنجر کی طرف سے اپنی رائیڈ منسوخ کرنا
+window.cancelMyRide = function(id) {
+  if(confirm('کیا آپ اپنی اس رائیڈ آفر کو منسوخ کرنا چاہتے ہیں؟')) {
+    remove(ref(db, 'bookings/' + id));
+  }
+};
 
 window.blockUser = function(phone, type){ 
   if(confirm(phone + ' کو بلاک کرنا چاہتے ہیں؟')){ 
