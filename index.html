@@ -71,7 +71,7 @@
     <div class="box" style="text-align: center; background: #f0fdf4;">
       <div class="box-title" style="text-align: right;">💬 واٹس ایپ سپورٹ</div>
       <p style="font-size: 13px; margin-bottom: 8px; color: #166534;">کسی بھی قسم کی معلومات یا مدد کیلئے ہمارے واٹس ایپ پر رابطہ کریں</p>
-      <a href="https://wa.me/923422477885?text=سلام!%20مجھے%20CCab%20کے%20متعلق%20معلومات%20درکار%20ہیں۔" target="_blank" class="btn btn-whatsapp">📱 واٹس ایپ پر رابطہ کریں</a>
+      <a href="https://wa.me/923422477885?text=سلام!%20मुझे%20CCab%20کے%20متعلق%20معلومات%20درکار%20ہیں۔" target="_blank" class="btn btn-whatsapp">📱 واٹس ایپ پر رابطہ کریں</a>
     </div>
 
     <!-- پسنجر پروفائل -->
@@ -146,7 +146,7 @@
     <!-- ڈرائیور آن لائن / آف لائن سوئچ -->
     <div class="box">
       <div class="box-title">🚗 ڈرائیور آن لائن / آف لائن سوئچ</div>
-      <p style="font-size:12px; color:#555; margin-bottom:8px;">اگر آپ پہلی بار آ रहे ہیں تو نیچے رجسٹریشن کریں۔ اگر پہلے سے رجسٹرڈ ہیں تو صرف موبائل نمبر درج کر کے آن لائن ہوں۔</p>
+      <p style="font-size:12px; color:#555; margin-bottom:8px;">اگر آپ پہلے سے رجسٹرڈ ہیں تو صرف موبائل نمبر درج کر کے آن لائن ہوں۔</p>
       <label>موبائل / WhatsApp نمبر *</label>
       <input type="tel" id="dphone" placeholder="03001234567">
       
@@ -157,9 +157,11 @@
       <p id="dstatus" class="status-msg"></p>
     </div>
 
+    <!-- ڈرائیور رجسٹریشن فارم (موبایل نمبر سمیت) -->
     <div class="box">
       <div class="box-title">📝 نیا ڈرائیور اکاؤنٹ بنائیں (Registration)</div>
       <label>ڈرائیور کا نام *</label><input type="text" id="dname" placeholder="محمد علی">
+      <label>موبائل / WhatsApp نمبر *</label><input type="tel" id="dphoneReg" placeholder="03001234567">
       <label>لائسنس نمبر *</label><input type="text" id="dlicense" placeholder="DL-98765">
       <label>گاڑی نمبر *</label><input type="text" id="dvehicle" placeholder="LEB-5678">
       <label>گاڑی کی قسم *</label>
@@ -259,9 +261,9 @@ const locations = [
   "Mohalla Dars محلہ درس", "Allama Iqbal Town علامہ اقبال ٹائون", "Gali Postmaster والی گلی", 
   "Ghaus Pura غوث پورہ", "Tariq Pura طارق پورہ", "Thokar Gamman ٹھوکر گاماں", "Chak Ahmed Shah چک احمد شاہ", 
   "Chak Ibrahim چک ابراہیم", "Petrol Pump پٹرول پمپ", "Khole Mureed کھولے مرید", "Khole Jaimil کھولے جیمل", 
-  "Sohag Pul سہاگ پل", "Chak Bota چک بوٹا", "Mahboob Shah محبوب شاہ", "Gilani Chowk گیلانی چوک", 
+  "Sohag Pul سہاگ پل", "Chak Bota چک بوٹا", "Mahboob Shah محبوب شاہ", "Gilani Chowk گیلانی گیلانی", 
   "Mohalla Exchange ایکسچینج", "Depalpur دیپالپور", "Hujra Shah Muqaam حجرہ شاہ مقیم", 
-  "Haveli Lakha حویلی لکھا", "Okara اوکاڑہ", "Mandi Ahmad Abad منڈی احمد آباد", "Sahiwal سahiwal", 
+  "Haveli Lakha حویلی لکھا", "Okara اوکاڑہ", "Mandi Ahmad Abad منڈی احمد آباد", "Sahiwal ساہیوال", 
   "Kasur قصور", "Lahore لاہور"
 ];
 
@@ -304,7 +306,6 @@ document.addEventListener("DOMContentLoaded", () => {
     attribution: '© OpenStreetMap'
   }).addTo(map);
 
-  // سیشن چیک کریں
   checkPassengerSession();
   checkDriverSession();
 });
@@ -324,7 +325,6 @@ function checkPassengerSession() {
 function checkDriverSession() {
   const savedDPhone = localStorage.getItem('ccab_dphone');
   if(savedDPhone) {
-    // دونوں ان پٹس (آن لائن سوئچ اور رجسٹریشن فارم) میں فون نمبر آٹو فل کریں
     document.getElementById('dphone').value = savedDPhone;
     const dphoneRegInput = document.getElementById('dphoneReg');
     if(dphoneRegInput) dphoneRegInput.value = savedDPhone;
@@ -338,6 +338,7 @@ async function verifyDriverActive(phone) {
   if(snap.exists()) {
     const data = snap.val();
     if(data.name) document.getElementById('dname').value = data.name;
+    if(data.phone) document.getElementById('dphoneReg').value = data.phone;
     if(data.lic) document.getElementById('dlicense').value = data.lic;
     if(data.veh) document.getElementById('dvehicle').value = data.veh;
     if(data.car) document.getElementById('dcar').value = data.car;
@@ -414,7 +415,7 @@ document.getElementById('btnBook').addEventListener('click', () => {
   const name = document.getElementById('pname').value.trim() || 'پسنجر';
   
   if(!phone){ alert('موبائل نمبر لازمی ہے'); return; }
-  if(isBlocked(phone)){ alert('🚫 آپ کو بلاک کیا گیا ہے'); return; }
+  if(isBlocked(phone)){ alert('🚫 آپ کو بلاک کر دیا گیا ہے'); return; }
 
   const from = document.getElementById('pfrom').value; 
   const to = document.getElementById('pto').value;
@@ -434,19 +435,20 @@ document.getElementById('btnBook').addEventListener('click', () => {
   alert('✅ آپ کی رائیڈ آفر خودکار وقت کے ساتھ کامیابی سے پوسٹ ہو گئی ہے!');
 });
 
-// ڈرائیور رجسٹر
+// ڈرائیور رجسٹر (رجسٹریشن فارم والے موبائل نمبر سے)
 document.getElementById('btnRegisterDriver').addEventListener('click', () => {
-  const phone = document.getElementById('dphone').value.trim();
-  if(!phone){ alert('موبائل نمبر لازمی ہے'); return; }
+  const phone = document.getElementById('dphoneReg').value.trim();
+  if(!phone){ alert('موبائل نمبر درج کرنا لازمی ہے!'); return; }
   if(isBlocked(phone)){ alert('🚫 آپ بلاک ہیں'); return; }
-  const name = document.getElementById('dname').value||'ڈرائیور'; 
-  const lic = document.getElementById('dlicense').value; 
-  const veh = document.getElementById('dvehicle').value; 
+  const name = document.getElementById('dname').value.trim() || 'ڈرائیور'; 
+  const lic = document.getElementById('dlicense').value.trim(); 
+  const veh = document.getElementById('dvehicle').value.trim(); 
   const car = document.getElementById('dcar').value;
   
   set(ref(db,'drivers/'+phone),{name, phone, lic, veh, car, online:false, time:Date.now()});
   localStorage.setItem('ccab_dphone', phone);
-  document.getElementById('dstatus').innerText="✅ ڈرائیور پروفائل محفوظ ہو گئی! اب 'آن لائن ہوں' بٹن دبائیں۔";
+  document.getElementById('dphone').value = phone; // آن لائن سوئچ والے ان پٹ کو بھی اپڈیٹ کریں
+  alert('✅ ڈرائیور پروفائل کامیابی سے محفوظ ہو گئی ہے! اب اوپر "آن لائن ہوں" کا بٹن دبائیں۔');
 });
 
 // ڈرائیور آن لائن بٹن
