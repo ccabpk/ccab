@@ -71,7 +71,7 @@
     <div class="box" style="text-align: center; background: #f0fdf4;">
       <div class="box-title" style="text-align: right;">💬 واٹس ایپ سپورٹ</div>
       <p style="font-size: 13px; margin-bottom: 8px; color: #166534;">کسی بھی قسم کی معلومات یا مدد کیلئے ہمارے واٹس ایپ پر رابطہ کریں</p>
-      <a href="https://wa.me/923422477885?text=سلام!%20مجھے%20CCab%20کے%20متعلق%20معلومات%20درکار%20ہیں۔" target="_blank" class="btn btn-whatsapp">📱 واٹس ایپ پر رابطہ کریں</a>
+      <a href="https://wa.me/923422477885?text=سلام!%20मुझे%20CCab%20کے%20متعلق%20معلومات%20درکار%20ہیں۔" target="_blank" class="btn btn-whatsapp">📱 واٹس ایپ پر رابطہ کریں</a>
     </div>
 
     <!-- پسنجر پروفائل (رجسٹریشن کے بعد ہائڈ ہو جائے گا) -->
@@ -208,7 +208,7 @@
         <button class="btn btn-green" id="btnPostSchedule">روٹ اور شیڈول پوسٹ کریں</button>
       </div>
 
-      <!-- تمام ڈرائیورز کی روٹس اور بڈز (بشمول خود ڈرائیور کے اپنے روٹس ڈیلیٹ کرنے کی سہولت کے ساتھ) -->
+      <!-- تمام ڈرائیورز کی روٹس اور بڈز -->
       <div class="box">
         <div class="box-title">📋 تمام ڈرائیورز کی روٹ آفرز اور بڈز</div>
         <div id="driverScheduledRidesView"></div>
@@ -237,8 +237,12 @@
         <div id="adminPassengers"></div>
       </div>
       <div class="box">
-        <div class="box-title">📊 تمام پسنجر بکنگز اور آفرز</div>
-        <div id="adminBookings"></div>
+        <div class="box-title">📊 تمام مسافروں کی رائیڈ آفرز اور بڈز (Passenger Rides)</div>
+        <div id="adminPassengerRidesView"></div>
+      </div>
+      <div class="box">
+        <div class="box-title">🗺️ تمام ڈرائیورز کی روٹ آفرز اور بڈز (Driver Scheduled Bids)</div>
+        <div id="adminDriverSchedulesView"></div>
       </div>
       <div class="box">
         <div class="box-title">🚘 تمام رجسٹرڈ ڈرائیورز (کنٹرول و ریموو)</div>
@@ -607,7 +611,7 @@ onValue(ref(db, 'passengers'), snap => {
   `).join('') || '<p style="font-size:12px;color:#666;">کوئی رجسٹرڈ مسافر نہیں</p>';
 });
 
-// ڈرائیورز کے شیڈولڈ روٹس اور بڈز ڈسپلے کرنا (پسنجر اور ڈرائیور دونوں کے لیے)
+// ڈرائیورز کے شیڈولڈ روٹس اور بڈز ڈسپلے کرنا (پسنجر، ڈرائیور اور ایڈمن کے لیے)
 onValue(ref(db, 'schedules'), snap => {
   const data = snap.val(); const list = data ? Object.values(data).reverse() : [];
   const currentDriverPhone = localStorage.getItem('ccab_dphone') || '';
@@ -625,8 +629,19 @@ onValue(ref(db, 'schedules'), snap => {
     </div>
   `).join('') : '<p style="font-size:12px;color:#666;">کوئی شیڈول شدہ روٹ / بڈ موجود نہیں</p>';
 
+  const adminScheduleHtml = list.length ? list.map(s => `
+    <div class="card" style="border-right:4px solid #0284c7; background:#f0f9ff;">
+      <b>🚗 ڈرائیور: ${s.driverName}</b> (${s.driverPhone})<br>
+      <b>روٹ:</b> ${s.from} ➔ ${s.to}<br>
+      <b>اسٹاپس:</b> ${s.stops} | <b>کرایہ:</b> Rs ${s.fare}<br>
+      <span class="time-text">🕒 وقت: ${s.dateTime ? s.dateTime.replace('T', ' ') : ''}</span>
+      <button onclick="deleteSchedule('${s.id}')" class="btn btn-red" style="padding:5px; margin-top:5px; font-size:12px;">🗑️ روٹ ریموو کریں</button>
+    </div>
+  `).join('') : '<p style="font-size:12px;color:#666;">کوئی شیڈولڈ روٹ موجود نہیں</p>';
+
   document.getElementById('passengerScheduledRides').innerHTML = scheduleHtml;
   document.getElementById('driverScheduledRidesView').innerHTML = scheduleHtml;
+  document.getElementById('adminDriverSchedulesView').innerHTML = adminScheduleHtml;
 });
 
 // ڈرائیور کی طرف سے اپنا روٹ ریموو کرنا
@@ -657,7 +672,19 @@ onValue(ref(db,'bookings'), snap=>{
   
   document.getElementById('driverOpenRides').innerHTML = open.length? open.map(b=>`<div class="card" style="background:#f0fdf4;"><b>👤 مسافر: ${b.name}</b> | 📞 ${b.phone}<br><b>روٹ:</b> ${b.from} ➔ ${b.to}<br><b>پیشکش کرایہ: Rs ${b.fare}</b><span class="time-text">🕒 بکنگ وقت: ${b.timeStr || 'حالیہ'}</span><br><a href="${b.locLink}" target="_blank" style="display:inline-block; margin-top:4px;">📍 مسافر کی لوکیشن دیکھیں</a><br><input type="number" id="driverOffer_${b.id}" value="${b.fare}" style="margin-top:5px;"><button onclick="sendOffer('${b.id}','${b.phone}')" style="background:#0284c7;color:#fff;border:none;padding:8px;border-radius:6px;width:100%;margin-top:5px;font-weight:bold;cursor:pointer;">💵 آفر واٹس ایپ پر بھیجیں</button></div>`).join('') : '<p style="font-size:12px;color:#666;">کوئی ایکٹو رائیڈ آفر دستیاب نہیں</p>';
   
-  document.getElementById('adminBookings').innerHTML = bookings.map(b=>`<div class="card">${b.name} (${b.phone}) - ${b.from} to ${b.to} - Rs ${b.fare} - ${b.status} - ${isBlocked(b.phone)?`🚫 بلاک شدہ`:`✅ فعال`}<br><span class="time-text">🕒 بکنگ: ${b.timeStr || ''}</span><br>${isBlocked(b.phone)?`<button onclick="unblockUser('${b.phone}')" class="btn btn-green" style="padding:5px;margin-top:4px;">ان بلاک</button>`:`<button onclick="blockUser('${b.phone}','passenger')" class="btn btn-red" style="padding:5px;margin-top:4px;">بلاک کریں</button>`} <button onclick="deleteBooking('${b.id}')" class="btn btn-black" style="padding:5px;margin-top:4px;">حذف کریں</button></div>`).join('') || '<p>کوئی بکنگ نہیں</p>';
+  // ایڈمن کے لیے الگ سے پسنجر رائیڈز ویو
+  const adminPassengerRidesHtml = bookings.length ? bookings.map(b => `
+    <div class="card" style="border-right:4px solid #16a34a;">
+      <b>👤 مسافر: ${b.name}</b> (${b.phone})<br>
+      <b>روٹ:</b> ${b.from} ➔ ${b.to}<br>
+      <b>کرایہ:</b> Rs ${b.fare} | <b>اسٹیٹس:</b> ${b.status}<br>
+      <span class="time-text">🕒 وقت: ${b.timeStr || ''}</span>
+      <button onclick="deleteBooking('${b.id}')" class="btn btn-red" style="padding:5px; margin-top:5px; font-size:12px;">🗑️ رائیڈ ریموو کریں</button>
+    </div>
+  `).join('') : '<p style="font-size:12px;color:#666;">کوئی پسنجر رائیڈ موجود نہیں</p>';
+
+  document.getElementById('adminPassengerRidesView').innerHTML = adminPassengerRidesHtml;
+  document.getElementById('adminBookings').innerHTML = adminPassengerRidesHtml;
   
   document.getElementById('blockedList').innerHTML = Object.keys(blockedPhones).length? Object.values(blockedPhones).map(b=>`<div class="card" style="background:#fee2e2;"><b>${b.phone}</b> (${b.type}) <button onclick="unblockUser('${b.phone}')" style="background:#16a34a;color:#fff;border:0;padding:4px 8px;border-radius:4px;cursor:pointer;">ان بلاک</button> <button onclick="removeBlockedPermanently('${b.phone}')" style="background:#dc2626;color:#fff;border:0;padding:4px 8px;border-radius:4px;cursor:pointer;margin-right:5px;">🗑️ مکمل ریموو کریں</button></div>`).join('') : '<p>کوئی نمبر بلاک نہیں ہے</p>';
 });
