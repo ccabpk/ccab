@@ -25,7 +25,6 @@
   .box { background: #fff; padding: 16px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); margin-bottom: 15px; }
   .box-title { font-size: 17px; font-weight: bold; color: #111827; margin-bottom: 12px; border-right: 4px solid #16a34a; padding-right: 8px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
   .collapsible-content { margin-top: 10px; }
-  .sub-category-title { font-size: 14px; font-weight: bold; color: #15803d; margin-top: 10px; margin-bottom: 6px; padding: 4px 8px; background: #e8f5e9; border-radius: 6px; }
   label { font-size: 13px; font-weight: 600; color: #374151; margin-top: 10px; display: block; }
   input, select { width: 100%; padding: 11px; margin-top: 5px; border: 1px solid #d1d5db; border-radius: 8px; font-size: 14px; background: #f9fafb; outline: none; }
   input:focus, select:focus { border-color: #16a34a; background: #fff; }
@@ -75,7 +74,7 @@
       <a href="https://wa.me/923422477885?text=سلام!%20मुझे%20CCab%20کے%20متعلق%20معلومات%20درکار%20ہیں۔" target="_blank" class="btn btn-whatsapp">📱 واٹس ایپ پر رابطہ کریں</a>
     </div>
 
-    <!-- پسنجر پروفائل (واٹس ایپ OTP ویریفیکیشن کے ساتھ) -->
+    <!-- پسنجر پروفایل (واٹس ایپ OTP ویریفیکیشن کے ساتھ) -->
     <div class="box" id="passengerRegBox">
       <div class="box-title" style="justify-content: flex-start;">👤 پسنجر رجسٹریشن (واٹس ایپ ویریفیکیشن)</div>
       <label>آپ کا نام *</label><input type="text" id="pregName" placeholder="مثال: چوہدری احمد">
@@ -103,8 +102,15 @@
         <div class="box-title" style="justify-content: flex-start;">📲 نئی رائیڈ آفر پوسٹ کریں</div>
         <label>آپ کا نام *</label><input type="text" id="pname" placeholder="مثال: احمد خان" readonly>
         <label>موبائل نمبر / WhatsApp *</label><input type="tel" id="pphone" placeholder="03001234567" readonly>
-        <label>پک اپ لوکیشن (کہاں سے)</label><select id="pfrom"></select>
-        <label>ڈراپ آف لوکیشن (کہاں جانا ہے)</label><select id="pto"></select>
+        
+        <!-- لچکدار پک اپ اور ڈراپ آف لوکیشن (اپنی مرضی سے ٹائپ کرنے یا لسٹ سے چننے کی سہولت) -->
+        <label>پک اپ لوکیشن (کہاں سے) *</label>
+        <input type="text" id="pfrom" list="locationsList" placeholder="مقام لکھیں یا سلیکٹ کریں">
+        
+        <label>ڈراپ آف لوکیشن (کہاں جانا ہے) *</label>
+        <input type="text" id="pto" list="locationsList" placeholder="منزل لکھیں یا سلیکٹ کریں">
+        
+        <datalist id="locationsList"></datalist>
 
         <div class="fare-box">
           <div class="fare-title">💰 کرایہ کی پیشکش / آفر (کم از کم 100 روپے)</div>
@@ -216,7 +222,7 @@
 
   <!-- ایڈمن ٹیب -->
   <div id="adminTab" class="hidden">
-    <!-- ایڈمن لاگ ان باکس (لاگ ان کے بعد غائب ہو جائے گا) -->
+    <!-- ایڈمن لاگ ان باکس -->
     <div class="box" id="adminLoginBox">
       <div class="box-title" style="justify-content: flex-start;">🔒 ایڈمن پینل</div>
       <label>ایڈمن پاس ورڈ درج کریں</label>
@@ -225,14 +231,13 @@
       <p id="astatus" class="status-msg"></p>
     </div>
 
-    <!-- ایڈمن کنٹینرس (صحیح پاس ورڈ پر شو ہوگا) -->
+    <!-- ایڈمن کنٹینر -->
     <div id="adminContent" class="hidden">
       <div class="box" style="background: #f0fdf4; text-align: center; border-right: 4px solid #16a34a;">
         <p style="font-weight: bold; color: #166534; font-size: 14px;">✅ آپ ایڈمن کے طور پر لاگ ان ہیں</p>
         <button onclick="adminLogout()" class="btn btn-red" style="padding: 6px 12px; margin-top: 8px; font-size: 12px; width: auto;">🔒 ایڈمن لاگ آؤٹ کریں</button>
       </div>
 
-      <!-- صرف ایک وقت میں ایک سیکشن کھلنے والا سخت اکارڈین سسٹم -->
       <div class="box">
         <div class="box-title" onclick="toggleAdminSection('secPassengers')">👥 تمام رجسٹرڈ مسافر <span style="font-size: 12px; color: #16a34a;">(کلک کریں 🔽)</span></div>
         <div id="secPassengers" class="collapsible-content hidden"><div id="adminPassengers"></div></div>
@@ -300,11 +305,14 @@ const locations = [
   "Kasur قصور", "Lahore لاہور"
 ];
 
-function populateSelects() {
-  const pfrom = document.getElementById('pfrom'); const pto = document.getElementById('pto');
-  locations.forEach(loc => { pfrom.add(new Option(loc, loc)); pto.add(new Option(loc, loc)); });
+function populateLocationsDatalist() {
+  const datalist = document.getElementById('locationsList');
+  datalist.innerHTML = '';
+  locations.forEach(loc => {
+    datalist.appendChild(new Option(loc, loc));
+  });
 }
-populateSelects();
+populateLocationsDatalist();
 
 let fare = 300;
 const rg = document.getElementById('farerange'), nm = document.getElementById('farenum'), sh = document.getElementById('fareshow');
@@ -324,7 +332,6 @@ window.switchTab = function(tabId) {
   }
 }
 
-// ایڈمن کے لیے ایک وقت میں صرف ایک سیکشن کھولنے کا فنکشن (Accordion)
 window.toggleAdminSection = function(id) {
   const sections = ['secPassengers', 'secDrivers', 'secRidesOffers', 'secBlocked'];
   sections.forEach(secId => {
@@ -341,7 +348,6 @@ window.toggleAdminSection = function(id) {
   });
 }
 
-// SOS فنکشن
 window.triggerSOS = function() {
   if (confirm("🚨 کیا آپ واقعی ایمرجنسی SOS الرٹ فعال کرنا چاہتے ہیں؟")) {
     window.location.href = "tel:15";
@@ -366,16 +372,27 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 function checkPassengerSession() {
-  const savedPName = localStorage.getItem('ccab_pname');
   const savedPPhone = localStorage.getItem('ccab_pphone');
-  if(savedPName && savedPPhone) {
-    document.getElementById('pregName').value = savedPName;
+  if(savedPPhone) {
     document.getElementById('pregPhone').value = savedPPhone;
-    document.getElementById('pname').value = savedPName;
-    document.getElementById('pphone').value = savedPPhone;
+    verifyPassengerActive(savedPPhone);
+  }
+}
+
+async function verifyPassengerActive(phone) {
+  const snap = await get(ref(db, 'passengers/' + phone));
+  if(snap.exists()) {
+    const data = snap.val();
+    document.getElementById('pregName').value = data.name;
+    document.getElementById('pname').value = data.name;
+    document.getElementById('pphone').value = data.phone;
+
     document.getElementById('passengerRegBox').classList.add('hidden');
     document.getElementById('passengerMainContent').classList.remove('hidden');
-    document.getElementById('passengerWelcomeMsg').innerText = `👤 خوش آمدید، ${savedPName} (${savedPPhone})`;
+    document.getElementById('passengerWelcomeMsg').innerText = `👤 خوش آمدید، ${data.name} (${data.phone})`;
+  } else {
+    localStorage.removeItem('ccab_pname');
+    localStorage.removeItem('ccab_pphone');
   }
 }
 
@@ -395,7 +412,6 @@ function checkDriverSession() {
     document.getElementById('dphone').value = savedDPhone;
     const dphoneRegInput = document.getElementById('dphoneReg');
     if(dphoneRegInput) dphoneRegInput.value = savedDPhone;
-
     verifyDriverActive(savedDPhone);
   }
 }
@@ -552,16 +568,26 @@ document.getElementById('btnVerifyDriverOtp').addEventListener('click', () => {
   }
 });
 
-// پسنجر بکنگ
+// پسنجر بکنگ (سیکیورٹی چیک: صرف رجسٹرڈ نمبر سے ہی بکنگ ہو گی)
 document.getElementById('btnBook').addEventListener('click', () => {
   const phone = document.getElementById('pphone').value.trim();
-  const name = document.getElementById('pname').value.trim() || 'پسنجر';
+  const registeredPhone = localStorage.getItem('ccab_pphone');
   
-  if(!phone){ alert('موبائل نمبر لازمی ہے'); return; }
+  if(!phone || registeredPhone !== phone) {
+    alert('❌ سیکیورٹی ایرر: آپ اس موبائل یا براؤزر سے اس نمبر پر رائیڈ آفر پوسٹ نہیں کر سکتے کیونکہ یہ اکاؤنٹ اس ڈیوائیس پر رجسٹرڈ نہیں ہے!');
+    return;
+  }
   if(isBlocked(phone)){ alert('🚫 آپ کو بلاک کر دیا گیا ہے'); return; }
 
-  const from = document.getElementById('pfrom').value; 
-  const to = document.getElementById('pto').value;
+  const name = document.getElementById('pname').value.trim() || 'پسنجر';
+  const from = document.getElementById('pfrom').value.trim(); 
+  const to = document.getElementById('pto').value.trim();
+
+  if(!from || !to) {
+    alert('براہ کرم پک اپ اور ڈراپ آف لوکیشن درج کریں!');
+    return;
+  }
+
   let locLink = userLat ? `https://maps.google.com/?q=${userLat},${userLng}` : 'موجود نہیں';
   
   const now = new Date();
@@ -578,14 +604,13 @@ document.getElementById('btnBook').addEventListener('click', () => {
   alert('✅ آپ کی رائیڈ آفر خودکار وقت کے ساتھ کامیابی سے پوسٹ ہو گئی ہے!');
 });
 
-// ڈرائیور آن لائن بٹن (صرف اس ڈیوائیس کے رجسٹرڈ فون نمبر سے آن لائن ہونے کی اجازت)
+// ڈرائیور آن لائن بٹن
 document.getElementById('btnDriverOnline').addEventListener('click', async () => {
   const phone = document.getElementById('dphone').value.trim();
   const registeredPhone = localStorage.getItem('ccab_dphone');
 
   if(!phone){ alert('پہلے اپنا موبائل نمبر درج کریں'); return; }
   
-  // سیکیورٹی چیک: جو نمبر درج کیا گیا ہے کیا وہ اسی فون (براؤزر) میں رجسٹرڈ ہے؟
   if(!registeredPhone || registeredPhone !== phone) {
     alert('❌ سیکیورٹی ایرر: آپ اس موبائل یا براؤزر سے اس نمبر پر آن لائن نہیں ہو سکتے کیونکہ یہ اکاؤنٹ اس ڈیوائیس پر رجسٹرڈ نہیں ہے!');
     document.getElementById('dstatus').innerText = "❌ غلط یا غیر رجسٹرڈ موبائل نمبر!";
@@ -611,7 +636,6 @@ document.getElementById('btnDriverOnline').addEventListener('click', async () =>
   document.getElementById('driverWelcomeMsg').innerText = `🚗 خوش آمدید ڈرائیور: ${driverData.name} (${phone})`;
   document.getElementById('driverMainContent').classList.remove('hidden');
   
-  // آن لائن ہونے پر آن لائن بٹن چھپا دیں اور صرف آف لائن بٹن شو کریں
   document.getElementById('btnDriverOnline').classList.add('hidden');
   document.getElementById('btnDriverOffline').classList.remove('hidden');
 
@@ -631,7 +655,6 @@ document.getElementById('btnDriverOffline').addEventListener('click', () => {
   update(ref(db,'drivers/'+phone),{online:false, offlineTime: timeStr, time:Date.now()});
   document.getElementById('driverMainContent').classList.add('hidden');
   
-  // آف لائن ہونے پر آف لائن بٹن چھپا دیں اور دوبارہ آن لائن بٹن شو کریں
   document.getElementById('btnDriverOffline').classList.add('hidden');
   document.getElementById('btnDriverOnline').classList.remove('hidden');
 
@@ -677,7 +700,7 @@ document.getElementById('btnPostSchedule').addEventListener('click', async () =>
   alert('✅ آپ کا روٹ اور شیڈول کامیابی سے پوسٹ ہو گیا ہے!');
 });
 
-// رجسٹرڈ مسافروں کا ایڈمن میں ڈسپلے (مع بلاک اور ریمو کے چھوٹے الگ الگ بٹن)
+// رجسٹرڈ مسافروں کا ایڈمن میں ڈسپلے
 onValue(ref(db, 'passengers'), snap => {
   const data = snap.val(); const passengers = data ? Object.values(data) : [];
   document.getElementById('adminPassengers').innerHTML = passengers.map(p => {
@@ -704,7 +727,7 @@ window.deletePassenger = function(phone) {
   }
 }
 
-// ڈرائیورز کے شیڈولڈ روٹس اور بڈز ڈسپلے کرنا (صرف پسنجر اور ایڈمن کے لیے)
+// ڈرائیورز کے شیڈولڈ روٹس اور بڈز
 onValue(ref(db, 'schedules'), snap => {
   const data = snap.val(); const list = data ? Object.values(data).reverse() : [];
   const currentDriverPhone = localStorage.getItem('ccab_dphone') || '';
@@ -737,7 +760,7 @@ onValue(ref(db, 'schedules'), snap => {
 });
 
 window.deleteSchedule = function(id) {
-  if(confirm('کیا آپ اس روٹ کو حذف کرنا چاہتے ہیں؟')) {
+  if(confirm('کیا آپ اس روٹ کو حذف کرنا चाहते हैं؟')) {
     remove(ref(db, 'schedules/' + id));
   }
 };
@@ -775,12 +798,11 @@ onValue(ref(db,'bookings'), snap=>{
   document.getElementById('blockedList').innerHTML = Object.keys(blockedPhones).length? Object.values(blockedPhones).map(b=>`<div class="card" style="background:#fee2e2;"><b>${b.phone}</b> (${b.type}) <button onclick="unblockUser('${b.phone}')" style="background:#16a34a;color:#fff;border:0;padding:4px 8px;border-radius:4px;cursor:pointer;">ان بلاک</button> <button onclick="removeBlockedPermanently('${b.phone}')" style="background:#dc2626;color:#fff;border:0;padding:4px 8px;border-radius:4px;cursor:pointer;margin-right:5px;">🗑️ مکمل ریموو کریں</button></div>`).join('') : '<p>کوئی نمبر بلاک نہیں ہے</p>';
 });
 
-// رجسٹرڈ ڈرائیورز کا سنک (مسافروں کے لیے تمام آن لائن ڈرائیورز اور ایڈمن کے لیے ڈرائیورز لسٹ)
+// رجسٹرڈ ڈرائیورز کا سنک
 onValue(ref(db,'drivers'), snap=>{
   const data=snap.val(); const drivers=data?Object.values(data):[];
   const online=drivers.filter(d=>d.online && !isBlocked(d.phone));
 
-  // مسافر کے لیے تمام آن لائن ڈرائیورز کا سیکشن
   const renderOnlineCard = d => `
     <div class="card" style="border-right:4px solid #16a34a; background:#f0fdf4;">
       <b>🟢 ${d.name}</b><br>
@@ -792,7 +814,6 @@ onValue(ref(db,'drivers'), snap=>{
   `;
   document.getElementById('passengerAllOnlineDrivers').innerHTML = online.length ? online.map(renderOnlineCard).join('') : '<p style="font-size:12px;color:#888;">اس وقت کوئی بھی ڈرائیور آن لائن نہیں ہے</p>';
 
-  // ایڈمن کے لیے ڈرائیورز لسٹ
   document.getElementById('adminDrivers').innerHTML = drivers.map(d=>{
     const blocked = isBlocked(d.phone);
     return `
@@ -862,7 +883,6 @@ window.sendOffer = async function(bookId, passengerPhone){
   openWhatsApp(passengerPhone, text);
 }
 
-// ایڈمن لاگ ان
 document.getElementById('btnAdminLogin').addEventListener('click', () => {
   const enteredPass = document.getElementById('apass').value;
   if(enteredPass === SECURE_ADMIN_PASS){ 
@@ -875,7 +895,6 @@ document.getElementById('btnAdminLogin').addEventListener('click', () => {
   }
 });
 
-// ایڈمن لاگ آؤٹ
 window.adminLogout = function() {
   localStorage.removeItem('ccab_admin_logged');
   document.getElementById('adminLoginBox').classList.remove('hidden');
