@@ -415,7 +415,7 @@ window.resetPassengerSession = function() {
   document.getElementById('pregPhone').value = '';
 };
 
-// پسنجر براہِ راست رجسٹریشن (بغیر او ٹی پی)
+// پسنجر براہِ راست رجسٹریشن (ڈپلیکیشن اور مختلف ناموں کی روک تھام کے ساتھ)
 document.getElementById('btnRegisterPassengerDirect').addEventListener('click', async () => {
   const name = document.getElementById('pregName').value.trim();
   const phone = document.getElementById('pregPhone').value.trim();
@@ -427,9 +427,11 @@ document.getElementById('btnRegisterPassengerDirect').addEventListener('click', 
   }
   if(isBlocked(phone)){ alert('🚫 آپ کو بلاک کیا گیا ہے'); return; }
 
-  const existingSnap = await get(ref(db, 'passengers/' + phone));
-  if(existingSnap.exists()) {
-    alert('❌ یہ نمبر پہلے ہی سسٹم میں رجسٹرڈ ہے!');
+  // ڈیٹا بیس میں چیک کریں کہ کیا یہ نمبر پہلے سے موجود ہے؟
+  const phoneCheckSnap = await get(ref(db, 'passengers/' + phone));
+  if(phoneCheckSnap.exists()) {
+    const existingData = phoneCheckSnap.val();
+    alert(`❌ یہ موبائل نمبر (${phone}) پہلے ہی "${existingData.name}" کے نام سے رجسٹرڈ ہے! ایک نمبر پر ایک ہی نام رجسٹر ہو سکتا ہے۔`);
     return;
   }
 
@@ -439,7 +441,7 @@ document.getElementById('btnRegisterPassengerDirect').addEventListener('click', 
     return;
   }
 
-  set(ref(db, 'passengers/' + phone), {
+  await set(ref(db, 'passengers/' + phone), {
     name, phone, city: city || 'بصیرپور', online: false, registeredAt: Date.now()
   });
 
@@ -557,19 +559,22 @@ window.resetDriverSession = function() {
   document.getElementById('dphoneReg').value = '';
 };
 
-// ڈرائیور براہِ راست رجسٹریشن (بغیر او ٹی پی)
+// ڈرائیور براہِ راست رجسٹریشن (ڈپلیکیشن اور مختلف ناموں کی روک تھام کے ساتھ)
 document.getElementById('btnRegisterDriverDirect').addEventListener('click', async () => {
   const phone = document.getElementById('dphoneReg').value.trim();
   const name = document.getElementById('dname').value.trim();
+  
   if(!phone || !name) {
     alert('ڈرائیور کا نام اور موبائل نمبر درج کرنا لازمی ہے!');
     return;
   }
   if(isBlocked(phone)){ alert('🚫 آپ بلاک ہیں'); return; }
 
-  const existingSnap = await get(ref(db, 'drivers/' + phone));
-  if(existingSnap.exists()) {
-    alert('❌ سیکیورٹی ایرر: یہ ڈرائیور نمبر پہلے ہی رجسٹرڈ ہے!');
+  // ڈیٹا بیس میں چیک کریں کہ کیا یہ ڈرائیور نمبر پہلے سے موجود ہے؟
+  const driverCheckSnap = await get(ref(db, 'drivers/' + phone));
+  if(driverCheckSnap.exists()) {
+    const existingDriverData = driverCheckSnap.val();
+    alert(`❌ یہ ڈرائیور نمبر (${phone}) پہلے ہی "${existingDriverData.name}" کے نام سے رجسٹرڈ ہے! ایک نمبر پر دوبارہ اکاؤنٹ نہیں بن سکتا۔`);
     return;
   }
 
@@ -583,7 +588,7 @@ document.getElementById('btnRegisterDriverDirect').addEventListener('click', asy
   const veh = document.getElementById('dvehicle').value.trim();
   const car = document.getElementById('dcar').value;
 
-  set(ref(db,'drivers/'+phone), {name, phone, lic, veh, car, online:false, time:Date.now()});
+  await set(ref(db,'drivers/'+phone), {name, phone, lic, veh, car, online:false, time:Date.now()});
   localStorage.setItem('ccab_dphone', phone);
   document.getElementById('dphone').value = phone;
 
