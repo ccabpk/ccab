@@ -67,17 +67,16 @@
       <p>بصیرپور، اوکاڑہ، ساہیوال، فیصل آباد، ملتان، گوجرانوالہ، راولپنڈی، اسلام آباد، لاہور اور دیگر شہروں کے لیے فوری بائیک، کار، بس و ٹرک سروس</p>
     </div>
 
-    <!-- واٹس ایپ رابطہ کا بٹن -->
     <div class="box" style="text-align: center; background: #f0fdf4;">
       <div class="box-title" style="justify-content: flex-start;">💬 واٹس ایپ سپورٹ</div>
       <p style="font-size: 13px; margin-bottom: 8px; color: #166534;">کسی بھی قسم کی معلومات یا مدد کیلئے ہمارے واٹس ایپ پر رابطہ کریں</p>
-      <a href="https://wa.me/923422477885?text=سلام!%20مجھے%20CCab%20کے%20متعلق%20معلومات%20درکار%20ہیں۔" target="_blank" class="btn btn-whatsapp">📱 واٹس ایپ پر رابطہ کریں</a>
+      <a href="https://wa.me/923422477885?text=سلام!%20मुझे%20CCab%20کے%20متعلق%20معلومات%20درکار%20ہیں۔" target="_blank" class="btn btn-whatsapp">📱 واٹس ایپ پر رابطہ کریں</a>
     </div>
 
-    <!-- پسنجر آن لائن/آف لائن سوئچ باکس (جیسے ڈرائیور کا ہے) -->
+    <!-- پسنجر آن لائن/آف لائن سوئچ باکس -->
     <div class="box" id="passengerSwitchBox">
       <div class="box-title" style="justify-content: flex-start;">👤 پسنجر آن لائن / لاگ ان سوئچ</div>
-      <p style="font-size:12px; color:#555; margin-bottom:8px;">اپنے رجسٹرڈ موبائل نمبر سے آن لائن ہوں تاکہ رائیڈ آفر پوسٹ کر سکیں۔</p>
+      <p style="font-size:12px; color:#555; margin-bottom:8px;">صرف وہی مسافر آن لائن ہو سکتا ہے جس کا اکاؤنٹ اس موبائل/براؤزر میں رجسٹرڈ ہو۔</p>
       <label>موبایل / WhatsApp نمبر *</label>
       <input type="tel" id="pphoneLogin" placeholder="03001234567">
       
@@ -88,17 +87,17 @@
       <p id="pstatusLogin" class="status-msg"></p>
     </div>
 
-    <!-- پسنجر رجسٹریشن باکس (ڈرائیور کی طرز پر) -->
+    <!-- پسنجر رجسٹریشن باکس -->
     <div class="box" id="passengerRegBox">
-      <div class="box-title" style="justify-content: flex-start;">📝 نیا پسنجر اکاؤنٹ بنائیں (کمپنی واٹس ایپ OTP)</div>
+      <div class="box-title" style="justify-content: flex-start;">📝 نیا پسنجر اکاؤنٹ بنائیں (محفوظ واٹس ایپ OTP)</div>
       <label>آپ کا نام *</label><input type="text" id="pregName" placeholder="مثال: چوہدری احمد">
       <label>موبایل / WhatsApp نمبر *</label><input type="tel" id="pregPhone" placeholder="03001234567">
       <label>آپ کا شہر / علاقہ *</label><input type="text" id="pregCity" placeholder="مثال: بصیرپور">
       
-      <button class="btn btn-whatsapp" id="btnSendPassengerOtp" style="margin-top: 12px;">📲 کمپنی کے واٹس ایپ سے OTP کوڈ منگوائیں</button>
+      <button class="btn btn-whatsapp" id="btnSendPassengerOtp" style="margin-top: 12px;">📲 مسافر کے واٹس ایپ پر OTP کوڈ بھیجیں</button>
 
       <div id="passengerOtpSection" class="hidden" style="margin-top: 12px; background: #f0fdf4; padding: 10px; border-radius: 8px;">
-        <label>کمپنی کے واٹس ایپ سے موصول ہونے والا 4 ہندسوں کا کوڈ درج کریں *</label>
+        <label>مسافر کے واٹس ایپ پر موصول ہونے والا 4 ہندسوں کا کوڈ درج کریں *</label>
         <input type="text" id="pEnteredOtp" placeholder="مثال: 4321">
         <button class="btn btn-green" id="btnVerifyPassengerOtp">✅ کوڈ تصدیق کریں اور رجسٹر ہوں</button>
       </div>
@@ -163,7 +162,7 @@
 
     <div class="box" id="driverSwitchBox">
       <div class="box-title" style="justify-content: flex-start;">🚗 ڈرائیور آن لائن / آف لائن سوئچ</div>
-      <p style="font-size:12px; color:#555; margin-bottom:8px;">صرف وہی ڈرائیور آن لائن ہو سکتا ہے جس کا اکاؤنٹ اس موبائل میں رجسٹرڈ ہو۔</p>
+      <p style="font-size:12px; color:#555; margin-bottom:8px;">صرف وہی ڈرائیور آن لائن ہو سکتا ہے جس کا اکاؤنٹ اس موبائل/براؤزر میں رجسٹرڈ ہو۔</p>
       <label>موبایل / WhatsApp نمبر *</label>
       <input type="tel" id="dphone" placeholder="03001234567">
       
@@ -175,7 +174,7 @@
     </div>
 
     <div class="box" id="driverRegBox">
-      <div class="box-title" style="justify-content: flex-start;">📝 نیا ڈرائیور اکاؤنٹ بنائیں (کمپنی واٹس ایپ OTP)</div>
+      <div class="box-title" style="justify-content: flex-start;">📝 نیا ڈرائیور اکاؤنٹ بنائیں (محفوظ واٹس ایپ OTP)</div>
       <label>ڈرائیور کا نام *</label><input type="text" id="dname" placeholder="محمد علی">
       <label>موبایل / WhatsApp نمبر *</label><input type="tel" id="dphoneReg" placeholder="03001234567">
       <label>لائسنس نمبر *</label><input type="text" id="dlicense" placeholder="DL-98765">
@@ -188,10 +187,10 @@
         <option value="ٹرک / لوڈر">🚛 ٹرک / لوڈر / شاہزور (Truck / Loader)</option>
       </select>
       
-      <button class="btn btn-whatsapp" id="btnSendDriverOtp" style="margin-top: 12px;">📲 کمپنی کے واٹس ایپ سے OTP کوڈ منگوائیں</button>
+      <button class="btn btn-whatsapp" id="btnSendDriverOtp" style="margin-top: 12px;">📲 ڈرائیور کے واٹس ایپ پر OTP کوڈ بھیجیں</button>
 
       <div id="driverOtpSection" class="hidden" style="margin-top: 12px; background: #f0fdf4; padding: 10px; border-radius: 8px;">
-        <label>کمپنی کے واٹس ایپ سے موصول ہونے والا 4 ہندسوں کا کوڈ درج کریں *</label>
+        <label>ڈرائیور کے واٹس ایپ پر موصول ہونے والا 4 ہندسوں کا کوڈ درج کریں *</label>
         <input type="text" id="dEnteredOtp" placeholder="مثال: 4321">
         <button class="btn btn-green" id="btnVerifyDriverOtp">✅ کوڈ تصدیق کریں اور ڈرائیور رجسٹر ہوں</button>
       </div>
@@ -289,7 +288,6 @@ const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 
 const SECURE_ADMIN_PASS = "ccab6974";
-const COMPANY_WHATSAPP = "923422477885";
 
 const locations = [
   "Basirpur بصیرپور", "Faisalabad فیصل آباد", "Multan ملتان", "Gujranwala گوجرانوالہ", 
@@ -440,7 +438,7 @@ document.getElementById('btnPassengerOnline').addEventListener('click', async ()
   if(!phone){ alert('پہلے اپنا موبائل نمبر درج کریں'); return; }
   
   if(!registeredPhone || registeredPhone !== phone) {
-    alert('❌ سیکیورٹی ایرر: آپ اس موبائل یا براؤزر سے اس نمبر پر آن لائن نہیں ہو سکتے! پہلے اکاؤنٹ رجسٹر کریں۔');
+    alert('❌ سیکیورٹی ایرر: یہ نمبر اس ڈیوائیس یا براؤزر پر رجسٹرڈ نہیں ہے! کسی دوسرے موبائل پر رجسٹرڈ نمبر اس ڈیوائیس پر نہیں چل سکتا۔');
     document.getElementById('pstatusLogin').innerText = "❌ غیر رجسٹرڈ نمبر!";
     return;
   }
@@ -566,16 +564,16 @@ document.getElementById('btnGetLoc').addEventListener('click', () => {
 function openWhatsApp(phone, text) {
   var cleanPhone = phone.replace(/[^0-9]/g, ''); 
   if(cleanPhone.startsWith('0')) cleanPhone = '92' + cleanPhone.substring(1);
-  window.location.href = "whatsapp://send?phone=" + cleanPhone + "&text=" + encodeURIComponent(text);
+  window.open("https://wa.me/" + cleanPhone + "?text=" + encodeURIComponent(text), "_blank");
 }
 
 let blockedPhones = {};
 onValue(ref(db,'blocked'), snap=>{ blockedPhones = snap.val()||{}; });
 function isBlocked(ph){ return blockedPhones[ph]?.blocked; }
 
-// --- پسنجر کمپنی واٹس ایپ OTP ویریفیکیشن ---
+// --- پسنجر واٹس ایپ OTP ویریفیکیشن (سسٹم کی طرف سے کوڈ مسافر کو بھیجنا) ---
 let generatedPassengerOtp = "";
-document.getElementById('btnSendPassengerOtp').addEventListener('click', () => {
+document.getElementById('btnSendPassengerOtp').addEventListener('click', async () => {
   const phone = document.getElementById('pregPhone').value.trim();
   const name = document.getElementById('pregName').value.trim();
   if(!phone || !name) {
@@ -584,24 +582,40 @@ document.getElementById('btnSendPassengerOtp').addEventListener('click', () => {
   }
   if(isBlocked(phone)){ alert('🚫 آپ کو بلاک کیا گیا ہے'); return; }
 
+  // چیک کریں کہ کیا یہ نمبر پہلے ہی کسی اور ڈیوائیس پر رجسٹرڈ تو نہیں؟
+  const existingSnap = await get(ref(db, 'passengers/' + phone));
+  if(existingSnap.exists()) {
+    alert('❌ سیکیورٹی ایرر: یہ نمبر پہلے ہی سسٹم میں رجسٹرڈ ہے اور آپ اسے کسی دوسری ڈیوائیس پر رجسٹر نہیں کر سکتے!');
+    return;
+  }
+
   generatedPassengerOtp = Math.floor(1000 + Math.random() * 9000);
   
-  const companyMsg = `محترم ${name}! CCab (چوہدری کیب) میں آپ کا پسنجر ویریفیکیشن کوڈ یہ ہے: *${generatedPassengerOtp}*۔ اس نمبر (${phone}) پر اکاؤنٹ رجسٹر کرنے کے لیے یہ کوڈ ایپ میں درج کریں۔`;
-  openWhatsApp(COMPANY_WHATSAPP, companyMsg);
+  const otpMsg = `السلام علیکم ${name}!\nCCab (چوہدری کیب) میں آپ کا ویریفیکیشن کوڈ یہ ہے: *${generatedPassengerOtp}*۔ اس کوڈ کو ایپ میں درج کر کے اپنی رجسٹریشن مکمل کریں۔`;
+  openWhatsApp(phone, otpMsg);
   
   document.getElementById('passengerOtpSection').classList.remove('hidden');
+  alert('📲 مسافر کے واٹس ایپ نمبر پر کوڈ والا پیغام بھیجنے کے لیے واٹس ایپ کھل گیا ہے۔ پیغام ارسال کریں اور کوڈ یہاں درج کریں۔');
 });
 
-document.getElementById('btnVerifyPassengerOtp').addEventListener('click', () => {
+document.getElementById('btnVerifyPassengerOtp').addEventListener('click', async () => {
   const entered = document.getElementById('pEnteredOtp').value.trim();
   const phone = document.getElementById('pregPhone').value.trim();
   const name = document.getElementById('pregName').value.trim();
   const city = document.getElementById('pregCity').value.trim();
 
   if(entered === generatedPassengerOtp.toString()) {
+    // ڈیوائیس لاک چیک
     const existingRegisteredPhone = localStorage.getItem('ccab_pphone');
     if(existingRegisteredPhone && existingRegisteredPhone !== phone) {
-      alert('❌ سیکیورٹی ایرر: اس براؤزر میں پہلے ہی ایک اور نمبر رجسٹرڈ ہے۔');
+      alert('❌ سیکیورٹی ایرر: اس براؤزر/موبائل میں پہلے ہی ایک اور نمبر رجسٹرڈ ہے۔');
+      return;
+    }
+
+    // ڈبل چیک ڈیٹا بیس
+    const checkDb = await get(ref(db, 'passengers/' + phone));
+    if(checkDb.exists()) {
+      alert('❌ یہ نمبر پہلے ہی رجسٹرڈ ہو چکا ہے!');
       return;
     }
 
@@ -615,13 +629,13 @@ document.getElementById('btnVerifyPassengerOtp').addEventListener('click', () =>
     verifyPassengerActive(phone);
     alert('✅ پسنجر اکاؤنٹ کامیابی سے رجسٹر ہو گیا ہے! اب "آن لائن ہوں" کا بٹن دبائیں۔');
   } else {
-    alert('❌ غلط کوڈ! براہ کرم کمپنی کے واٹس ایپ والا صحیح کوڈ درج کریں۔');
+    alert('❌ غلط کوڈ! براہ کرم مسافر کے واٹس ایپ پر بھیجا گیا صحیح کوڈ درج کریں۔');
   }
 });
 
-// --- ڈرائیور کمپنی واٹس ایپ OTP ویریفیکیشن ---
+// --- ڈرائیور واٹس ایپ OTP ویریفیکیشن (سسٹم کی طرف سے کوڈ ڈرائیور کو بھیجنا) ---
 let generatedDriverOtp = "";
-document.getElementById('btnSendDriverOtp').addEventListener('click', () => {
+document.getElementById('btnSendDriverOtp').addEventListener('click', async () => {
   const phone = document.getElementById('dphoneReg').value.trim();
   const name = document.getElementById('dname').value.trim();
   if(!phone || !name) {
@@ -630,15 +644,23 @@ document.getElementById('btnSendDriverOtp').addEventListener('click', () => {
   }
   if(isBlocked(phone)){ alert('🚫 آپ بلاک ہیں'); return; }
 
+  // چیک کریں کہ کیا ڈرائیور نمبر پہلے سے موجود ہے؟
+  const existingSnap = await get(ref(db, 'drivers/' + phone));
+  if(existingSnap.exists()) {
+    alert('❌ سیکیورٹی ایرر: یہ ڈرائیور نمبر پہلے ہی رجسٹرڈ ہے اور کسی دوسرے موبائل پر رجسٹر نہیں ہو سکتا!');
+    return;
+  }
+
   generatedDriverOtp = Math.floor(1000 + Math.random() * 9000);
   
-  const companyMsg = `محترم ڈرائیور ${name}! CCab میں آپ کا ڈرائیور ویریفیکیشن کوڈ یہ ہے: *${generatedDriverOtp}*۔ اس نمبر (${phone}) پر ڈرائیور اکاؤنٹ رجسٹر کرنے کے لیے یہ کوڈ درج کریں۔`;
-  openWhatsApp(COMPANY_WHATSAPP, companyMsg);
+  const otpMsg = `السلام علیکم ڈرائیور ${name}!\nCCab میں آپ کا ڈرائیور ویریفیکیشن کوڈ یہ ہے: *${generatedDriverOtp}*۔ اس کوڈ کو ایپ میں درج کریں۔`;
+  openWhatsApp(phone, otpMsg);
   
   document.getElementById('driverOtpSection').classList.remove('hidden');
+  alert('📲 ڈرائیور کے واٹس ایپ نمبر پر کوڈ والا پیغام بھیجنے کے لیے واٹس ایپ کھل گیا ہے۔ پیغام ارسال کریں اور کوڈ یہاں درج کریں۔');
 });
 
-document.getElementById('btnVerifyDriverOtp').addEventListener('click', () => {
+document.getElementById('btnVerifyDriverOtp').addEventListener('click', async () => {
   const entered = document.getElementById('dEnteredOtp').value.trim();
   const phone = document.getElementById('dphoneReg').value.trim();
 
@@ -646,6 +668,12 @@ document.getElementById('btnVerifyDriverOtp').addEventListener('click', () => {
     const existingDriverPhone = localStorage.getItem('ccab_dphone');
     if(existingDriverPhone && existingDriverPhone !== phone) {
       alert('❌ سیکیورٹی ایرر: اس براؤزر میں پہلے ہی ایک اور ڈرائیور نمبر رجسٹرڈ ہے۔');
+      return;
+    }
+
+    const checkDb = await get(ref(db, 'drivers/' + phone));
+    if(checkDb.exists()) {
+      alert('❌ یہ ڈرائیور نمبر پہلے ہی رجسٹرڈ ہو چکا ہے!');
       return;
     }
 
@@ -661,7 +689,7 @@ document.getElementById('btnVerifyDriverOtp').addEventListener('click', () => {
     verifyDriverActive(phone);
     alert('✅ ڈرائیور پروفائل ویریفائی ہو گئی ہے! اب اوپر "آن لائن ہوں" کا بٹن دبائیں۔');
   } else {
-    alert('❌ غلط کوڈ! براہ کرم کمپنی کے واٹس ایپ والا صحیح کوڈ درج کریں۔');
+    alert('❌ غلط کوڈ! براہ کرم ڈرائیور کے واٹس ایپ پر بھیجا گیا صحیح کوڈ درج کریں۔');
   }
 });
 
@@ -717,8 +745,8 @@ document.getElementById('btnDriverOnline').addEventListener('click', async () =>
   if(!phone){ alert('پہلے اپنا موبائل نمبر درج کریں'); return; }
   
   if(!registeredPhone || registeredPhone !== phone) {
-    alert('❌ سیکیورٹی ایرر: آپ اس موبائل یا براؤزر سے اس نمبر پر آن لائن نہیں ہو سکتے!');
-    document.getElementById('dstatus').innerText = "❌ غلط یا غیر رجسٹرڈ موبائل نمبر!";
+    alert('❌ سیکیورٹی ایرر: یہ ڈرائیور نمبر اس ڈیوائیس یا براؤزر پر رجسٹرڈ نہیں ہے! کسی دوسرے موبائل کا رجسٹرڈ ڈرائیور یہاں آن لائن نہیں ہو سکتا۔');
+    document.getElementById('dstatus').innerText = "❌ غیر رجسٹرڈ موبائل نمبر!";
     return;
   }
 
@@ -982,9 +1010,14 @@ window.sendOffer = async function(bookId, passengerPhone){
   openWhatsApp(passengerPhone, text);
 }
 
+document.getElementById('adminLoginButton')?.addEventListener('click', () => {
+  // handled below
+});
+
 document.getElementById('btnAdminLogin').addEventListener('click', () => {
   const enteredPass = document.getElementById('apass').value;
   if(enteredPass === SECURE_ADMIN_PASS){ 
+    localStorage.getItem('ccab_admin_logged');
     localStorage.setItem('ccab_admin_logged', 'true');
     document.getElementById('adminLoginBox').classList.add('hidden');
     document.getElementById('adminContent').classList.remove('hidden'); 
