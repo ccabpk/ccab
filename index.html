@@ -371,28 +371,23 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
 
-function checkPassengerSession() {
+async function checkPassengerSession() {
   const savedPPhone = localStorage.getItem('ccab_pphone');
   if(savedPPhone) {
-    document.getElementById('pregPhone').value = savedPPhone;
-    verifyPassengerActive(savedPPhone);
-  }
-}
+    const snap = await get(ref(db, 'passengers/' + savedPPhone));
+    if(snap.exists()) {
+      const data = snap.val();
+      document.getElementById('pregPhone').value = data.phone;
+      document.getElementById('pregName').value = data.name;
+      document.getElementById('pname').value = data.name;
+      document.getElementById('pphone').value = data.phone;
 
-async function verifyPassengerActive(phone) {
-  const snap = await get(ref(db, 'passengers/' + phone));
-  if(snap.exists()) {
-    const data = snap.val();
-    document.getElementById('pregName').value = data.name;
-    document.getElementById('pname').value = data.name;
-    document.getElementById('pphone').value = data.phone;
-
-    document.getElementById('passengerRegBox').classList.add('hidden');
-    document.getElementById('passengerMainContent').classList.remove('hidden');
-    document.getElementById('passengerWelcomeMsg').innerText = `👤 خوش آمدید، ${data.name} (${data.phone})`;
-  } else {
-    localStorage.removeItem('ccab_pname');
-    localStorage.removeItem('ccab_pphone');
+      document.getElementById('passengerRegBox').classList.add('hidden');
+      document.getElementById('passengerMainContent').classList.remove('hidden');
+      document.getElementById('passengerWelcomeMsg').innerText = `👤 خوش آمدید، ${data.name} (${data.phone})`;
+    } else {
+      resetPassengerSession();
+    }
   }
 }
 
@@ -406,13 +401,18 @@ window.resetPassengerSession = function() {
   document.getElementById('pregPhone').value = '';
 };
 
-function checkDriverSession() {
+async function checkDriverSession() {
   const savedDPhone = localStorage.getItem('ccab_dphone');
   if(savedDPhone) {
-    document.getElementById('dphone').value = savedDPhone;
-    const dphoneRegInput = document.getElementById('dphoneReg');
-    if(dphoneRegInput) dphoneRegInput.value = savedDPhone;
-    verifyDriverActive(savedDPhone);
+    const snap = await get(ref(db, 'drivers/' + savedDPhone));
+    if(snap.exists()) {
+      document.getElementById('dphone').value = savedDPhone;
+      const dphoneRegInput = document.getElementById('dphoneReg');
+      if(dphoneRegInput) dphoneRegInput.value = savedDPhone;
+      verifyDriverActive(savedDPhone);
+    } else {
+      resetDriverSession();
+    }
   }
 }
 
@@ -568,15 +568,24 @@ document.getElementById('btnVerifyDriverOtp').addEventListener('click', () => {
   }
 });
 
-// پسنجر بکنگ (سیکیورٹی چیک: صرف رجسٹرڈ نمبر سے ہی بکنگ ہو گی)
-document.getElementById('btnBook').addEventListener('click', () => {
+// پسنجر بکنگ (سخت سیکیورٹی چیک: صرف ڈیٹا بیس میں رجسٹرڈ اور اس ڈیوائیس کے تصدیق شدہ نمبر سے ہی بکنگ ہوگی)
+document.getElementById('btnBook').addEventListener('click', async () => {
   const phone = document.getElementById('pphone').value.trim();
   const registeredPhone = localStorage.getItem('ccab_pphone');
   
-  if(!phone || registeredPhone !== phone) {
-    alert('❌ سیکیورٹی ایرر: آپ اس موبائل یا براؤزر سے اس نمبر پر رائیڈ آفر پوسٹ نہیں کر سکتے کیونکہ یہ اکاؤنٹ اس ڈیوائیس پر رجسٹرڈ نہیں ہے!');
+  if(!phone || !registeredPhone || registeredPhone !== phone) {
+    alert('❌ سیکیورٹی ایرر: یہ نمبر اس ڈیوائیس پر رجسٹرڈ نہیں ہے!');
     return;
   }
+
+  // فائر بیس ڈیٹا بیس سے دوبارہ تصدیق کریں کہ کیا یہ پسنجر واقعی رجسٹرڈ ہے یا نہیں
+  const snap = await get(ref(db, 'passengers/' + phone));
+  if(!snap.exists()) {
+    alert('❌ سیکیورٹی ایرر: یہ نمبر سسٹم میں رجسٹرڈ نہیں پایا گیا!');
+    resetPassengerSession();
+    return;
+  }
+
   if(isBlocked(phone)){ alert('🚫 آپ کو بلاک کر دیا گیا ہے'); return; }
 
   const name = document.getElementById('pname').value.trim() || 'پسنجر';
@@ -612,7 +621,7 @@ document.getElementById('btnDriverOnline').addEventListener('click', async () =>
   if(!phone){ alert('پہلے اپنا موبائل نمبر درج کریں'); return; }
   
   if(!registeredPhone || registeredPhone !== phone) {
-    alert('❌ سیکیورٹی ایرر: آپ اس موبائل یا براؤزر سے اس نمبر پر آن لائن نہیں ہو سکتے کیونکہ یہ اکاؤنٹ اس ڈیوائیس پر رجسٹرڈ نہیں ہے!');
+    alert('❌ سیکیورٹی ایرر: آپ اس موبائل یا براؤزر سے اس نمبر پر آن لائن نہیں ہو سکتے!');
     document.getElementById('dstatus').innerText = "❌ غلط یا غیر رجسٹرڈ موبائل نمبر!";
     return;
   }
