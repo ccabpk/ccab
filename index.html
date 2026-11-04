@@ -68,7 +68,7 @@
     <div class="box" style="text-align: center; background: #f0fdf4;">
       <div class="box-title" style="justify-content: flex-start;">💬 واٹس ایپ سپورٹ</div>
       <p style="font-size: 13px; margin-bottom: 8px; color: #166534;">کسی بھی قسم کی معلومات یا مدد کیلئے ہمارے واٹس ایپ پر رابطہ کریں</p>
-      <a href="https://wa.me/923422477885?text=سلام!%20मुझे%20CCab%20کے%20متعلق%20معلومات%20درکار%20ہیں۔" target="_blank" class="btn btn-whatsapp">📱 واٹس ایپ پر رابطہ کریں</a>
+      <a href="https://wa.me/923422477885?text=سلام!%20मुझे%20CCab%20के%20متعلق%20معلومات%20درکار%20ہیں۔" target="_blank" class="btn btn-whatsapp">📱 واٹس ایپ پر رابطہ کریں</a>
     </div>
 
     <!-- پسنجر آن لائن/آف لائن سوئچ باکس -->
@@ -149,7 +149,7 @@
     <div class="box" style="text-align: center; background: #f0fdf4;">
       <div class="box-title" style="justify-content: flex-start;">💬 واٹس ایپ سپورٹ</div>
       <p style="font-size: 13px; margin-bottom: 8px; color: #166534;">کسی بھی قسم کی معلومات یا مدد کیلئے ہمارے واٹس ایپ پر رابطہ کریں</p>
-      <a href="https://wa.me/923422477885?text=سلام!%20بطور%20ڈرائیور%20मुझे%20CCab%20کے%20متعلق%20معلومات%20درکار%20ہیں۔" target="_blank" class="btn btn-whatsapp">📱 واٹس ایپ پر رابطہ کریں</a>
+      <a href="https://wa.me/923422477885?text=سلام!%20بطور%20ڈرائیور%20मुझे%20CCab%20के%20متعلق%20معلومات%20درکار%20ہیں۔" target="_blank" class="btn btn-whatsapp">📱 واٹس ایپ پر رابطہ کریں</a>
     </div>
 
     <div class="box" id="driverSwitchBox">
@@ -415,7 +415,7 @@ window.resetPassengerSession = function() {
   document.getElementById('pregPhone').value = '';
 };
 
-// پسنجر براہِ راست رجسٹریشن (ڈپلیکیشن اور مختلف ناموں کی روک تھام کے ساتھ)
+// پسنجر براہِ راست رجسٹریشن
 document.getElementById('btnRegisterPassengerDirect').addEventListener('click', async () => {
   const name = document.getElementById('pregName').value.trim();
   const phone = document.getElementById('pregPhone').value.trim();
@@ -427,11 +427,19 @@ document.getElementById('btnRegisterPassengerDirect').addEventListener('click', 
   }
   if(isBlocked(phone)){ alert('🚫 آپ کو بلاک کیا گیا ہے'); return; }
 
-  // ڈیٹا بیس میں چیک کریں کہ کیا یہ نمبر پہلے سے موجود ہے؟
-  const phoneCheckSnap = await get(ref(db, 'passengers/' + phone));
-  if(phoneCheckSnap.exists()) {
-    const existingData = phoneCheckSnap.val();
-    alert(`❌ یہ موبائل نمبر (${phone}) پہلے ہی "${existingData.name}" کے نام سے رجسٹرڈ ہے! ایک نمبر پر ایک ہی نام رجسٹر ہو سکتا ہے۔`);
+  // ڈیٹا بیس میں چیک کریں کہ کیا یہ نمبر پہلے سے مسافر یا ڈرائیور میں موجود ہے؟
+  const passengerSnap = await get(ref(db, 'passengers/' + phone));
+  const driverSnap = await get(ref(db, 'drivers/' + phone));
+
+  if (passengerSnap.exists() || driverSnap.exists()) {
+    let existingName = '';
+    if (passengerSnap.exists()) {
+      existingName = passengerSnap.val().name || '';
+    }
+    if (driverSnap.exists()) {
+      existingName = driverSnap.val().name || '';
+    }
+    alert(`❌ یہ موبائل نمبر (${phone}) پہلے ہی "${existingName}" کے نام سے رجسٹرڈ ہے۔`);
     return;
   }
 
@@ -559,7 +567,7 @@ window.resetDriverSession = function() {
   document.getElementById('dphoneReg').value = '';
 };
 
-// ڈرائیور براہِ راست رجسٹریشن (ڈپلیکیشن اور مختلف ناموں کی روک تھام کے ساتھ)
+// ڈرائیور براہِ راست رجسٹریشن
 document.getElementById('btnRegisterDriverDirect').addEventListener('click', async () => {
   const phone = document.getElementById('dphoneReg').value.trim();
   const name = document.getElementById('dname').value.trim();
@@ -570,11 +578,19 @@ document.getElementById('btnRegisterDriverDirect').addEventListener('click', asy
   }
   if(isBlocked(phone)){ alert('🚫 آپ بلاک ہیں'); return; }
 
-  // ڈیٹا بیس میں چیک کریں کہ کیا یہ ڈرائیور نمبر پہلے سے موجود ہے؟
-  const driverCheckSnap = await get(ref(db, 'drivers/' + phone));
-  if(driverCheckSnap.exists()) {
-    const existingDriverData = driverCheckSnap.val();
-    alert(`❌ یہ ڈرائیور نمبر (${phone}) پہلے ہی "${existingDriverData.name}" کے نام سے رجسٹرڈ ہے! ایک نمبر پر دوبارہ اکاؤنٹ نہیں بن سکتا۔`);
+  // ڈیٹا بیس میں چیک کریں کہ کیا یہ نمبر پہلے سے مسافر یا ڈرائیور میں موجود ہے؟
+  const passengerSnap = await get(ref(db, 'passengers/' + phone));
+  const driverSnap = await get(ref(db, 'drivers/' + phone));
+
+  if (passengerSnap.exists() || driverSnap.exists()) {
+    let existingName = '';
+    if (passengerSnap.exists()) {
+      existingName = passengerSnap.val().name || '';
+    }
+    if (driverSnap.exists()) {
+      existingName = driverSnap.val().name || '';
+    }
+    alert(`❌ یہ موبائل نمبر (${phone}) پہلے ہی "${existingName}" کے نام سے رجسٹرڈ ہے۔`);
     return;
   }
 
