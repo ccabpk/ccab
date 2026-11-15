@@ -48,10 +48,6 @@
   /* واٹس ایپ براڈکاسٹ موڈل */
   .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 9998; display: flex; align-items: center; justify-content: center; padding: 15px; }
   .modal-box { background: #fff; border-radius: 12px; padding: 18px; width: 100%; max-width: 450px; max-height: 80vh; overflow-y: auto; box-shadow: 0 5px 20px rgba(0,0,0,0.3); }
-
-  /* ٹرین ٹریکر اسٹائلز */
-  .train-iframe-box { width: 100%; height: 420px; border: 2px solid #0f766e; border-radius: 10px; overflow: hidden; margin-top: 10px; background: #f0fdfa; }
-  .train-iframe-box iframe { width: 100%; height: 100%; border: none; }
 </style>
 </head>
 <body>
@@ -113,7 +109,6 @@
       </div>
     </div>
 
-    <!-- پسنجر آن لائن/آف لائن سوئچ باکس -->
     <div class="box" id="passengerSwitchBox">
       <div class="box-title" style="justify-content: flex-start;">👤 پسنجر آن لائن / لاگ ان سوئچ</div>
       <p style="font-size:12px; color:#555; margin-bottom:8px;">صرف وہی مسافر آن لائن ہو سکتا ہے جس کا اکاؤنٹ اس موبائل میں رجسٹرڈ ہو۔</p>
@@ -127,7 +122,6 @@
       <p id="pstatusLogin" class="status-msg"></p>
     </div>
 
-    <!-- پسنجر رجسٹریشن باکس -->
     <div class="box" id="passengerRegBox">
       <div class="box-title" style="justify-content: flex-start;">📝 نیا پسنجر اکاؤنٹ بنائیں</div>
       <label>آپ کا نام *</label><input type="text" id="pregName" placeholder="مثال: چوہدری احمد">
@@ -137,7 +131,6 @@
       <button class="btn btn-green" id="btnRegisterPassengerDirect" style="margin-top: 12px;">✅ براہِ راست رجسٹر ہوں</button>
     </div>
 
-    <!-- پسنجر ویلکم باکس -->
     <div class="box hidden" id="passengerWelcomeBox" style="background: #f0fdf4; text-align: center; border-right: 4px solid #16a34a;">
       <p id="passengerWelcomeMsg" style="font-weight: bold; color: #166534; font-size: 14px;"></p>
       <button onclick="resetPassengerSession()" class="btn btn-gray" style="padding: 6px 12px; margin-top: 8px; font-size: 12px; width: auto;">🔄 پروفائل تبدیل کریں</button>
@@ -177,7 +170,6 @@
         <p id="pstatus" class="status-msg"></p>
       </div>
 
-      <!-- علیحدہ علیحدہ بٹنوں کے ساتھ آن لائن ڈرائیورز -->
       <div class="box">
         <div class="box-title" style="justify-content: flex-start;">🟢 آن لائن ڈرائیورز (کیٹیگری منتخب کریں)</div>
         <div class="vehicle-filter-bar">
@@ -216,7 +208,7 @@
     <div class="box" id="driverSwitchBox">
       <div class="box-title" style="justify-content: flex-start;">🚗 ڈرائیور آن لائن / آف لائن سوئچ</div>
       <p style="font-size:12px; color:#555; margin-bottom:8px;">صرف وہی ڈرائیور آن لائن ہو سکتا ہے جس کا اکاؤنٹ اس موبائل میں رجسٹرڈ ہو۔</p>
-      <label>موبائل / WhatsApp نمبر *</label>
+      <label>موبایل / WhatsApp نمبر *</label>
       <input type="tel" id="dphone" placeholder="03001234567">
       
       <div style="display:flex; gap:10px; margin-top:10px;">
@@ -229,7 +221,7 @@
     <div class="box" id="driverRegBox">
       <div class="box-title" style="justify-content: flex-start;">📝 نیا ڈرائیور اکاؤنٹ بنائیں</div>
       <label>ڈرائیور کا نام *</label><input type="text" id="dname" placeholder="محمد علی">
-      <label>موبائل / WhatsApp نمبر *</label><input type="tel" id="dphoneReg" placeholder="03001234567">
+      <label>موبایل / WhatsApp نمبر *</label><input type="tel" id="dphoneReg" placeholder="03001234567">
       <label>لائسنس نمبر *</label><input type="text" id="dlicense" placeholder="DL-98765">
       <label>گاڑی نمبر *</label><input type="text" id="dvehicle" placeholder="LEB-5678">
       <label>گاڑی کی قسم *</label>
@@ -272,16 +264,16 @@
     </div>
   </div>
 
-  <!-- ٹرین ٹریکنگ ٹیب (Track My Train) -->
+  <!-- ٹرین ٹریکنگ ٹیب (Track My Train - UP / DN Separated) -->
   <div id="trainTab" class="hidden">
     <div class="banner-card" style="background: linear-gradient(135deg, #0f766e, #115e59);">
-      <h2>🚆 Track My Train - پاک ریلوے لائیو اسٹیٹس</h2>
-      <p>بلھے شاہ ایکسپریس، فرید ایکسپریس اور دیگر ٹرینوں کی لمحہ بہ لمحہ تاخیر (Delay) اور لائیو پوزیشن</p>
+      <h2>🚆 Track My Train - پاک ریلوے لائیو اسٹیٹس (UP & DN)</h2>
+      <p>بلھے شاہ، فرید اور دیگر ایکسپریس ٹرینوں کے اپ (UP) اور ڈاؤن (DN) روٹس اور لائیو پوزیشن</p>
     </div>
 
     <div class="box">
-      <div class="box-title" style="border-right-color: #0f766e;">📍 لائیو ٹرین ٹریکر اور تاخیر اپڈیٹ</div>
-      <p style="font-size:12px; color:#555; margin-bottom:8px;">ٹرین کا نام سرچ کریں یا لائیو اسٹیٹس ریفریش کریں:</p>
+      <div class="box-title" style="border-right-color: #0f766e;">📍 ٹرین سرچ اور لائیو اسٹیٹس (UP / DN)</div>
+      <p style="font-size:12px; color:#555; margin-bottom:8px;">ٹرین کا نام درج کریں یا لائیو اسٹیٹس ریفریش کریں:</p>
       
       <div style="display:flex; gap:8px; margin-bottom:10px;">
         <input type="text" id="trainSearchInput" onkeyup="filterTrains()" placeholder="🔍 ٹرین تلاش کریں (مثال: بلھے شاہ، فرید)..." style="margin-top:0;">
@@ -314,9 +306,9 @@
     </div>
 
     <div id="adminContent" class="hidden">
-      <div class="box" style="background: #f0fdf4; text-align: center; border-right: 4px solid #16a34a;">
-        <p style="font-weight: bold; color: #166534; font-size: 14px;">✅ آپ ایڈمن (azam85) کے طور پر لاگ ان ہیں</p>
-        <button onclick="adminLogout()" class="btn btn-red" style="padding: 6px 12px; margin-top: 8px; font-size: 12px; width: auto;">🔒 ایڈمن لاگ آؤٹ کریں</button>
+      <!-- خوش آمدید والا اضافی فقرہ ہٹا دیا گیا ہے -->
+      <div style="text-align: left; margin-bottom: 10px;">
+        <button onclick="adminLogout()" class="btn btn-red" style="padding: 6px 12px; font-size: 12px; width: auto;">🔒 ایڈمن لاگ آؤٹ کریں</button>
       </div>
 
       <div class="box">
@@ -324,7 +316,6 @@
         <div id="secPassengers" class="collapsible-content hidden"><div id="adminPassengers"></div></div>
       </div>
 
-      <!-- ایڈمن ڈرائیورز سیکشن مع علیحدہ علیحدہ فلٹر بٹنز -->
       <div class="box">
         <div class="box-title" onclick="toggleAdminSection('secDrivers')">🚘 تمام رجسٹرڈ ڈرائیورز <span style="font-size: 12px; color: #16a34a;">(کلک کریں 🔽)</span></div>
         <div id="secDrivers" class="collapsible-content hidden">
@@ -408,14 +399,22 @@ function populateLocationsDatalist() {
 }
 populateLocationsDatalist();
 
-// --- پاک ریلوے ٹرین شیڈول اور لائیو تاخیر (Delay) ڈیٹا ---
+// --- پاک ریلوے ٹرین شیڈول (UP اور DN علیحدہ علیحدہ) ---
 const pakistanTrains = [
-  { code: "BULLEH-01", name: "بلھے شاہ ایکسپریس (Bulleh Shah Express)", route: "قصور ⇄ بصیرپور ⇄ حویلی لکھا ⇄ پاکپتن", stationTime: "بصیرپور آمد: 10:15 AM (Up) | 03:45 PM (Dn)", delay: "25 منٹ تاخیر کا شکار", liveLoc: "اس وقت حویلی لکھا اور بصیرپور کے درمیان رواں دواں ہے" },
-  { code: "37UP / 38DN", name: "فرید ایکسپریس (Fareed Express)", route: "لاہور ⇄ قصور ⇄ بصیرپور ⇄ حویلی لکھا ⇄ پاکپتن ⇄ ملتان ⇄ کراچی", stationTime: "بصیرپور آمد: 09:45 PM (Up) | 04:15 AM (Dn)", delay: "آن ٹائم (روشن رفتار)", liveLoc: "قصور جنکشن سے روانہ ہو چکی ہے" },
-  { code: "145UP / 146DN", name: "پاکپتن ایکسپریس / لوکل شٹل", route: "سمہ سٹہ ⇄ بہاولنگر ⇄ پاکپتن ⇄ حویلی لکھا ⇄ بصیرپور ⇄ قصور ⇄ لاہور", stationTime: "بصیرپور آمد: 07:30 AM (Up) | 05:20 PM (Dn)", delay: "10 منٹ تاخیر", liveLoc: "پاکپتن اسٹیشن پر موجود ہے" },
-  { code: "33UP / 34DN", name: "پاک بزنس ایکسپریس (Pak Business)", route: "لاہور ⇄ ساہیوال ⇄ ملتان ⇄ روہڑی ⇄ کراچی", stationTime: "ساہیوال آمد: 06:15 PM (Dn) | 07:45 AM (Up)", delay: "آن ٹائم", liveLoc: "ساہیوال اسٹیشن کراس کر چکی ہے" },
-  { code: "7UP / 8DN", name: "تیزگام ایکسپریس (Tezgam)", route: "راولپنڈی ⇄ لاہور ⇄ اوکاڑہ ⇄ ساہیوال ⇄ ملتان ⇄ کراچی", stationTime: "اوکاڑہ / ساہیوال: 04:10 PM (Dn) | 10:30 AM (Up)", delay: "15 منٹ تاخیر", liveLoc: "اوکاڑہ اسٹیشن کے قریب ہے" },
-  { code: "41UP / 42DN", name: "قراقرم ایکسپریس (Karakoram)", route: "لاہور ⇄ فیصل آباد ⇄ ملتان ⇄ کراچی", stationTime: "فیصل آباد آمد: 05:15 PM (Dn) | 08:20 AM (Up)", delay: "آن ٹائم", liveLoc: "فیصل آباد مین اسٹیشن پر ہے" }
+  { code: "BULLEH-UP", name: "بلھے شاہ ایکسپریس (UP - قصور سے پاکپتن)", route: "قصور ➔ بصیرپور ➔ حویلی لکھا ➔ پاکپتن", timing: "بصیرپور آمد: 10:15 AM", delay: "25 منٹ تاخیر کا شکار", liveLoc: "حویلی لکھا اور بصیرپور کے درمیان رواں دواں ہے" },
+  { code: "BULLEH-DN", name: "بلھے شاہ ایکسپریس (DN - پاکپتن سے قصور)", route: "پاکپتن ➔ حویلی لکھا ➔ بصیرپور ➔ قصور", timing: "بصیرپور آمد: 03:45 PM", delay: "آن ٹائم (بالکل درست وقت پر)", liveLoc: "پاکپتن اسٹیشن سے روانہ ہو چکی ہے" },
+  
+  { code: "37-UP", name: "فرید ایکسپریس (UP - لاہور سے کراچی)", route: "لاہور ➔ قصور ➔ بصیرپور ➔ حویلی لکھا ➔ پاکپتن ➔ ملتان ➔ کراچی", timing: "بصیرپور آمد: 09:45 PM", delay: "آن ٹائم (روشن رفتار)", liveLoc: "قصور جنکشن کراس کر چکی ہے" },
+  { code: "38-DN", name: "فرید ایکسپریس (DN - کراچی سے لاہور)", route: "کراچی ➔ ملتان ➔ پاکپتن ➔ حویلی لکھا ➔ بصیرپور ➔ قصور ➔ لاہور", timing: "بصیرپور آمد: 04:15 AM", delay: "15 منٹ تاخیر", liveLoc: "پاکپتن اور حویلی لکھا کے درمیان ہے" },
+
+  { code: "145-UP", name: "پاکپتن ایکسپریس (UP - سمہ سٹہ سے لاہور)", route: "سمہ سٹہ ➔ پاکپتن ➔ حویلی لکھا ➔ بصیرپور ➔ قصور ➔ لاہور", timing: "بصیرپور آمد: 07:30 AM", delay: "10 منٹ تاخیر", liveLoc: "حویلی لکھا اسٹیشن پر موجود ہے" },
+  { code: "146-DN", name: "پاکپتن ایکسپریس (DN - لاہور سے سمہ سٹہ)", route: "لاہور ➔ قصور ➔ بصیرپور ➔ حویلی لکھا ➔ پاکپتن ➔ سمہ سٹہ", timing: "بصیرپور آمد: 05:20 PM", delay: "آن ٹائم", liveLoc: "قصور سے روانگی کے لیے تیار ہے" },
+
+  { code: "33-UP", name: "پاک بزنس ایکسپریس (UP - لاہور تا کراچی)", route: "لاہور ➔ ساہیوال ➔ ملتان ➔ روہڑی ➔ کراچی", timing: "ساہیوال آمد: 07:45 AM", delay: "آن ٹائم", liveLoc: "ساہیوال اسٹیشن پر رکی ہوئی ہے" },
+  { code: "34-DN", name: "پاک بزنس ایکسپریس (DN - کراچی تا لاہور)", route: "کراچی ➔ ملتان ➔ ساہیوال ➔ لاہور", timing: "ساہیوال آمد: 06:15 PM", delay: "20 منٹ تاخیر", liveLoc: "ملتان اور ساہیوال کے درمیان ہے" },
+
+  { code: "7-UP", name: "تیزگام ایکسپریس (UP - راولپنڈی تا کراچی)", route: "راولپنڈی ➔ لاہور ➔ اوکاڑہ ➔ ساہیوال ➔ ملتان ➔ کراچی", timing: "اوکاڑہ آمد: 10:30 AM", delay: "آن ٹائم", liveLoc: "اوکاڑہ جنکشن سے گزر رہی ہے" },
+  { code: "8-DN", name: "تیزگام ایکسپریس (DN - کراچی تا راولپنڈی)", route: "کراچی ➔ ملتان ➔ ساہیوال ➔ اوکاڑہ ➔ لاہور ➔ راولپنڈی", timing: "اوکاڑہ آمد: 04:10 PM", delay: "30 منٹ تاخیر کا شکار", liveLoc: "ساہیوال اسٹیشن کراس کر چکی ہے" }
 ];
 
 window.filterTrains = function() {
@@ -436,9 +435,9 @@ window.filterTrains = function() {
         <span class="badge" style="background:#0f766e;">${t.code}</span>
       </div>
       <div style="margin-top:5px; font-size:12px;"><b>روٹ:</b> ${t.route}</div>
-      <div style="margin-top:3px; font-size:12px; color:#1e40af;"><b>🕒 شیڈول اوقات:</b> ${t.stationTime}</div>
-      <div style="margin-top:4px; font-size:12px; color:#b91c1c; font-weight:bold;">⏳ لائیو تاخیر (Delay): ${t.delay}</div>
-      <div style="margin-top:3px; font-size:12px; color:#047857; font-weight:bold;">📍 لائیو لوکیشن: ${t.liveLoc}</div>
+      <div style="margin-top:3px; font-size:12px; color:#1e40af;"><b>🕒 اسٹیشن ٹائم:</b> ${t.timing}</div>
+      <div style="margin-top:4px; font-size:12px; color:#b91c1c; font-weight:bold;">⏳ تاخیر (Delay): ${t.delay}</div>
+      <div style="margin-top:3px; font-size:12px; color:#047857; font-weight:bold;">📍 اس وقت کہاں ہے: ${t.liveLoc}</div>
     </div>
   `).join('') : '<p style="font-size:12px; color:#666; text-align:center;">اس نام سے کوئی ٹرین نہیں ملی۔</p>';
 };
@@ -448,10 +447,10 @@ window.refreshTrainStatus = function() {
     let rand = Math.floor(Math.random() * 3);
     if(rand === 0) t.delay = "آن ٹائم (بالکل درست وقت پر)";
     else if(rand === 1) t.delay = "15 منٹ تاخیر کا شکار";
-    else t.delay = "35 منٹ تاخیر کا شکار";
+    else t.delay = "40 منٹ تاخیر کا شکار";
   });
   filterTrains();
-  alert("🔄 ٹرینوں کا لائیو ڈیٹا اور تاخیر کا اسٹیٹس کامیابی سے اپڈیٹ ہو گیا ہے!");
+  alert("🔄 ٹرینوں کا لائیو اسٹیٹس اور اپ/ڈاون ڈیٹا کامیابی سے اپڈیٹ ہو گیا ہے!");
 };
 
 let fare = 300;
