@@ -36,23 +36,19 @@
   .hidden { display: none !important; }
   .badge { display: inline-block; padding: 3px 8px; border-radius: 12px; font-size: 11px; font-weight: bold; color: white; background: #16a34a; }
 
-  /* گاڑیوں کے فلٹر بٹنز کا اسٹائل */
   .vehicle-filter-bar { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
   .v-filter-btn { flex: 1 1 auto; padding: 8px 10px; border: 1px solid #16a34a; background: #fff; color: #16a34a; border-radius: 8px; font-size: 12px; font-weight: bold; cursor: pointer; transition: 0.2s; text-align: center; }
   .v-filter-btn.active { background: #16a34a; color: #fff; box-shadow: 0 2px 6px rgba(22, 163, 74, 0.3); }
 
-  /* لائیو نوٹیفکیشن بینر */
   .live-alert-banner { position: fixed; top: 15px; left: 50%; transform: translateX(-50%); width: 92%; max-width: 500px; background: #064e3b; color: white; border: 2px solid #34d399; border-radius: 12px; padding: 14px; z-index: 9999; box-shadow: 0 10px 25px rgba(0,0,0,0.4); animation: slideDown 0.4s ease; }
   @keyframes slideDown { from { top: -100px; opacity: 0; } to { top: 15px; opacity: 1; } }
 
-  /* واٹس ایپ براڈکاسٹ موڈل */
   .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 9998; display: flex; align-items: center; justify-content: center; padding: 15px; }
   .modal-box { background: #fff; border-radius: 12px; padding: 18px; width: 100%; max-width: 450px; max-height: 80vh; overflow-y: auto; box-shadow: 0 5px 20px rgba(0,0,0,0.3); }
 </style>
 </head>
 <body>
 
-<!-- لائیو نوٹیفکیشن بینر -->
 <div id="liveAlertBanner" class="live-alert-banner hidden">
   <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
     <strong id="alertTitle" style="font-size:15px; color:#6ee7b7;">🔔 نیا پیغام!</strong>
@@ -62,7 +58,6 @@
   <button id="alertWaBtn" class="btn btn-whatsapp" style="margin-top:0; padding:8px; font-size:13px;">💬 واٹس ایپ پر فوری جواب دیں</button>
 </div>
 
-<!-- واٹس ایپ براڈکاسٹ موڈل -->
 <div id="broadcastModal" class="modal-overlay hidden">
   <div class="modal-box">
     <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #eee; padding-bottom:10px; margin-bottom:10px;">
@@ -283,7 +278,6 @@
       
       <div style="display:flex; gap:8px; margin-bottom:10px;">
         <input type="text" id="trainSearchInput" onkeyup="filterTrains()" placeholder="🔍 ٹرین تلاش کریں (مثال: بلھے شاہ، فرید)..." style="margin-top:0;">
-        <button onclick="refreshTrainStatus()" class="btn btn-train" style="margin-top:0; width:auto; padding:10px 14px; white-space:nowrap;">🔄 لائیو اسٹیٹس ریفریش</button>
       </div>
 
       <div id="trainScheduleList" style="margin-top:12px;"></div>
@@ -308,6 +302,15 @@
     <div id="adminContent" class="hidden">
       <div style="text-align: left; margin-bottom: 10px;">
         <button onclick="adminLogout()" class="btn btn-red" style="padding: 6px 12px; font-size: 12px; width: auto;">🔒 ایڈمن لاگ آؤٹ کریں</button>
+      </div>
+
+      <!-- ایڈمن ٹرین مینجمنٹ سیکشن -->
+      <div class="box">
+        <div class="box-title" onclick="toggleAdminSection('secTrainAdmin')">🚆 ٹرینوں کا لائیو اسٹیٹس اور ٹائم مینج کریں <span style="font-size: 12px; color: #16a34a;">(کلک کریں 🔽)</span></div>
+        <div id="secTrainAdmin" class="collapsible-content hidden">
+          <p style="font-size:12px; color:#555; margin-bottom:10px;">یہاں سے آپ کسی بھی ٹرین کا موجودہ مقام اور تاخیر کا اسٹیٹس تبدیل کر سکتے ہیں جو فلاً تمام مسافروں اور ڈرائیورز کو نظر آئے گا:</p>
+          <div id="adminTrainList"></div>
+        </div>
       </div>
 
       <div class="box">
@@ -398,27 +401,39 @@ function populateLocationsDatalist() {
 }
 populateLocationsDatalist();
 
-// --- پاک ریلوے ٹرین شیڈول (درست شدہ بلھے شاہ ایکسپریس اور لائیو اسٹیٹس) ---
-const pakistanTrains = [
+// --- ٹرین ڈیٹا کو Firebase پر سنک کرنا یا لوکل سے چلانا ---
+let globalTrainsData = [
   { code: "BULLEH-UP", name: "بلھے شاہ ایکسپریس (UP - لاہور سے پاکپتن)", route: "لاہور ➔ قصور ➔ بصیرپور ➔ حویلی لکھا ➔ پاکپتن", timing: "بصیرپور آمد: 10:15 AM", delay: "آن ٹائم (روشن رفتار)", liveLoc: "اس وقت قصور اور بصیرپور کے درمیان رواں دواں ہے" },
   { code: "BULLEH-DN", name: "بلھے شاہ ایکسپریس (DN - پاکپتن سے لاہور)", route: "پاکپتن ➔ حویلی لکھا ➔ بصیرپور ➔ قصور ➔ لاہور", timing: "بصیرپور آمد: 03:45 PM", delay: "10 منٹ تاخیر", liveLoc: "اس وقت پاکپتن اسٹیشن پر موجود ہے" },
-  
   { code: "37-UP", name: "فرید ایکسپریس (UP - لاہور سے کراچی)", route: "لاہور ➔ قصور ➔ بصیرپور ➔ حویلی لکھا ➔ پاکپتن ➔ ملتان ➔ کراچی", timing: "بصیرپور آمد: 09:45 PM", delay: "آن ٹائم", liveLoc: "قصور جنکشن کراس کر چکی ہے" },
   { code: "38-DN", name: "فرید ایکسپریس (DN - کراچی سے لاہور)", route: "کراچی ➔ ملتان ➔ پاکپتن ➔ حویلی لکھا ➔ بصیرپور ➔ قصور ➔ لاہور", timing: "بصیرپور آمد: 04:15 AM", delay: "15 منٹ تاخیر", liveLoc: "پاکپتن اور حویلی لکھا کے درمیان ہے" },
-
   { code: "33-UP", name: "پاک بزنس ایکسپریس (UP - لاہور تا کراچی)", route: "لاہور ➔ ساہیوال ➔ ملتان ➔ روہڑی ➔ کراچی", timing: "ساہیوال آمد: 07:45 AM", delay: "آن ٹائم", liveLoc: "ساہیوال اسٹیشن پر رکی ہوئی ہے" },
   { code: "34-DN", name: "پاک بزنس ایکسپریس (DN - کراچی تا لاہور)", route: "کراچی ➔ ملتان ➔ ساہیوال ➔ لاہور", timing: "ساہیوال آمد: 06:15 PM", delay: "20 منٹ تاخیر", liveLoc: "ملتان اور ساہیوال کے درمیان ہے" },
-
   { code: "7-UP", name: "تیزگام ایکسپریس (UP - راولپنڈی تا کراچی)", route: "راولپنڈی ➔ لاہور ➔ اوکاڑہ ➔ ساہیوال ➔ ملتان ➔ کراچی", timing: "اوکاڑہ آمد: 10:30 AM", delay: "آن ٹائم", liveLoc: "اوکاڑہ جنکشن سے گزر رہی ہے" },
   { code: "8-DN", name: "تیزگام ایکسپریس (DN - کراچی تا راولپنڈی)", route: "کراچی ➔ ملتان ➔ ساہیوال ➔ اوکاڑہ ➔ لاہور ➔ راولپنڈی", timing: "اوکاڑہ آمد: 04:10 PM", delay: "30 منٹ تاخیر", liveLoc: "ساہیوال اسٹیشن کراس کر چکی ہے" }
 ];
 
-window.filterTrains = function() {
+// Firebase سے ٹرینوں کا ڈیٹا لسن کرنا
+onValue(ref(db, 'trainsStatus'), snap => {
+  const serverData = snap.val();
+  if (serverData) {
+    globalTrainsData = Object.values(serverData);
+  } else {
+    // اگر فائر بیس پر نہ ہو تو ڈیفॉल्ट سیٹ کر دیں
+    globalTrainsData.forEach(t => {
+      set(ref(db, 'trainsStatus/' + t.code.replace(/[^a-zA-Z0-9]/g, '_')), t);
+    });
+  }
+  renderTrainsUI();
+  renderAdminTrainsUI();
+});
+
+function renderTrainsUI() {
   const query = (document.getElementById('trainSearchInput')?.value || '').toLowerCase().trim();
   const container = document.getElementById('trainScheduleList');
   if (!container) return;
 
-  const filtered = pakistanTrains.filter(t => 
+  const filtered = globalTrainsData.filter(t => 
     t.name.toLowerCase().includes(query) || 
     t.route.toLowerCase().includes(query) || 
     t.code.toLowerCase().includes(query)
@@ -436,26 +451,61 @@ window.filterTrains = function() {
       <div style="margin-top:3px; font-size:12px; color:#047857; font-weight:bold;">📍 موجودہ لوکیشن: ${t.liveLoc}</div>
     </div>
   `).join('') : '<p style="font-size:12px; color:#666; text-align:center;">اس نام سے کوئی ٹرین نہیں ملی۔</p>';
-};
+}
 
-window.refreshTrainStatus = function() {
-  pakistanTrains.forEach(t => {
-    let rand = Math.floor(Math.random() * 3);
-    if(rand === 0) t.delay = "آن ٹائم (بالکل درست وقت پر)";
-    else if(rand === 1) t.delay = "15 منٹ تاخیر کا شکار";
-    else t.delay = "30 منٹ تاخیر";
+function renderAdminTrainsUI() {
+  const adminContainer = document.getElementById('adminTrainList');
+  if (!adminContainer) return;
+
+  adminContainer.innerHTML = globalTrainsData.map(t => {
+    const key = t.code.replace(/[^a-zA-Z0-9]/g, '_');
+    return `
+      <div class="card" style="background:#f8fafc; border-right:4px solid #0f766e; margin-bottom:12px;">
+        <b style="color:#0f766e; font-size:14px;">🚆 ${t.name}</b>
+        
+        <label style="font-size:12px; margin-top:6px;">موجودہ لوکیشن (اسٹیشن یا مقام):</label>
+        <input type="text" id="adminLiveLoc_${key}" value="${t.liveLoc}" style="padding:8px; font-size:13px;">
+
+        <label style="font-size:12px; margin-top:6px;">اسٹیٹس / تاخیر (Delay):</label>
+        <input type="text" id="adminDelay_${key}" value="${t.delay}" style="padding:8px; font-size:13px;">
+
+        <label style="font-size:12px; margin-top:6px;">اسٹیشن کا مقررہ وقت (Timing):</label>
+        <input type="text" id="adminTiming_${key}" value="${t.timing}" style="padding:8px; font-size:13px;">
+
+        <button onclick="updateTrainByAdmin('${key}', '${t.code}', '${t.name}', '${t.route}')" class="btn btn-train" style="padding:8px; font-size:13px; margin-top:8px;">💾 لائیو اسٹیٹس اپڈیٹ کریں</button>
+      </div>
+    `;
+  }).join('');
+}
+
+window.updateTrainByAdmin = function(key, code, name, route) {
+  const liveLoc = document.getElementById(`adminLiveLoc_${key}`).value.trim();
+  const delay = document.getElementById(`adminDelay_${key}`).value.trim();
+  const timing = document.getElementById(`adminTiming_${key}`).value.trim();
+
+  if(!liveLoc || !delay || !timing) {
+    alert('براہ کرم تمام فیلڈز پر کچھ نہ کچھ درج کریں!');
+    return;
+  }
+
+  set(ref(db, 'trainsStatus/' + key), {
+    code, name, route, timing, delay, liveLoc
+  }).then(() => {
+    alert(`✅ ٹرین (${name}) کا لائیو اسٹیٹس کامیابی سے اپڈیٹ کر دیا گیا ہے! اب یہ مسافروں اور ڈرائیورز کو نظر آئے گا۔`);
+  }).catch(err => {
+    alert('❌ خامی پیش آئی: ' + err.message);
   });
-  filterTrains();
-  alert("🔄 ٹرینوں کا لائیو اسٹیٹس کامیابی سے اپڈیٹ کر دیا گیا ہے!");
 };
 
-// پلے اسٹور ایپ بغیر سائن ان کے کھولنے کے لیے انٹینٹ / ڈائریکٹ لنک
+window.filterTrains = function() {
+  renderTrainsUI();
+};
+
 window.openPlayStoreApp = function() {
   const pkg = "com.apps.tmt";
   const intentUrl = `intent://details?id=${pkg}#Intent;package=com.android.vending;scheme=market;end;`;
   const webUrl = `https://play.google.com/store/apps/details?id=${pkg}`;
 
-  // موبائل پر پلے اسٹور ایپ ڈائریکٹ کھولنے کی کوشش
   const win = window.open(intentUrl, '_blank', 'noopener,noreferrer');
   setTimeout(() => {
     if (!win || win.closed || typeof win.closed === 'undefined') {
@@ -485,7 +535,7 @@ window.switchTab = function(tabId) {
   if(tabId==='driverTab') buttons[1].classList.add('active'); 
   if(tabId==='trainTab') {
     buttons[2].classList.add('active');
-    filterTrains();
+    renderTrainsUI();
   }
   if(tabId==='adminTab') buttons[3].classList.add('active');
   
@@ -495,7 +545,7 @@ window.switchTab = function(tabId) {
 }
 
 window.toggleAdminSection = function(id) {
-  const sections = ['secPassengers', 'secDrivers', 'secRidesOffers', 'secBlocked'];
+  const sections = ['secTrainAdmin', 'secPassengers', 'secDrivers', 'secRidesOffers', 'secBlocked'];
   sections.forEach(secId => {
     const el = document.getElementById(secId);
     if(el) {
@@ -566,7 +616,6 @@ window.closeBroadcastModal = function() {
   document.getElementById('broadcastModal').classList.add('hidden');
 };
 
-// واٹس ایپ فنکشن جو بیک بٹن دبانے پر CCab ایپ کو برقرار رکھتا ہے
 window.openWhatsApp = function(phone, text) {
   var cleanPhone = phone.replace(/[^0-9]/g, ''); 
   if(cleanPhone.startsWith('0')) cleanPhone = '92' + cleanPhone.substring(1);
@@ -591,7 +640,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }).addTo(map);
   }
 
-  filterTrains();
   checkPassengerSession();
   checkDriverSession();
   
@@ -992,7 +1040,7 @@ if(btnBook) {
 
     const snap = await get(ref(db, 'passengers/' + phone));
     if(!snap.exists()) { resetPassengerSession(); return; }
-    if(isBlocked(phone)){ alert('🚫 آپ کو بلاک कर दिया گیا ہے'); return; }
+    if(isBlocked(phone)){ alert('🚫 آپ کو بلاک کیا گیا ہے'); return; }
 
     const name = document.getElementById('pname').value.trim() || 'پسنجر';
     const vType = document.getElementById('pVehicleType').value;
@@ -1289,7 +1337,7 @@ window.cancelMyRide = function(id) {
 };
 
 window.blockUser = function(phone, type){ 
-  if(confirm(phone + ' کو بلاک کرنا چاہتے ہیں؟')){ 
+  if(confirm(phone + ' کو بلاک کرنا चाहते ہیں؟')){ 
     set(ref(db,'blocked/'+phone),{phone, type, blocked:true, time:Date.now()}); 
     update(ref(db,'drivers/'+phone),{online:false}); 
     update(ref(db,'passengers/'+phone),{online:false}); 
