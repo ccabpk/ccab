@@ -102,7 +102,7 @@
 
     <div class="box" style="text-align: center; background: #f0fdf4;">
       <div class="box-title" style="justify-content: flex-start;">💬 واٹس ایپ سپورٹ اور ٹرین اپڈیٹ</div>
-      <p style="font-size: 13px; margin-bottom: 8px; color: #166534;">ریلوے اسٹیشن پک اینڈ ڈراپ کیلئے بلھے شاہ اور فرید ایکسپریس کی لائیو تاخیر چیک کریں</p>
+      <p style="font-size: 13px; margin-bottom: 8px; color: #166534;">ریلوے اسٹیشن پک اینڈ ڈراپ کیلئے بلھے شاہ اور فرید ایکسپریس کی لائیو لوکیشن چیک کریں</p>
       <div style="display:flex; gap:8px;">
         <button onclick="openWhatsApp('03422477885', 'سلام! مجھے CCab کے متعلق معلومات درکار ہیں۔')" class="btn btn-whatsapp" style="margin-top:0; font-size:13px;">📱 واٹس ایپ سپورٹ</button>
         <button onclick="switchTab('trainTab')" class="btn btn-train" style="margin-top:0; font-size:13px;">🚆 ٹرین لائیو ٹریک کریں</button>
@@ -198,7 +198,7 @@
   <div id="driverTab" class="hidden">
     <div class="box" style="text-align: center; background: #f0fdf4;">
       <div class="box-title" style="justify-content: flex-start;">💬 واٹس ایپ سپورٹ اور ٹرین شیڈول</div>
-      <p style="font-size: 13px; margin-bottom: 8px; color: #166534;">ریلوے اسٹیشن پر مسافروں کی آمد کا وقت جاننے کے لیے ٹرین کی لائیو تاخیر چیک کریں</p>
+      <p style="font-size: 13px; margin-bottom: 8px; color: #166534;">ریلوے اسٹیشن پر مسافروں کی آمد کا وقت جاننے کے لیے ٹرین کی لائیو لوکیشن چیک کریں</p>
       <div style="display:flex; gap:8px;">
         <button onclick="openWhatsApp('03422477885', 'سلام! بطور ڈرائیور مجھے CCab کے متعلق معلومات درکار ہیں۔')" class="btn btn-whatsapp" style="margin-top:0; font-size:13px;">📱 واٹس ایپ سپورٹ</button>
         <button onclick="switchTab('trainTab')" class="btn btn-train" style="margin-top:0; font-size:13px;">🚆 ٹرین ٹریک کریں</button>
@@ -208,7 +208,7 @@
     <div class="box" id="driverSwitchBox">
       <div class="box-title" style="justify-content: flex-start;">🚗 ڈرائیور آن لائن / آف لائن سوئچ</div>
       <p style="font-size:12px; color:#555; margin-bottom:8px;">صرف وہی ڈرائیور آن لائن ہو سکتا ہے جس کا اکاؤنٹ اس موبائل میں رجسٹرڈ ہو۔</p>
-      <label>موبایل / WhatsApp نمبر *</label>
+      <label>موبائل / WhatsApp نمبر *</label>
       <input type="tel" id="dphone" placeholder="03001234567">
       
       <div style="display:flex; gap:10px; margin-top:10px;">
@@ -221,7 +221,7 @@
     <div class="box" id="driverRegBox">
       <div class="box-title" style="justify-content: flex-start;">📝 نیا ڈرائیور اکاؤنٹ بنائیں</div>
       <label>ڈرائیور کا نام *</label><input type="text" id="dname" placeholder="محمد علی">
-      <label>موبایل / WhatsApp نمبر *</label><input type="tel" id="dphoneReg" placeholder="03001234567">
+      <label>موبائل / WhatsApp نمبر *</label><input type="tel" id="dphoneReg" placeholder="03001234567">
       <label>لائسنس نمبر *</label><input type="text" id="dlicense" placeholder="DL-98765">
       <label>گاڑی نمبر *</label><input type="text" id="dvehicle" placeholder="LEB-5678">
       <label>گاڑی کی قسم *</label>
@@ -264,29 +264,29 @@
     </div>
   </div>
 
-  <!-- ٹرین ٹریکنگ ٹیب (Track My Train - UP / DN Separated) -->
+  <!-- ٹرین ٹریکنگ ٹیب (Track My Train - Live App & UP/DN Schedule) -->
   <div id="trainTab" class="hidden">
     <div class="banner-card" style="background: linear-gradient(135deg, #0f766e, #115e59);">
-      <h2>🚆 Track My Train - پاک ریلوے لائیو اسٹیٹس (UP & DN)</h2>
-      <p>بلھے شاہ، فرید اور دیگر ایکسپریس ٹرینوں کے اپ (UP) اور ڈاؤن (DN) روٹس اور لائیو پوزیشن</p>
+      <h2>🚆 Track My Train - پاک ریلوے لائیو لوکیشن</h2>
+      <p>بلھے شاہ، فرید اور دیگر ایکسپریس ٹرینوں کی لائیو لوکیشن اور اپ (UP) / ڈاؤن (DN) شیڈول</p>
+    </div>
+
+    <div class="box" style="background:#f0fdfa; border:2px solid #0f766e; text-align:center;">
+      <div class="box-title" style="border-right-color: #0f766e; justify-content:center;">📱 آفیشل Track My Train ایپ سے لائیو لوکیشن دیکھیں</div>
+      <p style="font-size:13px; color:#115e59; margin-bottom:10px;">ٹرین کی درست اور ریئل ٹائم (Live GPS) لوکیشن دیکھنے کے لیے نیچے دیے گئے بٹن پر کلک کر کے ایپ کھولیں یا پلے اسٹور سے ڈاؤن لوڈ کریں:</p>
+      <a href="https://play.google.com/store/apps/details?id=com.apps.tmt" target="_blank" rel="noopener noreferrer" class="btn btn-train" style="font-size:15px; box-shadow:0 4px 10px rgba(15,118,110,0.3);">🚆 Track My Train ایپ کھولیں / ڈاؤن لوڈ کریں</a>
     </div>
 
     <div class="box">
-      <div class="box-title" style="border-right-color: #0f766e;">📍 ٹرین سرچ اور لائیو اسٹیٹس (UP / DN)</div>
-      <p style="font-size:12px; color:#555; margin-bottom:8px;">ٹرین کا نام درج کریں یا لائیو اسٹیٹس ریفریش کریں:</p>
+      <div class="box-title" style="border-right-color: #0f766e;">📍 ٹرین سرچ اور ٹائم ٹیبل (UP / DN)</div>
+      <p style="font-size:12px; color:#555; margin-bottom:8px;">ٹرین کا نام درج کریں یا شیڈول چیک کریں:</p>
       
       <div style="display:flex; gap:8px; margin-bottom:10px;">
         <input type="text" id="trainSearchInput" onkeyup="filterTrains()" placeholder="🔍 ٹرین تلاش کریں (مثال: بلھے شاہ، فرید)..." style="margin-top:0;">
-        <button onclick="refreshTrainStatus()" class="btn btn-train" style="margin-top:0; width:auto; padding:10px 14px; white-space:nowrap;">🔄 لائیو اسٹیٹس ریفریش</button>
+        <button onclick="refreshTrainStatus()" class="btn btn-train" style="margin-top:0; width:auto; padding:10px 14px; white-space:nowrap;">🔄 ریفریش</button>
       </div>
 
       <div id="trainScheduleList" style="margin-top:12px;"></div>
-    </div>
-
-    <div class="box">
-      <div class="box-title" style="border-right-color: #0f766e;">🌐 آفیشل پاک ریلوے پورٹل</div>
-      <p style="font-size:12px; color:#666; margin-bottom:6px;">براہِ راست پاکستان ریلوے لائیو ٹریکنگ دیکھنے کے لیے نیچے دیے گئے بٹن پر کلک کریں:</p>
-      <a href="https://www.pakrail.gov.pk/LiveTracking.aspx" target="_blank" class="btn btn-train" style="text-align:center;">🌐 پاک ریلوے آفیشل لائیو میپ کھولیں</a>
     </div>
   </div>
 
@@ -306,7 +306,6 @@
     </div>
 
     <div id="adminContent" class="hidden">
-      <!-- خوش آمدید والا اضافی فقرہ ہٹا دیا گیا ہے -->
       <div style="text-align: left; margin-bottom: 10px;">
         <button onclick="adminLogout()" class="btn btn-red" style="padding: 6px 12px; font-size: 12px; width: auto;">🔒 ایڈمن لاگ آؤٹ کریں</button>
       </div>
@@ -385,7 +384,7 @@ const locations = [
   "Chak Ibrahim چک ابراہیم", "Petrol Pump پٹرول پمپ", "Khole Mureed کھولے مرید", "Khole Jaimil کھولے جیمل", 
   "Sohag Pul سہاگ پل", "Chak Bota چک بوٹا", "Mahboob Shah محبوب شاہ", "Gilani Chowk گیلانی چوک", 
   "Mohalla Exchange ایکسچینج", "Depalpur دیپالپور", "Hujra Shah Muqaam حجرہ شاہ مقیم", 
-  "Haveli Lakha حویلی لکھا", "Okara اوکاڑہ", "Mandi Ahmad Abad منڈی احمد آباد", "Sahiwal سahiwal", 
+  "Haveli Lakha حویلی لکھا", "Okara اوکاڑہ", "Mandi Ahmad Abad منڈی احمد آباد", "Sahiwal ساہیوال", 
   "Kasur قصور", "Lahore لاہور"
 ];
 
@@ -401,20 +400,20 @@ populateLocationsDatalist();
 
 // --- پاک ریلوے ٹرین شیڈول (UP اور DN علیحدہ علیحدہ) ---
 const pakistanTrains = [
-  { code: "BULLEH-UP", name: "بلھے شاہ ایکسپریس (UP - قصور سے پاکپتن)", route: "قصور ➔ بصیرپور ➔ حویلی لکھا ➔ پاکپتن", timing: "بصیرپور آمد: 10:15 AM", delay: "25 منٹ تاخیر کا شکار", liveLoc: "حویلی لکھا اور بصیرپور کے درمیان رواں دواں ہے" },
-  { code: "BULLEH-DN", name: "بلھے شاہ ایکسپریس (DN - پاکپتن سے قصور)", route: "پاکپتن ➔ حویلی لکھا ➔ بصیرپور ➔ قصور", timing: "بصیرپور آمد: 03:45 PM", delay: "آن ٹائم (بالکل درست وقت پر)", liveLoc: "پاکپتن اسٹیشن سے روانہ ہو چکی ہے" },
+  { code: "BULLEH-UP", name: "بلھے شاہ ایکسپریس (UP - قصور سے پاکپتن)", route: "قصور ➔ بصیرپور ➔ حویلی لکھا ➔ پاکپتن", timing: "بصیرپور آمد: 10:15 AM", delay: "لائیو اسٹیٹس کے لیے اوپر Track My Train ایپ کھولیں" },
+  { code: "BULLEH-DN", name: "بلھے شاہ ایکسپریس (DN - پاکپتن سے قصور)", route: "پاکپتن ➔ حویلی لکھا ➔ بصیرپور ➔ قصور", timing: "بصیرپور آمد: 03:45 PM", delay: "لائیو اسٹیٹس کے لیے اوپر Track My Train ایپ کھولیں" },
   
-  { code: "37-UP", name: "فرید ایکسپریس (UP - لاہور سے کراچی)", route: "لاہور ➔ قصور ➔ بصیرپور ➔ حویلی لکھا ➔ پاکپتن ➔ ملتان ➔ کراچی", timing: "بصیرپور آمد: 09:45 PM", delay: "آن ٹائم (روشن رفتار)", liveLoc: "قصور جنکشن کراس کر چکی ہے" },
-  { code: "38-DN", name: "فرید ایکسپریس (DN - کراچی سے لاہور)", route: "کراچی ➔ ملتان ➔ پاکپتن ➔ حویلی لکھا ➔ بصیرپور ➔ قصور ➔ لاہور", timing: "بصیرپور آمد: 04:15 AM", delay: "15 منٹ تاخیر", liveLoc: "پاکپتن اور حویلی لکھا کے درمیان ہے" },
+  { code: "37-UP", name: "فرید ایکسپریس (UP - لاہور سے کراچی)", route: "لاہور ➔ قصور ➔ بصیرپور ➔ حویلی لکھا ➔ پاکپتن ➔ ملتان ➔ کراچی", timing: "بصیرپور آمد: 09:45 PM", delay: "لائیو اسٹیٹس کے لیے اوپر Track My Train ایپ کھولیں" },
+  { code: "38-DN", name: "فرید ایکسپریس (DN - کراچی سے لاہور)", route: "کراچی ➔ ملتان ➔ پاکپتن ➔ حویلی لکھا ➔ بصیرپور ➔ قصور ➔ لاہور", timing: "بصیرپور آمد: 04:15 AM", delay: "لائیو اسٹیٹس کے لیے اوپر Track My Train ایپ کھولیں" },
 
-  { code: "145-UP", name: "پاکپتن ایکسپریس (UP - سمہ سٹہ سے لاہور)", route: "سمہ سٹہ ➔ پاکپتن ➔ حویلی لکھا ➔ بصیرپور ➔ قصور ➔ لاہور", timing: "بصیرپور آمد: 07:30 AM", delay: "10 منٹ تاخیر", liveLoc: "حویلی لکھا اسٹیشن پر موجود ہے" },
-  { code: "146-DN", name: "پاکپتن ایکسپریس (DN - لاہور سے سمہ سٹہ)", route: "لاہور ➔ قصور ➔ بصیرپور ➔ حویلی لکھا ➔ پاکپتن ➔ سمہ سٹہ", timing: "بصیرپور آمد: 05:20 PM", delay: "آن ٹائم", liveLoc: "قصور سے روانگی کے لیے تیار ہے" },
+  { code: "145-UP", name: "پاکپتن ایکسپریس (UP - سمہ سٹہ سے لاہور)", route: "سمہ سٹہ ➔ پاکپتن ➔ حویلی لکھا ➔ بصیرپور ➔ قصور ➔ لاہور", timing: "بصیرپور آمد: 07:30 AM", delay: "لائیو اسٹیٹس کے لیے اوپر Track My Train ایپ کھولیں" },
+  { code: "146-DN", name: "پاکپتن ایکسپریس (DN - لاہور سے سمہ سٹہ)", route: "لاہور ➔ قصور ➔ بصیرپور ➔ حویلی لکھا ➔ پاکپتن ➔ سمہ سٹہ", timing: "بصیرپور آمد: 05:20 PM", delay: "لائیو اسٹیٹس کے لیے اوپر Track My Train ایپ کھولیں" },
 
-  { code: "33-UP", name: "پاک بزنس ایکسپریس (UP - لاہور تا کراچی)", route: "لاہور ➔ ساہیوال ➔ ملتان ➔ روہڑی ➔ کراچی", timing: "ساہیوال آمد: 07:45 AM", delay: "آن ٹائم", liveLoc: "ساہیوال اسٹیشن پر رکی ہوئی ہے" },
-  { code: "34-DN", name: "پاک بزنس ایکسپریس (DN - کراچی تا لاہور)", route: "کراچی ➔ ملتان ➔ ساہیوال ➔ لاہور", timing: "ساہیوال آمد: 06:15 PM", delay: "20 منٹ تاخیر", liveLoc: "ملتان اور ساہیوال کے درمیان ہے" },
+  { code: "33-UP", name: "پاک بزنس ایکسپریس (UP - لاہور تا کراچی)", route: "لاہور ➔ ساہیوال ➔ ملتان ➔ روہڑی ➔ کراچی", timing: "ساہیوال آمد: 07:45 AM", delay: "لائیو اسٹیٹس کے لیے اوپر Track My Train ایپ کھولیں" },
+  { code: "34-DN", name: "پاک بزنس ایکسپریس (DN - کراچی تا لاہور)", route: "کراچی ➔ ملتان ➔ ساہیوال ➔ لاہور", timing: "ساہیوال آمد: 06:15 PM", delay: "لائیو اسٹیٹس کے لیے اوپر Track My Train ایپ کھولیں" },
 
-  { code: "7-UP", name: "تیزگام ایکسپریس (UP - راولپنڈی تا کراچی)", route: "راولپنڈی ➔ لاہور ➔ اوکاڑہ ➔ ساہیوال ➔ ملتان ➔ کراچی", timing: "اوکاڑہ آمد: 10:30 AM", delay: "آن ٹائم", liveLoc: "اوکاڑہ جنکشن سے گزر رہی ہے" },
-  { code: "8-DN", name: "تیزگام ایکسپریس (DN - کراچی تا راولپنڈی)", route: "کراچی ➔ ملتان ➔ ساہیوال ➔ اوکاڑہ ➔ لاہور ➔ راولپنڈی", timing: "اوکاڑہ آمد: 04:10 PM", delay: "30 منٹ تاخیر کا شکار", liveLoc: "ساہیوال اسٹیشن کراس کر چکی ہے" }
+  { code: "7-UP", name: "تیزگام ایکسپریس (UP - راولپنڈی تا کراچی)", route: "راولپنڈی ➔ لاہور ➔ اوکاڑہ ➔ ساہیوال ➔ ملتان ➔ کراچی", timing: "اوکاڑہ آمد: 10:30 AM", delay: "لائیو اسٹیٹس کے لیے اوپر Track My Train ایپ کھولیں" },
+  { code: "8-DN", name: "تیزگام ایکسپریس (DN - کراچی تا راولپنڈی)", route: "کراچی ➔ ملتان ➔ ساہیوال ➔ اوکاڑہ ➔ لاہور ➔ راولپنڈی", timing: "اوکاڑہ آمد: 04:10 PM", delay: "لائیو اسٹیٹس کے لیے اوپر Track My Train ایپ کھولیں" }
 ];
 
 window.filterTrains = function() {
@@ -436,21 +435,14 @@ window.filterTrains = function() {
       </div>
       <div style="margin-top:5px; font-size:12px;"><b>روٹ:</b> ${t.route}</div>
       <div style="margin-top:3px; font-size:12px; color:#1e40af;"><b>🕒 اسٹیشن ٹائم:</b> ${t.timing}</div>
-      <div style="margin-top:4px; font-size:12px; color:#b91c1c; font-weight:bold;">⏳ تاخیر (Delay): ${t.delay}</div>
-      <div style="margin-top:3px; font-size:12px; color:#047857; font-weight:bold;">📍 اس وقت کہاں ہے: ${t.liveLoc}</div>
+      <div style="margin-top:4px; font-size:12px; color:#047857; font-weight:bold;">📍 ${t.delay}</div>
     </div>
   `).join('') : '<p style="font-size:12px; color:#666; text-align:center;">اس نام سے کوئی ٹرین نہیں ملی۔</p>';
 };
 
 window.refreshTrainStatus = function() {
-  pakistanTrains.forEach(t => {
-    let rand = Math.floor(Math.random() * 3);
-    if(rand === 0) t.delay = "آن ٹائم (بالکل درست وقت پر)";
-    else if(rand === 1) t.delay = "15 منٹ تاخیر کا شکار";
-    else t.delay = "40 منٹ تاخیر کا شکار";
-  });
   filterTrains();
-  alert("🔄 ٹرینوں کا لائیو اسٹیٹس اور اپ/ڈاون ڈیٹا کامیابی سے اپڈیٹ ہو گیا ہے!");
+  alert("🔄 شیڈول ریفریش ہو گیا ہے! درست لائیو لوکیشن کے لیے اوپر دیے گئے Track My Train ایپ بٹن پر کلک کریں۔");
 };
 
 let fare = 300;
@@ -555,20 +547,19 @@ window.closeBroadcastModal = function() {
   document.getElementById('broadcastModal').classList.add('hidden');
 };
 
+// واٹس ایپ فنکشن: نئی ونڈو/انٹینٹ میں کھولتا ہے تاکہ Back دبانے پر CCab App ہی سامنے رہے
 window.openWhatsApp = function(phone, text) {
   var cleanPhone = phone.replace(/[^0-9]/g, ''); 
   if(cleanPhone.startsWith('0')) cleanPhone = '92' + cleanPhone.substring(1);
   
   const encodedText = encodeURIComponent(text);
-  const directAppUrl = `whatsapp://send?phone=${cleanPhone}&text=${encodedText}`;
-  const fallbackWebUrl = `https://api.whatsapp.com/send?phone=${cleanPhone}&text=${encodedText}`;
-
-  window.location.href = directAppUrl;
-  setTimeout(() => {
-    if (!document.hidden) {
-      window.open(fallbackWebUrl, "_blank");
-    }
-  }, 1500);
+  const waWebUrl = `https://api.whatsapp.com/send?phone=${cleanPhone}&text=${encodedText}`;
+  
+  // _blank استعمال کرنے سے CCab ایپ بیک گراؤنڈ میں محفوظ رہتی ہے اور Back بٹن دبانے پر سیدھا CCab کھلتا ہے
+  const win = window.open(waWebUrl, '_blank', 'noopener,noreferrer');
+  if (!win) {
+    window.location.href = `whatsapp://send?phone=${cleanPhone}&text=${encodedText}`;
+  }
 };
 
 let map, marker, userLat, userLng;
