@@ -10,10 +10,10 @@
   body { background-color: #f4f6f9; color: #333; padding-bottom: 30px; }
   .header { background: linear-gradient(135deg, #052e16, #16a34a); color: white; padding: 15px 20px; display: flex; align-items: center; justify-content: space-between; gap: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.15); }
   .header-left { display: flex; align-items: center; gap: 12px; }
-  .logo-box { width: 55px; height: 55px; background: #ffffff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 18px; color: #16a34a; border: 3px solid #4ade80; box-shadow: 0 2px 6px rgba(0,0,0,0.2); }
+  .logo-box { width: 55px; height: 55px; background: #ffffff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 18px; color: #16a34a; border: 3px solid #4ade80; box-shadow: 0 2px 6px rgba(0,0,0,0.2); flex-shrink: 0; }
   .header-info h1 { font-size: 20px; color: #ffffff; margin-bottom: 2px; } 
   .header-info p { font-size: 12px; color: #dcfce7; }
-  .sos-btn { background: #dc2626; color: white; font-weight: 900; font-size: 14px; padding: 10px 16px; border-radius: 30px; border: 2px solid #f87171; cursor: pointer; box-shadow: 0 0 10px rgba(220, 38, 38, 0.6); animation: pulse 1.5s infinite; }
+  .sos-btn { background: #dc2626; color: white; font-weight: 900; font-size: 14px; padding: 10px 16px; border-radius: 30px; border: 2px solid #f87171; cursor: pointer; box-shadow: 0 0 10px rgba(220, 38, 38, 0.6); animation: pulse 1.5s infinite; flex-shrink: 0; }
   @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
   .banner-card { background: linear-gradient(135deg, #16a34a, #15803d); color: white; padding: 20px; border-radius: 12px; margin-bottom: 15px; text-align: center; box-shadow: 0 4px 12px rgba(22, 163, 74, 0.2); }
   .banner-card h2 { font-size: 22px; font-weight: 900; margin-bottom: 5px; } .banner-card p { font-size: 13px; opacity: 0.9; }
@@ -45,6 +45,13 @@
 
   .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 9998; display: flex; align-items: center; justify-content: center; padding: 15px; }
   .modal-box { background: #fff; border-radius: 12px; padding: 18px; width: 100%; max-width: 450px; max-height: 80vh; overflow-y: auto; box-shadow: 0 5px 20px rgba(0,0,0,0.3); }
+
+  /* کیمرہ اور ڈرائیور تصویر کے اسٹائلز */
+  .camera-box { background: #f0fdf4; border: 2px dashed #16a34a; border-radius: 10px; padding: 12px; text-align: center; margin-top: 10px; }
+  #driverVideo { width: 100%; max-width: 260px; border-radius: 10px; background: #000; transform: scaleX(-1); margin: 8px auto; display: block; }
+  #driverPhotoPreview { width: 130px; height: 130px; object-fit: cover; border-radius: 50%; border: 3px solid #16a34a; margin: 8px auto; display: block; box-shadow: 0 3px 8px rgba(0,0,0,0.15); }
+  .driver-avatar { width: 55px; height: 55px; border-radius: 50%; object-fit: cover; border: 2px solid #16a34a; flex-shrink: 0; background: #e2e8f0; }
+  .driver-card-flex { display: flex; align-items: center; gap: 10px; }
 </style>
 </head>
 <body>
@@ -226,11 +233,28 @@
         <option value="کار">🚗 کار (Mehran, Cultus, Corolla, etc.)</option>
         <option value="ٹرک">🚛 ٹرک / لوڈر / بس (Truck / Bus)</option>
       </select>
+
+      <!-- لائیو تصویر کیپچر سیکشن -->
+      <label>ڈرائیور کی لائیو تصویر / سیلفی *</label>
+      <div class="camera-box">
+        <p style="font-size:12px; color:#166534; margin-bottom:6px;">تصدیق کے لیے کیمرہ آن کریں اور اپنی واضح لائیو تصویر بنائیں:</p>
+        <video id="driverVideo" class="hidden" autoplay playsinline></video>
+        <canvas id="driverCanvas" class="hidden"></canvas>
+        <img id="driverPhotoPreview" class="hidden" alt="Driver Live Photo">
+        
+        <div style="display:flex; gap:8px; justify-content:center; flex-wrap:wrap;">
+          <button type="button" id="btnStartCamera" class="btn btn-blue" style="width:auto; padding:8px 14px; font-size:13px; margin-top:4px;">📷 کیمرہ آن کریں</button>
+          <button type="button" id="btnCapturePhoto" class="btn btn-green hidden" style="width:auto; padding:8px 14px; font-size:13px; margin-top:4px;">📸 تصویر کھینچیں</button>
+          <button type="button" id="btnRetakePhoto" class="btn btn-gray hidden" style="width:auto; padding:8px 14px; font-size:13px; margin-top:4px;">🔄 دوبارہ تصویر لیں</button>
+        </div>
+        <p id="cameraStatus" style="font-size:11px; color:#555; margin-top:6px;"></p>
+      </div>
       
-      <button class="btn btn-green" id="btnRegisterDriverDirect" style="margin-top: 12px;">✅ براہِ راست ڈرائیور رجسٹر ہوں</button>
+      <button class="btn btn-green" id="btnRegisterDriverDirect" style="margin-top: 14px;">✅ براہِ راست ڈرائیور رجسٹر ہوں</button>
     </div>
 
     <div class="box hidden" id="driverWelcomeBox" style="background: #f0fdf4; text-align: center; border-right: 4px solid #16a34a;">
+      <img id="driverWelcomePhoto" class="hidden" style="width:75px; height:75px; border-radius:50%; object-fit:cover; border:3px solid #16a34a; margin:0 auto 8px auto; display:block;" alt="Driver Photo">
       <p id="driverWelcomeMsg" style="font-weight: bold; color: #166534; font-size: 14px;"></p>
       <button onclick="resetDriverSession()" class="btn btn-gray" style="padding: 6px 12px; margin-top: 8px; font-size: 12px; width: auto;">🔄 پروفائل تبدیل کریں</button>
     </div>
@@ -259,7 +283,7 @@
     </div>
   </div>
 
-  <!-- ٹرین ٹریکنگ ٹیب (Track My Train - Live App & UP/DN Schedule) -->
+  <!-- ٹرین ٹریکنگ ٹیب -->
   <div id="trainTab" class="hidden">
     <div class="banner-card" style="background: linear-gradient(135deg, #0f766e, #115e59);">
       <h2>🚆 Track My Train - پاک ریلوے لائیو لوکیشن</h2>
@@ -268,7 +292,7 @@
 
     <div class="box" style="background:#f0fdfa; border:2px solid #0f766e; text-align:center;">
       <div class="box-title" style="border-right-color: #0f766e; justify-content:center;">📱 آفیشل Track My Train ایپ سے لائیو لوکیشن دیکھیں</div>
-      <p style="font-size:13px; color:#115e59; margin-bottom:10px;">ٹرین کی درست اور ریئل ٹائم (Live GPS) لوکیشن دیکھنے کے لیے نیچے دیے گئے بٹن پر کلک کریں (سائن ان کی ضرورت کے بغیر براہِ راست ایپ کھلے گی):</p>
+      <p style="font-size:13px; color:#115e59; margin-bottom:10px;">ٹرین کی درست اور ریئل ٹائم (Live GPS) لوکیشن دیکھنے کے لیے نیچے دیے گئے بٹن پر کلک کریں:</p>
       <button onclick="openPlayStoreApp()" class="btn btn-train" style="font-size:15px; box-shadow:0 4px 10px rgba(15,118,110,0.3);">🚆 Track My Train ایپ کھولیں</button>
     </div>
 
@@ -308,7 +332,7 @@
       <div class="box">
         <div class="box-title" onclick="toggleAdminSection('secTrainAdmin')">🚆 ٹرینوں کا لائیو اسٹیٹس اور ٹائم مینج کریں <span style="font-size: 12px; color: #16a34a;">(کلک کریں 🔽)</span></div>
         <div id="secTrainAdmin" class="collapsible-content hidden">
-          <p style="font-size:12px; color:#555; margin-bottom:10px;">یہاں سے آپ کسی بھی ٹرین کا موجودہ مقام اور تاخیر کا اسٹیٹس تبدیل کر سکتے ہیں جو فلاً تمام مسافروں اور ڈرائیورز کو نظر آئے گا:</p>
+          <p style="font-size:12px; color:#555; margin-bottom:10px;">یہاں سے آپ کسی بھی ٹرین کا موجودہ مقام اور تاخیر کا اسٹیٹس تبدیل کر سکتے ہیں:</p>
           <div id="adminTrainList"></div>
         </div>
       </div>
@@ -371,6 +395,7 @@ const db = getDatabase(app);
 const SECURE_ADMIN_USER = "azam85";
 const SECURE_ADMIN_PASS = "ccab6974";
 const appLoadTime = Date.now();
+const DEFAULT_AVATAR = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 24 24' fill='%2316a34a'><circle cx='12' cy='8' r='4'/><path d='M4 20c0-4 4-6 8-6s8 2 8 6'/></svg>";
 
 const locations = [
   "Basirpur بصیرپور", "Faisalabad فیصل آباد", "Multan ملتان", "Gujranwala گوجرانوالہ", 
@@ -401,7 +426,100 @@ function populateLocationsDatalist() {
 }
 populateLocationsDatalist();
 
-// --- ٹرین ڈیٹا کو Firebase پر سنک کرنا یا لوکل سے چلانا ---
+// --- لائیو کیمرہ منطق (Driver Live Camera Logic) ---
+let cameraStream = null;
+let capturedDriverPhotoBase64 = "";
+
+function stopCameraStream() {
+  if (cameraStream) {
+    cameraStream.getTracks().forEach(track => track.stop());
+    cameraStream = null;
+  }
+}
+
+const btnStartCamera = document.getElementById('btnStartCamera');
+const btnCapturePhoto = document.getElementById('btnCapturePhoto');
+const btnRetakePhoto = document.getElementById('btnRetakePhoto');
+const driverVideo = document.getElementById('driverVideo');
+const driverCanvas = document.getElementById('driverCanvas');
+const driverPhotoPreview = document.getElementById('driverPhotoPreview');
+const cameraStatus = document.getElementById('cameraStatus');
+
+async function startDriverCamera() {
+  if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+    cameraStatus.innerText = "❌ آپ کا براؤزر کیمرے کو سپورٹ نہیں کرتا۔";
+    cameraStatus.style.color = "red";
+    return;
+  }
+  try {
+    stopCameraStream();
+    cameraStatus.innerText = "⏳ کیمرہ آن ہو رہا ہے، اجازت (Allow) دیں...";
+    cameraStatus.style.color = "#166534";
+
+    cameraStream = await navigator.mediaDevices.getUserMedia({
+      video: { facingMode: "user", width: { ideal: 480 }, height: { ideal: 480 } },
+      audio: false
+    });
+
+    driverVideo.srcObject = cameraStream;
+    driverVideo.classList.remove('hidden');
+    driverPhotoPreview.classList.add('hidden');
+    btnStartCamera.classList.add('hidden');
+    btnRetakePhoto.classList.add('hidden');
+    btnCapturePhoto.classList.remove('hidden');
+    cameraStatus.innerText = "📷 کیمرہ آن ہے! چہرہ سامنے رکھ کر 'تصویر کھینچیں' دبائیں۔";
+  } catch (err) {
+    cameraStatus.innerText = "❌ کیمرہ آن نہیں ہو سکا۔ براہ کرم کیمرے کی اجازت دیں۔";
+    cameraStatus.style.color = "red";
+  }
+}
+
+if (btnStartCamera) {
+  btnStartCamera.addEventListener('click', startDriverCamera);
+}
+
+if (btnCapturePhoto) {
+  btnCapturePhoto.addEventListener('click', () => {
+    if (!driverVideo.videoWidth) return;
+    // تصویر کو کمپریس کرنے کے لیے 240x240 سائز رکھیں
+    const size = 240;
+    driverCanvas.width = size;
+    driverCanvas.height = size;
+    const ctx = driverCanvas.getContext('2d');
+
+    const vw = driverVideo.videoWidth;
+    const vh = driverVideo.videoHeight;
+    const minSide = Math.min(vw, vh);
+    const sx = (vw - minSide) / 2;
+    const sy = (vh - minSide) / 2;
+
+    // سیلفی مرر سیدھا کرنے کے لیے فلپ کریں
+    ctx.translate(size, 0);
+    ctx.scale(-1, 1);
+    ctx.drawImage(driverVideo, sx, sy, minSide, minSide, 0, 0, size, size);
+
+    capturedDriverPhotoBase64 = driverCanvas.toDataURL('image/jpeg', 0.65);
+
+    stopCameraStream();
+    driverVideo.classList.add('hidden');
+    driverPhotoPreview.src = capturedDriverPhotoBase64;
+    driverPhotoPreview.classList.remove('hidden');
+
+    btnCapturePhoto.classList.add('hidden');
+    btnRetakePhoto.classList.remove('hidden');
+    cameraStatus.innerText = "✅ لائیو تصویر محفوظ ہو گئی ہے!";
+    cameraStatus.style.color = "#16a34a";
+  });
+}
+
+if (btnRetakePhoto) {
+  btnRetakePhoto.addEventListener('click', () => {
+    capturedDriverPhotoBase64 = "";
+    startDriverCamera();
+  });
+}
+
+// --- ٹرین ڈیٹا ---
 let globalTrainsData = [
   { code: "BULLEH-UP", name: "بلھے شاہ ایکسپریس (UP - لاہور سے پاکپتن)", route: "لاہور ➔ قصور ➔ بصیرپور ➔ حویلی لکھا ➔ پاکپتن", timing: "بصیرپور آمد: 10:15 AM", delay: "آن ٹائم (روشن رفتار)", liveLoc: "اس وقت قصور اور بصیرپور کے درمیان رواں دواں ہے" },
   { code: "BULLEH-DN", name: "بلھے شاہ ایکسپریس (DN - پاکپتن سے لاہور)", route: "پاکپتن ➔ حویلی لکھا ➔ بصیرپور ➔ قصور ➔ لاہور", timing: "بصیرپور آمد: 03:45 PM", delay: "10 منٹ تاخیر", liveLoc: "اس وقت پاکپتن اسٹیشن پر موجود ہے" },
@@ -413,13 +531,12 @@ let globalTrainsData = [
   { code: "8-DN", name: "تیزگام ایکسپریس (DN - کراچی تا راولپنڈی)", route: "کراچی ➔ ملتان ➔ ساہیوال ➔ اوکاڑہ ➔ لاہور ➔ راولپنڈی", timing: "اوکاڑہ آمد: 04:10 PM", delay: "30 منٹ تاخیر", liveLoc: "ساہیوال اسٹیشن کراس کر چکی ہے" }
 ];
 
-// Firebase سے ٹرینوں کا ڈیٹا لسن کرنا
 onValue(ref(db, 'trainsStatus'), snap => {
   const serverData = snap.val();
   if (serverData) {
     globalTrainsData = Object.values(serverData);
   } else {
-    // اگر فائر بیس پر نہ ہو تو ڈیفॉल्ट سیٹ کر دیں
+    // اگر فائر بیس پر ڈیٹا موجود نہ ہو تو ڈیفالٹ سیٹ کر دیں
     globalTrainsData.forEach(t => {
       set(ref(db, 'trainsStatus/' + t.code.replace(/[^a-zA-Z0-9]/g, '_')), t);
     });
@@ -472,13 +589,16 @@ function renderAdminTrainsUI() {
         <label style="font-size:12px; margin-top:6px;">اسٹیشن کا مقررہ وقت (Timing):</label>
         <input type="text" id="adminTiming_${key}" value="${t.timing}" style="padding:8px; font-size:13px;">
 
-        <button onclick="updateTrainByAdmin('${key}', '${t.code}', '${t.name}', '${t.route}')" class="btn btn-train" style="padding:8px; font-size:13px; margin-top:8px;">💾 لائیو اسٹیٹس اپڈیٹ کریں</button>
+        <button onclick="updateTrainByAdmin('${key}')" class="btn btn-train" style="padding:8px; font-size:13px; margin-top:8px;">💾 لائیو اسٹیٹس اپڈیٹ کریں</button>
       </div>
     `;
   }).join('');
 }
 
-window.updateTrainByAdmin = function(key, code, name, route) {
+window.updateTrainByAdmin = function(key) {
+  const trainObj = globalTrainsData.find(t => t.code.replace(/[^a-zA-Z0-9]/g, '_') === key);
+  if (!trainObj) return;
+
   const liveLoc = document.getElementById(`adminLiveLoc_${key}`).value.trim();
   const delay = document.getElementById(`adminDelay_${key}`).value.trim();
   const timing = document.getElementById(`adminTiming_${key}`).value.trim();
@@ -489,9 +609,12 @@ window.updateTrainByAdmin = function(key, code, name, route) {
   }
 
   set(ref(db, 'trainsStatus/' + key), {
-    code, name, route, timing, delay, liveLoc
+    code: trainObj.code,
+    name: trainObj.name,
+    route: trainObj.route,
+    timing, delay, liveLoc
   }).then(() => {
-    alert(`✅ ٹرین (${name}) کا لائیو اسٹیٹس کامیابی سے اپڈیٹ کر دیا گیا ہے! اب یہ مسافروں اور ڈرائیورز کو نظر آئے گا۔`);
+    alert(`✅ ٹرین (${trainObj.name}) کا لائیو اسٹیٹس کامیابی سے اپڈیٹ کر دیا گیا ہے!`);
   }).catch(err => {
     alert('❌ خامی پیش آئی: ' + err.message);
   });
@@ -521,6 +644,7 @@ if(rg) rg.addEventListener('input', e => syncFare(e.target.value));
 if(nm) nm.addEventListener('input', e => syncFare(e.target.value));
 
 window.switchTab = function(tabId) {
+  stopCameraStream();
   ['passengerTab', 'driverTab', 'trainTab', 'adminTab'].forEach(id => { 
     const el = document.getElementById(id);
     if(el) el.classList.add('hidden'); 
@@ -862,10 +986,20 @@ async function verifyDriverActive(phone) {
     const driverRegBox = document.getElementById('driverRegBox');
     const driverWelcomeBox = document.getElementById('driverWelcomeBox');
     const driverWelcomeMsg = document.getElementById('driverWelcomeMsg');
+    const driverWelcomePhoto = document.getElementById('driverWelcomePhoto');
 
     if(driverRegBox) driverRegBox.classList.add('hidden');
     if(driverWelcomeBox) driverWelcomeBox.classList.remove('hidden');
     if(driverWelcomeMsg) driverWelcomeMsg.innerText = `🚗 خوش آمدید ڈرائیور: ${data.name} (${data.phone})`;
+    
+    if(driverWelcomePhoto) {
+      if(data.photo) {
+        driverWelcomePhoto.src = data.photo;
+        driverWelcomePhoto.classList.remove('hidden');
+      } else {
+        driverWelcomePhoto.classList.add('hidden');
+      }
+    }
 
     const driverMainContent = document.getElementById('driverMainContent');
     const btnDriverOnline = document.getElementById('btnDriverOnline');
@@ -884,6 +1018,8 @@ async function verifyDriverActive(phone) {
 }
 
 window.resetDriverSession = function() {
+  stopCameraStream();
+  capturedDriverPhotoBase64 = "";
   localStorage.removeItem('ccab_dphone');
   document.getElementById('driverRegBox').classList.remove('hidden');
   document.getElementById('driverWelcomeBox').classList.add('hidden');
@@ -892,6 +1028,14 @@ window.resetDriverSession = function() {
   document.getElementById('btnDriverOffline').classList.add('hidden');
   document.getElementById('dphone').value = '';
   document.getElementById('dphoneReg').value = '';
+
+  // کیمرہ یو آئی ری سیٹ کریں
+  driverVideo.classList.add('hidden');
+  driverPhotoPreview.classList.add('hidden');
+  btnStartCamera.classList.remove('hidden');
+  btnCapturePhoto.classList.add('hidden');
+  btnRetakePhoto.classList.add('hidden');
+  cameraStatus.innerText = "";
 };
 
 const btnRegisterDriverDirect = document.getElementById('btnRegisterDriverDirect');
@@ -899,8 +1043,16 @@ if(btnRegisterDriverDirect) {
   btnRegisterDriverDirect.addEventListener('click', async () => {
     const phone = document.getElementById('dphoneReg').value.trim();
     const name = document.getElementById('dname').value.trim();
+    const lic = document.getElementById('dlicense').value.trim();
+    const veh = document.getElementById('dvehicle').value.trim();
+    const car = document.getElementById('dcar').value;
     
     if(!phone || !name) { alert('ڈرائیور کا نام اور موبائل نمبر درج کرنا لازمی ہے!'); return; }
+    if(!lic || !veh) { alert('لائسنس نمبر اور گاڑی نمبر درج کرنا لازمی ہے!'); return; }
+    if(!capturedDriverPhotoBase64) {
+      alert('📸 براہ کرم رجسٹریشن مکمل کرنے سے پہلے کیمرے سے اپنی لائیو تصویر کھینچیں!');
+      return;
+    }
     if(isBlocked(phone)){ alert('🚫 آپ بلاک ہیں'); return; }
 
     const passengerSnap = await get(ref(db, 'passengers/' + phone));
@@ -918,16 +1070,20 @@ if(btnRegisterDriverDirect) {
       return;
     }
 
-    const lic = document.getElementById('dlicense').value.trim();
-    const veh = document.getElementById('dvehicle').value.trim();
-    const car = document.getElementById('dcar').value;
+    stopCameraStream();
 
-    await set(ref(db,'drivers/'+phone), {name, phone, lic, veh, car, online:false, time:Date.now()});
+    await set(ref(db,'drivers/'+phone), {
+      name, phone, lic, veh, car, 
+      photo: capturedDriverPhotoBase64,
+      online:false, 
+      time:Date.now()
+    });
+    
     localStorage.setItem('ccab_dphone', phone);
     document.getElementById('dphone').value = phone;
 
     verifyDriverActive(phone);
-    alert('✅ ڈرائیور پروفائل رجسٹر ہو گئی ہے! اب اوپر "آن لائن ہوں" کا بٹن دبائیں۔');
+    alert('✅ ڈرائیور پروفائل لائیو تصویر کے ساتھ رجسٹر ہو گئی ہے! اب اوپر "آن لائن ہوں" کا بٹن دبائیں۔');
   });
 }
 
@@ -987,10 +1143,15 @@ function renderFilteredDrivers() {
   const pName = document.getElementById('pname')?.value.trim() || 'مسافر';
   const renderOnlineCard = d => `
     <div class="card" style="border-right:4px solid #16a34a; background:#f0fdf4;">
-      <b>🟢 ${d.name}</b> <span class="badge" style="background:#0284c7;">${d.car}</span><br>
-      گاڑی نمبر: ${d.veh || 'موجود نہیں'} | 📞 ${d.phone}<br>
-      <span class="time-text">🕒 آن لائن وقت: ${d.onlineTime || 'حال ہی میں'}</span>
-      <button onclick="openWhatsApp('${d.phone}', 'سلام ${d.name}! میں CCab مسافر (${pName}) ہوں، مجھے آپ کی ${d.car} درکار ہے۔')" class="btn btn-whatsapp" style="padding:7px; margin-top:6px; font-size:12px;">💬 ڈائریکٹ واٹس ایپ میسج کریں</button>
+      <div class="driver-card-flex">
+        <img src="${d.photo || DEFAULT_AVATAR}" class="driver-avatar" alt="${d.name}">
+        <div>
+          <b>🟢 ${d.name}</b> <span class="badge" style="background:#0284c7;">${d.car}</span><br>
+          گاڑی نمبر: ${d.veh || 'موجود نہیں'} | 📞 ${d.phone}<br>
+          <span class="time-text">🕒 آن لائن وقت: ${d.onlineTime || 'حال ہی میں'}</span>
+        </div>
+      </div>
+      <button onclick="openWhatsApp('${d.phone}', 'سلام ${d.name}! میں CCab مسافر (${pName}) ہوں، مجھے آپ کی ${d.car} درکار ہے۔')" class="btn btn-whatsapp" style="padding:7px; margin-top:8px; font-size:12px;">💬 ڈائریکٹ واٹس ایپ میسج کریں</button>
     </div>
   `;
 
@@ -1012,9 +1173,14 @@ function renderAdminDrivers() {
     const blocked = isBlocked(d.phone);
     return `
       <div class="card">
-        <b>${d.name}</b> (${d.phone}) - ${d.online ? `🟢 آن لائن` : `🔴 آف لائن`} - <span class="badge" style="background:#0284c7;">${d.car}</span><br>
-        <span style="font-size:11px; color:#555;">گاڑی نمبر: ${d.veh || 'N/A'} | لائسنس: ${d.lic || 'N/A'}</span>
-        <div style="display: flex; gap: 5px; margin-top: 6px;">
+        <div class="driver-card-flex">
+          <img src="${d.photo || DEFAULT_AVATAR}" class="driver-avatar" alt="${d.name}">
+          <div>
+            <b>${d.name}</b> (${d.phone}) - ${d.online ? `🟢 آن لائن` : `🔴 آف لائن`} - <span class="badge" style="background:#0284c7;">${d.car}</span><br>
+            <span style="font-size:11px; color:#555;">گاڑی نمبر: ${d.veh || 'N/A'} | لائسنس: ${d.lic || 'N/A'}</span>
+          </div>
+        </div>
+        <div style="display: flex; gap: 5px; margin-top: 8px;">
           <button onclick="openWhatsApp('${d.phone}', 'سلام ${d.name}! CCab ایڈمن کی جانب سے رابطہ کیا جا رہا ہے۔')" class="btn btn-whatsapp" style="padding:4px 8px; font-size:12px; margin-top:0;">💬 میسج</button>
           ${blocked ? 
             `<button onclick="unblockUser('${d.phone}')" class="btn btn-green" style="padding:4px 8px; font-size:12px; margin-top:0;">ان بلاک</button>` : 
@@ -1280,7 +1446,7 @@ onValue(ref(db,'bookings'), snap=>{
         <b>👤 مسافر: ${b.name}</b> | 📞 ${b.phone} ${b.vehicleType ? `<span class="badge">${b.vehicleType}</span>` : ''}<br>
         <b>روٹ:</b> ${b.from} ➔ ${b.to}<br>
         <b>پیشکش کرایہ: Rs ${b.fare}</b><span class="time-text">🕒 بکنگ وقت: ${b.timeStr || 'حالیہ'}</span>
-        <a href="${b.locLink}" target="_blank" style="display:inline-block; margin-top:4px; font-weight:bold; color:#0284c7;">📍 مسافر کی لوکیشن دیکھیں</a><br>
+        ${b.locLink && b.locLink !== 'موجود نہیں' ? `<a href="${b.locLink}" target="_blank" style="display:inline-block; margin-top:4px; font-weight:bold; color:#0284c7;">📍 مسافر کی لوکیشن دیکھیں</a><br>` : ''}
         <input type="number" id="driverOffer_${b.id}" value="${b.fare}" style="margin-top:6px;" placeholder="اپنا کرایہ لکھیں">
         <div style="display:flex; gap:6px; margin-top:6px;">
           <button onclick="sendOffer('${b.id}','${b.phone}')" class="btn btn-blue" style="margin-top:0; padding:8px; font-size:12px;">💵 آفر واٹس ایپ پر بھیجیں</button>
@@ -1337,10 +1503,10 @@ window.cancelMyRide = function(id) {
 };
 
 window.blockUser = function(phone, type){ 
-  if(confirm(phone + ' کو بلاک کرنا चाहते ہیں؟')){ 
+  if(confirm(phone + ' کو بلاک کرنا چاہتے ہیں؟')){ 
     set(ref(db,'blocked/'+phone),{phone, type, blocked:true, time:Date.now()}); 
-    update(ref(db,'drivers/'+phone),{online:false}); 
-    update(ref(db,'passengers/'+phone),{online:false}); 
+    if(type === 'driver') update(ref(db,'drivers/'+phone),{online:false}); 
+    if(type === 'passenger') update(ref(db,'passengers/'+phone),{online:false}); 
   } 
 };
 window.unblockUser = function(phone){ remove(ref(db,'blocked/'+phone)); };
