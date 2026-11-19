@@ -3,72 +3,109 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Chaudhry Cab - CCab</title>
+<title>Chaudhry Cab (CCab) - inDrive & Yango Style</title>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-  body { background-color: #f4f6f9; color: #333; padding-bottom: 30px; }
-  .header { background: linear-gradient(135deg, #052e16, #16a34a); color: white; padding: 15px 20px; display: flex; align-items: center; justify-content: space-between; gap: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.15); }
+  body { background-color: #f3f4f6; color: #111827; padding-bottom: 35px; }
+
+  /* Header */
+  .header { background: linear-gradient(135deg, #052e16, #16a34a); color: #fff; padding: 14px 18px; display: flex; align-items: center; justify-content: space-between; gap: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); position: sticky; top: 0; z-index: 900; }
   .header-left { display: flex; align-items: center; gap: 12px; }
-  .logo-box { width: 55px; height: 55px; background: #ffffff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 18px; color: #16a34a; border: 3px solid #4ade80; box-shadow: 0 2px 6px rgba(0,0,0,0.2); flex-shrink: 0; }
-  .header-info h1 { font-size: 20px; color: #ffffff; margin-bottom: 2px; } 
-  .header-info p { font-size: 12px; color: #dcfce7; }
-  .sos-btn { background: #dc2626; color: white; font-weight: 900; font-size: 14px; padding: 10px 16px; border-radius: 30px; border: 2px solid #f87171; cursor: pointer; box-shadow: 0 0 10px rgba(220, 38, 38, 0.6); animation: pulse 1.5s infinite; flex-shrink: 0; }
+  .logo-box { width: 52px; height: 52px; background: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 16px; color: #16a34a; border: 3px solid #4ade80; flex-shrink: 0; }
+  .header-info h1 { font-size: 19px; color: #fff; }
+  .header-info p { font-size: 11px; color: #dcfce7; }
+  .sos-btn { background: #dc2626; color: #fff; font-weight: 900; font-size: 13px; padding: 9px 14px; border-radius: 25px; border: 2px solid #fca5a5; cursor: pointer; animation: pulse 1.5s infinite; flex-shrink: 0; }
   @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
-  .banner-card { background: linear-gradient(135deg, #16a34a, #15803d); color: white; padding: 20px; border-radius: 12px; margin-bottom: 15px; text-align: center; box-shadow: 0 4px 12px rgba(22, 163, 74, 0.2); }
-  .banner-card h2 { font-size: 22px; font-weight: 900; margin-bottom: 5px; } .banner-card p { font-size: 13px; opacity: 0.9; }
-  .nav-tabs { display: flex; background: #fff; border-bottom: 2px solid #e5e7eb; margin-bottom: 15px; overflow-x: auto; } .tab-btn { flex: 1; padding: 12px 6px; text-align: center; background: none; border: none; font-weight: bold; font-size: 14px; color: #4b5563; cursor: pointer; border-bottom: 3px solid transparent; white-space: nowrap; } .tab-btn.active { color: #16a34a; border-bottom: 3px solid #16a34a; background: #f0fdf4; }
-  .container { padding: 0 12px; max-width: 600px; margin: 0 auto; }
-  .box { background: #fff; padding: 16px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); margin-bottom: 15px; }
-  .box-title { font-size: 17px; font-weight: bold; color: #111827; margin-bottom: 12px; border-right: 4px solid #16a34a; padding-right: 8px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+
+  .container { padding: 12px; max-width: 620px; margin: 0 auto; }
+
+  /* Navigation Tabs */
+  .nav-tabs { display: flex; background: #fff; border-radius: 12px; padding: 4px; gap: 4px; margin-bottom: 14px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); overflow-x: auto; }
+  .tab-btn { flex: 1; padding: 10px 8px; border: none; background: transparent; border-radius: 9px; font-weight: 700; font-size: 13px; color: #4b5563; cursor: pointer; white-space: nowrap; transition: 0.2s; }
+  .tab-btn.active { background: #16a34a; color: #fff; box-shadow: 0 2px 8px rgba(22, 163, 74, 0.3); }
+
+  /* Banner */
+  .banner-card { background: linear-gradient(135deg, #111827, #166534); color: #fff; padding: 18px; border-radius: 14px; margin-bottom: 14px; text-align: center; box-shadow: 0 4px 14px rgba(0,0,0,0.12); }
+  .banner-card h2 { font-size: 20px; font-weight: 900; margin-bottom: 4px; color: #a3e635; }
+  .banner-card p { font-size: 12px; color: #e5e7eb; line-height: 1.5; }
+
+  /* Cards & Boxes */
+  .box { background: #fff; padding: 16px; border-radius: 14px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); margin-bottom: 14px; border: 1px solid #e5e7eb; }
+  .box-title { font-size: 16px; font-weight: 800; color: #111827; margin-bottom: 10px; border-right: 4px solid #a3e635; padding-right: 8px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
   .collapsible-content { margin-top: 10px; }
-  label { font-size: 13px; font-weight: 600; color: #374151; margin-top: 10px; display: block; }
-  input, select { width: 100%; padding: 11px; margin-top: 5px; border: 1px solid #d1d5db; border-radius: 8px; font-size: 14px; background: #f9fafb; outline: none; }
-  input:focus, select:focus { border-color: #16a34a; background: #fff; }
-  .btn { width: 100%; padding: 12px; border: 0; border-radius: 8px; font-weight: bold; font-size: 15px; margin-top: 12px; color: #fff; cursor: pointer; transition: 0.2s; text-decoration: none; display: inline-block; text-align: center; }
-  .btn-green { background: #16a34a; } .btn-blue { background: #0284c7; } .btn-black { background: #1f2937; } .btn-red { background: #dc2626; } .btn-gray { background: #6b7280; } .btn-whatsapp { background: #25d366; } .btn-train { background: #0f766e; }
-  .fare-box { border: 2px dashed #16a34a; border-radius: 10px; padding: 12px; text-align: center; background: #f0fdf4; margin-top: 15px; }
-  .fare-title { font-size: 13px; color: #166534; font-weight: bold; } .fare-display { font-size: 28px; font-weight: 900; color: #16a34a; margin: 4px 0; }
-  #map { height: 200px; width: 100%; border-radius: 8px; margin-top: 10px; border: 1px solid #ccc; }
-  .status-msg { text-align: center; font-size: 13px; font-weight: bold; margin-top: 8px; color: #16a34a; }
-  .card { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 10px; margin-top: 8px; font-size: 13px; }
+
+  /* Inputs & Buttons */
+  label { font-size: 12px; font-weight: 700; color: #374151; margin-top: 10px; display: block; }
+  input, select { width: 100%; padding: 11px 12px; margin-top: 5px; border: 1.5px solid #d1d5db; border-radius: 10px; font-size: 14px; background: #f9fafb; outline: none; transition: 0.2s; }
+  input:focus, select:focus { border-color: #16a34a; background: #fff; box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.12); }
+
+  .btn { width: 100%; padding: 12px; border: none; border-radius: 10px; font-weight: 800; font-size: 14px; margin-top: 10px; color: #fff; cursor: pointer; transition: 0.2s; display: inline-block; text-align: center; text-decoration: none; }
+  .btn:active { transform: scale(0.98); }
+  .btn-green { background: #16a34a; }
+  .btn-lime { background: #84cc16; color: #111827; }
+  .btn-dark { background: #111827; }
+  .btn-blue { background: #0284c7; }
+  .btn-red { background: #dc2626; }
+  .btn-gray { background: #6b7280; }
+  .btn-whatsapp { background: #22c55e; color: #fff; }
+  .btn-train { background: #0f766e; }
+
+  /* OTP Box */
+  .otp-box { background: #eff6ff; border: 1.5px dashed #0284c7; border-radius: 12px; padding: 12px; margin-top: 12px; }
+  .otp-badge { background: #dbeafe; color: #1e40af; padding: 6px 10px; border-radius: 8px; font-size: 12px; font-weight: 800; margin-top: 8px; display: none; text-align: center; }
+
+  /* Fare Box */
+  .fare-box { border: 2px dashed #84cc16; border-radius: 12px; padding: 12px; text-align: center; background: #f7fee7; margin-top: 14px; }
+  .fare-title { font-size: 13px; color: #365314; font-weight: 800; }
+  .fare-display { font-size: 28px; font-weight: 900; color: #15803d; margin: 4px 0; }
+
+  /* Map & List Cards */
+  #map { height: 200px; width: 100%; border-radius: 10px; margin-top: 10px; border: 1px solid #cbd5e1; }
+  .status-msg { text-align: center; font-size: 12px; font-weight: 700; margin-top: 8px; color: #16a34a; }
+  .card { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 11px; margin-top: 8px; font-size: 13px; }
   .time-text { font-size: 11px; color: #64748b; margin-top: 4px; display: block; }
+  .badge { display: inline-block; padding: 2px 8px; border-radius: 12px; font-size: 11px; font-weight: 700; color: #fff; background: #16a34a; }
   .hidden { display: none !important; }
-  .badge { display: inline-block; padding: 3px 8px; border-radius: 12px; font-size: 11px; font-weight: bold; color: white; background: #16a34a; }
 
-  .vehicle-filter-bar { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
-  .v-filter-btn { flex: 1 1 auto; padding: 8px 10px; border: 1px solid #16a34a; background: #fff; color: #16a34a; border-radius: 8px; font-size: 12px; font-weight: bold; cursor: pointer; transition: 0.2s; text-align: center; }
-  .v-filter-btn.active { background: #16a34a; color: #fff; box-shadow: 0 2px 6px rgba(22, 163, 74, 0.3); }
+  /* Vehicle Filter Bar */
+  .vehicle-filter-bar { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px; }
+  .v-filter-btn { flex: 1 1 auto; padding: 7px 9px; border: 1.5px solid #16a34a; background: #fff; color: #16a34a; border-radius: 8px; font-size: 12px; font-weight: 700; cursor: pointer; }
+  .v-filter-btn.active { background: #16a34a; color: #fff; }
 
-  .live-alert-banner { position: fixed; top: 15px; left: 50%; transform: translateX(-50%); width: 92%; max-width: 500px; background: #064e3b; color: white; border: 2px solid #34d399; border-radius: 12px; padding: 14px; z-index: 9999; box-shadow: 0 10px 25px rgba(0,0,0,0.4); animation: slideDown 0.4s ease; }
-  @keyframes slideDown { from { top: -100px; opacity: 0; } to { top: 15px; opacity: 1; } }
+  /* Live Camera, Vehicle Photo & Driver Avatar */
+  .camera-box { background: #f0fdf4; border: 2px dashed #16a34a; border-radius: 12px; padding: 12px; text-align: center; margin-top: 8px; }
+  #driverVideo { width: 100%; max-width: 250px; border-radius: 10px; background: #000; transform: scaleX(-1); margin: 8px auto; display: block; }
+  #driverPhotoPreview { width: 120px; height: 120px; object-fit: cover; border-radius: 50%; border: 3px solid #16a34a; margin: 8px auto; display: block; }
+  .vehicle-upload-box { background: #f8fafc; border: 2px dashed #0284c7; border-radius: 12px; padding: 12px; text-align: center; margin-top: 8px; }
+  #vehiclePhotoPreview { width: 100%; max-width: 240px; height: 140px; object-fit: cover; border-radius: 10px; border: 2px solid #0284c7; margin: 8px auto; display: block; }
+  .driver-avatar { width: 54px; height: 54px; border-radius: 50%; object-fit: cover; border: 2px solid #16a34a; flex-shrink: 0; background: #e2e8f0; }
+  .vehicle-thumb { width: 72px; height: 54px; border-radius: 8px; object-fit: cover; border: 1.5px solid #0284c7; flex-shrink: 0; background: #e2e8f0; }
+  .driver-card-flex { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
 
-  .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 9998; display: flex; align-items: center; justify-content: center; padding: 15px; }
-  .modal-box { background: #fff; border-radius: 12px; padding: 18px; width: 100%; max-width: 450px; max-height: 80vh; overflow-y: auto; box-shadow: 0 5px 20px rgba(0,0,0,0.3); }
-
-  /* کیمرہ اور ڈرائیور تصویر کے اسٹائلز */
-  .camera-box { background: #f0fdf4; border: 2px dashed #16a34a; border-radius: 10px; padding: 12px; text-align: center; margin-top: 10px; }
-  #driverVideo { width: 100%; max-width: 260px; border-radius: 10px; background: #000; transform: scaleX(-1); margin: 8px auto; display: block; }
-  #driverPhotoPreview { width: 130px; height: 130px; object-fit: cover; border-radius: 50%; border: 3px solid #16a34a; margin: 8px auto; display: block; box-shadow: 0 3px 8px rgba(0,0,0,0.15); }
-  .driver-avatar { width: 55px; height: 55px; border-radius: 50%; object-fit: cover; border: 2px solid #16a34a; flex-shrink: 0; background: #e2e8f0; }
-  .driver-card-flex { display: flex; align-items: center; gap: 10px; }
+  /* Alert Banner & Modal */
+  .live-alert-banner { position: fixed; top: 14px; left: 50%; transform: translateX(-50%); width: 92%; max-width: 480px; background: #064e3b; color: #fff; border: 2px solid #a3e635; border-radius: 12px; padding: 14px; z-index: 9999; box-shadow: 0 10px 25px rgba(0,0,0,0.35); }
+  .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 9998; display: flex; align-items: center; justify-content: center; padding: 14px; }
+  .modal-box { background: #fff; border-radius: 14px; padding: 18px; width: 100%; max-width: 450px; max-height: 80vh; overflow-y: auto; }
 </style>
 </head>
 <body>
 
+<!-- Live Alert Banner -->
 <div id="liveAlertBanner" class="live-alert-banner hidden">
   <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
-    <strong id="alertTitle" style="font-size:15px; color:#6ee7b7;">🔔 نیا پیغام!</strong>
+    <strong id="alertTitle" style="font-size:14px; color:#bef264;">🔔 نیا پیغام!</strong>
     <button onclick="closeLiveAlert()" style="background:none; border:none; color:#fff; font-size:18px; cursor:pointer;">✖</button>
   </div>
-  <p id="alertBody" style="font-size:13px; margin-bottom:10px; line-height:1.4;"></p>
-  <button id="alertWaBtn" class="btn btn-whatsapp" style="margin-top:0; padding:8px; font-size:13px;">💬 واٹس ایپ پر فوری جواب دیں</button>
+  <p id="alertBody" style="font-size:12px; margin-bottom:10px; line-height:1.4;"></p>
+  <button id="alertWaBtn" class="btn btn-whatsapp" style="margin-top:0; padding:8px; font-size:12px;">💬 واٹس ایپ پر فوری جواب دیں</button>
 </div>
 
+<!-- Broadcast Modal -->
 <div id="broadcastModal" class="modal-overlay hidden">
   <div class="modal-box">
-    <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #eee; padding-bottom:10px; margin-bottom:10px;">
-      <h3 id="broadcastModalTitle" style="font-size:16px; color:#166534;">📲 آن لائن ممبران کو واٹس ایپ میسج بھیجیں</h3>
+    <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #e5e7eb; padding-bottom:10px; margin-bottom:10px;">
+      <h3 id="broadcastModalTitle" style="font-size:15px; color:#166534;">📲 آن لائن ممبران کو واٹس ایپ میسج بھیجیں</h3>
       <button onclick="closeBroadcastModal()" style="background:#ef4444; color:#fff; border:none; border-radius:6px; padding:4px 10px; cursor:pointer; font-weight:bold;">بند کریں</button>
     </div>
     <p id="broadcastModalDesc" style="font-size:12px; color:#555; margin-bottom:10px;"></p>
@@ -76,75 +113,99 @@
   </div>
 </div>
 
+<!-- Header -->
 <div class="header">
   <div class="header-left">
     <div class="logo-box">CCab</div>
     <div class="header-info">
       <h1>Chaudhry Cab (CCab)</h1>
-      <p>بصیرپور اور تمام بڑے شہروں کے لیے سروس | 24/7 LIVE</p>
+      <p>inDrive & Yango طرز کا تیز ترین نیٹ ورک | 24/7 LIVE</p>
     </div>
   </div>
   <button class="sos-btn" onclick="triggerSOS()">🚨 SOS</button>
 </div>
 
-<div class="nav-tabs">
-  <button class="tab-btn active" onclick="switchTab('passengerTab')">پسنجر پورٹل</button>
-  <button class="tab-btn" onclick="switchTab('driverTab')">ڈرائیور پورٹل</button>
-  <button class="tab-btn" onclick="switchTab('trainTab')">🚆 Track My Train</button>
-  <button class="tab-btn" onclick="switchTab('adminTab')">ایڈمن</button>
-</div>
-
 <div class="container">
-  <!-- پسنجر ٹیب -->
+  <!-- Tabs -->
+  <div class="nav-tabs">
+    <button class="tab-btn active" onclick="switchTab('passengerTab')">🧍 پسنجر پورٹل</button>
+    <button class="tab-btn" onclick="switchTab('driverTab')">🚘 ڈرائیور پورٹل</button>
+    <button class="tab-btn" onclick="switchTab('trainTab')">🚆 Track My Train</button>
+    <button class="tab-btn" onclick="switchTab('adminTab')">🛡️ ایڈمن</button>
+  </div>
+
+  <!-- ================= پسنجر ٹیب ================= -->
   <div id="passengerTab">
     <div class="banner-card">
-      <h2>🚗 Chaudhry Cab - CCab</h2>
-      <p>بصیرپور، اوکاڑہ، ساہیوال، فیصل آباد، ملتان، گوجرانوالہ، راولپنڈی، اسلام آباد، لاہور اور دیگر شہروں کے لیے فوری موٹر سائیکل، رکشہ، کار، بس و ٹرک سروس</p>
+      <h2>⚡ CCab Rider (inDrive & Yango Style)</h2>
+      <p>اپنی مرضی کا کرایہ آفر کریں یا فوری آن لائن ڈرائیور سے رابطہ کریں — بصیرپور، لاہور، ملتان، فیصل آباد، ساہیوال، اوکاڑہ اور دیگر شہروں میں</p>
     </div>
 
-    <div class="box" style="text-align: center; background: #f0fdf4;">
-      <div class="box-title" style="justify-content: flex-start;">💬 واٹس ایپ سپورٹ اور ٹرین اپڈیٹ</div>
-      <p style="font-size: 13px; margin-bottom: 8px; color: #166534;">ریلوے اسٹیشن پک اینڈ ڈراپ کیلئے بلھے شاہ اور فرید ایکسپریس کی لائیو لوکیشن چیک کریں</p>
+    <!-- واٹس ایپ و ٹرین شارٹ کٹ -->
+    <div class="box" style="background:#f0fdf4;">
+      <div class="box-title">💬 فوری سپورٹ اور ٹرین اپڈیٹ</div>
       <div style="display:flex; gap:8px;">
-        <button onclick="openWhatsApp('03422477885', 'سلام! مجھے CCab کے متعلق معلومات درکار ہیں۔')" class="btn btn-whatsapp" style="margin-top:0; font-size:13px;">📱 واٹس ایپ سپورٹ</button>
-        <button onclick="switchTab('trainTab')" class="btn btn-train" style="margin-top:0; font-size:13px;">🚆 ٹرین لائیو ٹریک کریں</button>
+        <button onclick="openWhatsApp('03422477885', 'سلام! مجھے CCab کے متعلق معلومات درکار ہیں۔')" class="btn btn-whatsapp" style="margin-top:0; font-size:12px;">📱 واٹس ایپ سپورٹ</button>
+        <button onclick="switchTab('trainTab')" class="btn btn-train" style="margin-top:0; font-size:12px;">🚆 ٹرین لائیو ٹریک</button>
       </div>
     </div>
 
-    <div class="box" id="passengerSwitchBox">
-      <div class="box-title" style="justify-content: flex-start;">👤 پسنجر آن لائن / لاگ ان سوئچ</div>
-      <p style="font-size:12px; color:#555; margin-bottom:8px;">صرف وہی مسافر آن لائن ہو سکتا ہے جس کا اکاؤنٹ اس موبائل میں رجسٹرڈ ہو۔</p>
+    <!-- پسنجر رجسٹریشن (واٹس ایپ / ایس ایم ایس کوڈ کے ساتھ) -->
+    <div class="box" id="passengerRegBox">
+      <div class="box-title">📝 نیا پسنجر رجسٹریشن فارم</div>
+      <p style="font-size:12px; color:#6b7280; margin-bottom:6px;">موبائل نمبر پر واٹس ایپ / ایس ایم ایس کوڈ بھیج کر تصدیق کریں:</p>
+      <label>مکمل نام *</label>
+      <input type="text" id="pregName" placeholder="مثال: چوہدری احمد">
       <label>موبائل / WhatsApp نمبر *</label>
+      <input type="tel" id="pregPhone" placeholder="03001234567">
+      <label>شہر / علاقہ *</label>
+      <input type="text" id="pregCity" placeholder="مثال: بصیرپور">
+
+      <div class="otp-box">
+        <div style="display:flex; gap:8px;">
+          <button type="button" class="btn btn-whatsapp" id="btnSendPOtpWa" style="margin-top:0; font-size:12px; padding:9px;">💬 واٹس ایپ کوڈ بھیجیں</button>
+          <button type="button" class="btn btn-blue" id="btnSendPOtpSms" style="margin-top:0; font-size:12px; padding:9px;">✉️ SMS کوڈ بھیجیں</button>
+        </div>
+        <div id="pOtpDisplay" class="otp-badge"></div>
+        <label style="margin-top:8px;">6 ہندسوں کا تصدیقی کوڈ درج کریں *</label>
+        <div style="display:flex; gap:8px;">
+          <input type="text" id="pregOtpInput" maxlength="6" placeholder="123456" style="margin-top:0; text-align:center; font-weight:800; letter-spacing:3px;">
+          <button type="button" class="btn btn-dark" id="btnVerifyPOtp" style="margin-top:0; width:auto; padding:0 16px; font-size:12px;">تصدیق کریں</button>
+        </div>
+        <p id="pOtpStatus" class="status-msg" style="text-align:right;"></p>
+      </div>
+
+      <button class="btn btn-green" id="btnRegisterPassengerDirect" style="margin-top:12px;">✅ پسنجر اکاؤنٹ رجسٹر کریں</button>
+    </div>
+
+    <!-- پسنجر آن لائن / آف لائن سوئچ -->
+    <div class="box" id="passengerSwitchBox">
+      <div class="box-title">🟢 پسنجر آن لائن / آف لائن کنٹرول</div>
+      <label>رجسٹرڈ موبائل / WhatsApp نمبر *</label>
       <input type="tel" id="pphoneLogin" placeholder="03001234567">
-      
       <div style="display:flex; gap:10px; margin-top:10px;">
-        <button class="btn btn-green" id="btnPassengerOnline">🟢 آن لائن ہوں</button>
-        <button class="btn btn-gray hidden" id="btnPassengerOffline">🔴 آف لائن ہوں</button>
+        <button class="btn btn-lime" id="btnPassengerOnline" style="margin-top:0;">🟢 آن لائن ہوں</button>
+        <button class="btn btn-gray hidden" id="btnPassengerOffline" style="margin-top:0;">🔴 آف لائن ہوں</button>
       </div>
       <p id="pstatusLogin" class="status-msg"></p>
     </div>
 
-    <div class="box" id="passengerRegBox">
-      <div class="box-title" style="justify-content: flex-start;">📝 نیا پسنجر اکاؤنٹ بنائیں</div>
-      <label>آپ کا نام *</label><input type="text" id="pregName" placeholder="مثال: چوہدری احمد">
-      <label>موبائل / WhatsApp نمبر *</label><input type="tel" id="pregPhone" placeholder="03001234567">
-      <label>آپ کا شہر / علاقہ *</label><input type="text" id="pregCity" placeholder="مثال: بصیرپور">
-      
-      <button class="btn btn-green" id="btnRegisterPassengerDirect" style="margin-top: 12px;">✅ براہِ راست رجسٹر ہوں</button>
+    <!-- پسنجر ویلکم باکس -->
+    <div class="box hidden" id="passengerWelcomeBox" style="background:#f0fdf4; text-align:center;">
+      <p id="passengerWelcomeMsg" style="font-weight:800; color:#166534; font-size:14px;"></p>
+      <button onclick="resetPassengerSession()" class="btn btn-gray" style="padding:6px 14px; margin-top:8px; font-size:12px; width:auto;">🔄 پروفائل تبدیل کریں</button>
     </div>
 
-    <div class="box hidden" id="passengerWelcomeBox" style="background: #f0fdf4; text-align: center; border-right: 4px solid #16a34a;">
-      <p id="passengerWelcomeMsg" style="font-weight: bold; color: #166534; font-size: 14px;"></p>
-      <button onclick="resetPassengerSession()" class="btn btn-gray" style="padding: 6px 12px; margin-top: 8px; font-size: 12px; width: auto;">🔄 پروفائل تبدیل کریں</button>
-    </div>
-
+    <!-- پسنجر ڈیش بورڈ -->
     <div id="passengerMainContent" class="hidden">
       <div class="box">
-        <div class="box-title" style="justify-content: flex-start;">📲 نئی رائیڈ آفر پوسٹ کریں</div>
-        <label>آپ کا نام *</label><input type="text" id="pname" placeholder="مثال: احمد خان" readonly>
-        <label>موبائل نمبر / WhatsApp *</label><input type="tel" id="pphone" placeholder="03001234567" readonly>
-        
-        <label>مطلوبہ گاڑی کی قسم *</label>
+        <div class="box-title">📲 نئی رائیڈ آفر پوسٹ کریں (inDrive Bid)</div>
+        <label>مسافر کا نام</label>
+        <input type="text" id="pname" readonly>
+        <label>موبائل نمبر</label>
+        <input type="tel" id="pphone" readonly>
+
+        <label>گاڑی کی قسم منتخب کریں *</label>
         <select id="pVehicleType">
           <option value="موٹر سائیکل">🏍️ موٹر سائیکل (Motorbike)</option>
           <option value="رکشہ">🛺 رکشہ (Rickshaw)</option>
@@ -152,28 +213,29 @@
           <option value="ٹرک / بس">🚛 ٹرک / بس (Truck / Bus)</option>
         </select>
 
-        <label>پک اپ لوکیشن (کہاں سے) *</label>
-        <input type="text" id="pfrom" list="locationsList" placeholder="مقام لکھیں یا سلیکٹ کریں">
-        
-        <label>ڈراپ آف لوکیشن (کہاں جانا ہے) *</label>
-        <input type="text" id="pto" list="locationsList" placeholder="منزل لکھیں یا سلیکٹ کریں">
-        
+        <label>پک اپ مقام (کہاں سے) *</label>
+        <input type="text" id="pfrom" list="locationsList" placeholder="پک اپ مقام لکھیں یا منتخب کریں">
+
+        <label>ڈراپ آف مقام (کہاں جانا ہے) *</label>
+        <input type="text" id="pto" list="locationsList" placeholder="منزل لکھیں یا منتخب کریں">
         <datalist id="locationsList"></datalist>
 
         <div class="fare-box">
-          <div class="fare-title">💰 کرایہ کی پیشکش / آفر (کم از کم 100 روپے)</div>
+          <div class="fare-title">💰 اپنا کرایہ آفر کریں (کم از کم Rs 100)</div>
           <div id="fareshow" class="fare-display">Rs 300</div>
           <input type="range" id="farerange" min="100" max="10000" step="50" value="300">
-          <input type="number" id="farenum" value="300" min="100" style="text-align:center; font-weight:bold; margin-top:5px;">
+          <input type="number" id="farenum" value="300" min="100" style="text-align:center; font-weight:800; margin-top:6px;">
         </div>
-        <button class="btn btn-green" id="btnBook">رائیڈ آفر پوسٹ کریں اور ڈرائیورز کو میسج بھیجیں</button>
-        <button class="btn btn-blue" id="btnGetLoc">📡 میری لائیو لوکیشن دکھائیں</button>
+
+        <button class="btn btn-green" id="btnBook">🚀 رائیڈ آفر پوسٹ کریں</button>
+        <button class="btn btn-blue" id="btnGetLoc">📡 لائیو GPS لوکیشن لگائیں</button>
         <div id="map"></div>
         <p id="pstatus" class="status-msg"></p>
       </div>
 
+      <!-- آن لائن ڈرائیورز -->
       <div class="box">
-        <div class="box-title" style="justify-content: flex-start;">🟢 آن لائن ڈرائیورز (کیٹیگری منتخب کریں)</div>
+        <div class="box-title">🟢 آن لائن ڈرائیورز (کیٹیگری فلٹر)</div>
         <div class="vehicle-filter-bar">
           <button class="v-filter-btn active" onclick="filterOnlineDrivers('ALL', this)">تمام (All)</button>
           <button class="v-filter-btn" onclick="filterOnlineDrivers('موٹر سائیکل', this)">🏍️ موٹر سائیکل</button>
@@ -184,48 +246,40 @@
         <div id="passengerAllOnlineDrivers"></div>
       </div>
 
+      <!-- میری فعال رائیڈز -->
       <div class="box">
-        <div class="box-title" style="justify-content: flex-start;">📋 میری فعال رائیڈ آفرز</div>
+        <div class="box-title">📋 میری فعال رائیڈ آفرز</div>
         <div id="myPassengerRides"></div>
       </div>
 
+      <!-- ڈرائیورز کی روٹ آفرز -->
       <div class="box">
-        <div class="box-title" style="justify-content: flex-start;">📅 ڈرائیورز کی روٹ آفرز، بڈز اور شیڈول</div>
+        <div class="box-title">📅 ڈرائیورز کی روٹ آفرز اور شیڈول</div>
         <div id="passengerScheduledRides"></div>
       </div>
     </div>
   </div>
 
-  <!-- ڈرائیور ٹیب -->
+  <!-- ================= ڈرائیور ٹیب ================= -->
   <div id="driverTab" class="hidden">
-    <div class="box" style="text-align: center; background: #f0fdf4;">
-      <div class="box-title" style="justify-content: flex-start;">💬 واٹس ایپ سپورٹ اور ٹرین شیڈول</div>
-      <p style="font-size: 13px; margin-bottom: 8px; color: #166534;">ریلوے اسٹیشن پر مسافروں کی آمد کا وقت جاننے کے لیے ٹرین کی لائیو لوکیشن چیک کریں</p>
-      <div style="display:flex; gap:8px;">
-        <button onclick="openWhatsApp('03422477885', 'سلام! بطور ڈرائیور مجھے CCab کے متعلق معلومات درکار ہیں۔')" class="btn btn-whatsapp" style="margin-top:0; font-size:13px;">📱 واٹس ایپ سپورٹ</button>
-        <button onclick="switchTab('trainTab')" class="btn btn-train" style="margin-top:0; font-size:13px;">🚆 ٹرین ٹریک کریں</button>
-      </div>
+    <div class="banner-card" style="background: linear-gradient(135deg, #052e16, #111827);">
+      <h2>🚘 CCab Driver Partner</h2>
+      <p>واٹس ایپ / ایس ایم ایس کوڈ، لائیو تصویر، شناختی کارڈ اور گاڑی کی تصویر کے ساتھ رجسٹر ہوں</p>
     </div>
 
-    <div class="box" id="driverSwitchBox">
-      <div class="box-title" style="justify-content: flex-start;">🚗 ڈرائیور آن لائن / آف لائن سوئچ</div>
-      <p style="font-size:12px; color:#555; margin-bottom:8px;">صرف وہی ڈرائیور آن لائن ہو سکتا ہے جس کا اکاؤنٹ اس موبائل میں رجسٹرڈ ہو۔</p>
-      <label>موبائل / WhatsApp نمبر *</label>
-      <input type="tel" id="dphone" placeholder="03001234567">
-      
-      <div style="display:flex; gap:10px; margin-top:10px;">
-        <button class="btn btn-green" id="btnDriverOnline">🟢 آن لائن ہوں</button>
-        <button class="btn btn-gray hidden" id="btnDriverOffline">🔴 آف لائن ہوں</button>
-      </div>
-      <p id="dstatus" class="status-msg"></p>
-    </div>
-
+    <!-- ڈرائیور رجسٹریشن فارم -->
     <div class="box" id="driverRegBox">
-      <div class="box-title" style="justify-content: flex-start;">📝 نیا ڈرائیور اکاؤنٹ بنائیں</div>
-      <label>ڈرائیور کا نام *</label><input type="text" id="dname" placeholder="محمد علی">
-      <label>موبائل / WhatsApp نمبر *</label><input type="tel" id="dphoneReg" placeholder="03001234567">
-      <label>لائسنس نمبر *</label><input type="text" id="dlicense" placeholder="DL-98765">
-      <label>گاڑی نمبر *</label><input type="text" id="dvehicle" placeholder="LEB-5678">
+      <div class="box-title">📝 نیا ڈرائیور رجسٹریشن فارم</div>
+      <label>ڈرائیور کا مکمل نام *</label>
+      <input type="text" id="dname" placeholder="مثال: محمد علی">
+      <label>موبائل / WhatsApp نمبر *</label>
+      <input type="tel" id="dphoneReg" placeholder="03001234567">
+      <label>قومی شناختی کارڈ نمبر (CNIC) *</label>
+      <input type="text" id="dcnic" placeholder="مثال: 35301-1234567-1">
+      <label>لائسنس نمبر *</label>
+      <input type="text" id="dlicense" placeholder="DL-98765">
+      <label>گاڑی نمبر *</label>
+      <input type="text" id="dvehicle" placeholder="LEB-5678">
       <label>گاڑی کی قسم *</label>
       <select id="dcar">
         <option value="موٹر سائیکل">🏍️ موٹر سائیکل (Motorbike)</option>
@@ -234,116 +288,139 @@
         <option value="ٹرک">🚛 ٹرک / لوڈر / بس (Truck / Bus)</option>
       </select>
 
-      <!-- لائیو تصویر کیپچر سیکشن -->
-      <label>ڈرائیور کی لائیو تصویر / سیلفی *</label>
+      <div class="otp-box">
+        <div style="display:flex; gap:8px;">
+          <button type="button" class="btn btn-whatsapp" id="btnSendDOtpWa" style="margin-top:0; font-size:12px; padding:9px;">💬 واٹس ایپ کوڈ بھیجیں</button>
+          <button type="button" class="btn btn-blue" id="btnSendDOtpSms" style="margin-top:0; font-size:12px; padding:9px;">✉️ SMS کوڈ بھیجیں</button>
+        </div>
+        <div id="dOtpDisplay" class="otp-badge"></div>
+        <label style="margin-top:8px;">6 ہندسوں کا تصدیقی کوڈ درج کریں *</label>
+        <div style="display:flex; gap:8px;">
+          <input type="text" id="dregOtpInput" maxlength="6" placeholder="123456" style="margin-top:0; text-align:center; font-weight:800; letter-spacing:3px;">
+          <button type="button" class="btn btn-dark" id="btnVerifyDOtp" style="margin-top:0; width:auto; padding:0 16px; font-size:12px;">تصدیق کریں</button>
+        </div>
+        <p id="dOtpStatus" class="status-msg" style="text-align:right;"></p>
+      </div>
+
+      <label>ڈرائیور کی لائیو سیلفی / تصویر *</label>
       <div class="camera-box">
         <p style="font-size:12px; color:#166534; margin-bottom:6px;">تصدیق کے لیے کیمرہ آن کریں اور اپنی واضح لائیو تصویر بنائیں:</p>
         <video id="driverVideo" class="hidden" autoplay playsinline></video>
         <canvas id="driverCanvas" class="hidden"></canvas>
         <img id="driverPhotoPreview" class="hidden" alt="Driver Live Photo">
-        
         <div style="display:flex; gap:8px; justify-content:center; flex-wrap:wrap;">
-          <button type="button" id="btnStartCamera" class="btn btn-blue" style="width:auto; padding:8px 14px; font-size:13px; margin-top:4px;">📷 کیمرہ آن کریں</button>
-          <button type="button" id="btnCapturePhoto" class="btn btn-green hidden" style="width:auto; padding:8px 14px; font-size:13px; margin-top:4px;">📸 تصویر کھینچیں</button>
-          <button type="button" id="btnRetakePhoto" class="btn btn-gray hidden" style="width:auto; padding:8px 14px; font-size:13px; margin-top:4px;">🔄 دوبارہ تصویر لیں</button>
+          <button type="button" id="btnStartCamera" class="btn btn-blue" style="width:auto; padding:8px 14px; font-size:12px; margin-top:4px;">📷 کیمرہ آن کریں</button>
+          <button type="button" id="btnCapturePhoto" class="btn btn-green hidden" style="width:auto; padding:8px 14px; font-size:12px; margin-top:4px;">📸 تصویر کھینچیں</button>
+          <button type="button" id="btnRetakePhoto" class="btn btn-gray hidden" style="width:auto; padding:8px 14px; font-size:12px; margin-top:4px;">🔄 دوبارہ تصویر لیں</button>
         </div>
         <p id="cameraStatus" style="font-size:11px; color:#555; margin-top:6px;"></p>
       </div>
-      
-      <button class="btn btn-green" id="btnRegisterDriverDirect" style="margin-top: 14px;">✅ براہِ راست ڈرائیور رجسٹر ہوں</button>
+
+      <label>گاڑی کی تصویر منتخب کریں *</label>
+      <div class="vehicle-upload-box">
+        <p style="font-size:12px; color:#0369a1; margin-bottom:6px;">اپنی گاڑی / بائیک / رکشہ کی واضح تصویر منتخب کریں:</p>
+        <input type="file" id="dvehiclePhotoInput" accept="image/*" style="background:#fff; padding:8px; font-size:12px;">
+        <img id="vehiclePhotoPreview" class="hidden" alt="Vehicle Photo">
+        <p id="vehiclePhotoStatus" style="font-size:11px; color:#555; margin-top:6px;"></p>
+      </div>
+
+      <button class="btn btn-green" id="btnRegisterDriverDirect" style="margin-top:14px;">✅ ڈرائیور اکاؤنٹ رجسٹر کریں</button>
     </div>
 
-    <div class="box hidden" id="driverWelcomeBox" style="background: #f0fdf4; text-align: center; border-right: 4px solid #16a34a;">
-      <img id="driverWelcomePhoto" class="hidden" style="width:75px; height:75px; border-radius:50%; object-fit:cover; border:3px solid #16a34a; margin:0 auto 8px auto; display:block;" alt="Driver Photo">
-      <p id="driverWelcomeMsg" style="font-weight: bold; color: #166534; font-size: 14px;"></p>
-      <button onclick="resetDriverSession()" class="btn btn-gray" style="padding: 6px 12px; margin-top: 8px; font-size: 12px; width: auto;">🔄 پروفائل تبدیل کریں</button>
+    <!-- ڈرائیور آن لائن / آف لائن سوئچ -->
+    <div class="box" id="driverSwitchBox">
+      <div class="box-title">🟢 ڈرائیور آن لائن / آف لائن کنٹرول</div>
+      <label>رجسٹرڈ موبائل / WhatsApp نمبر *</label>
+      <input type="tel" id="dphone" placeholder="03001234567">
+      <div style="display:flex; gap:10px; margin-top:10px;">
+        <button class="btn btn-lime" id="btnDriverOnline" style="margin-top:0;">🟢 آن لائن ہوں</button>
+        <button class="btn btn-gray hidden" id="btnDriverOffline" style="margin-top:0;">🔴 آف لائن ہوں</button>
+      </div>
+      <p id="dstatus" class="status-msg"></p>
     </div>
 
+    <!-- ڈرائیور ویلکم باکس -->
+    <div class="box hidden" id="driverWelcomeBox" style="background:#f0fdf4; text-align:center;">
+      <div style="display:flex; justify-content:center; align-items:center; gap:12px; margin-bottom:8px;">
+        <img id="driverWelcomePhoto" class="hidden" style="width:72px; height:72px; border-radius:50%; object-fit:cover; border:3px solid #16a34a;" alt="Driver Photo">
+        <img id="driverWelcomeVehiclePhoto" class="hidden" style="width:96px; height:72px; border-radius:10px; object-fit:cover; border:2px solid #0284c7;" alt="Vehicle Photo">
+      </div>
+      <p id="driverWelcomeMsg" style="font-weight:800; color:#166534; font-size:14px;"></p>
+      <button onclick="resetDriverSession()" class="btn btn-gray" style="padding:6px 14px; margin-top:8px; font-size:12px; width:auto;">🔄 پروفائل تبدیل کریں</button>
+    </div>
+
+    <!-- ڈرائیور ڈیش بورڈ -->
     <div id="driverMainContent" class="hidden">
       <div class="box">
-        <div class="box-title" style="justify-content: flex-start;">🗺️ اپنی مرضی کا روٹ اور ٹائم شیڈول پوسٹ کریں (Driver Bid)</div>
-        <label>شروعاتی مقام (کہاں سے)</label>
-        <input type="text" id="dsFrom" list="locationsList" placeholder="مثال: بصیرپور اڈا / فیصل آباد">
-        <label>آخری منزل (کہاں تک)</label>
-        <input type="text" id="dsTo" list="locationsList" placeholder="مثال: لاہور / ملتان / اسلام آباد">
-        <label>تجویز کردہ درمیانی اسٹاپس (اگر ہوں)</label>
-        <input type="text" id="dsStops" placeholder="مثال: ساہیوال، اوکاڑہ">
-        <label>روانہ ہونے کا وقت اور تاریخ</label>
+        <div class="box-title">🗺️ اپنا روٹ اور شیڈول پوسٹ کریں</div>
+        <label>شروعاتی مقام *</label>
+        <input type="text" id="dsFrom" list="locationsList" placeholder="مثال: بصیرپور اڈا">
+        <label>آخری منزل *</label>
+        <input type="text" id="dsTo" list="locationsList" placeholder="مثال: لاہور">
+        <label>درمیانی اسٹاپس (اختیاری)</label>
+        <input type="text" id="dsStops" placeholder="مثال: اوکاڑہ، ساہیوال">
+        <label>روانہ ہونے کا وقت اور تاریخ *</label>
         <input type="datetime-local" id="dsTime">
-        <label>کرایہ فی سواری / کل کرایہ (روپے)</label>
+        <label>کرایہ (روپے)</label>
         <input type="number" id="dsFare" placeholder="500">
-        <button class="btn btn-green" id="btnPostSchedule">روٹ پوسٹ کریں اور پسنجرز کو میسج بھیجیں</button>
+        <button class="btn btn-green" id="btnPostSchedule">📌 روٹ پوسٹ کریں</button>
       </div>
 
       <div class="box">
-        <div class="box-title" style="justify-content: flex-start;">📋 تمام مسافروں کی رائیڈ آفرز (All Rides)</div>
-        <p style="font-size:12px; color:#666; margin-bottom:10px;">یہاں تمام مسافروں کی فعال رائیڈز موجود ہیں۔ آپ براہِ راست واٹس ایپ میسج کر سکتے ہیں۔</p>
+        <div class="box-title">📋 دستیاب مسافروں کی رائیڈ آفرز</div>
         <div id="driverOpenRides"></div>
       </div>
     </div>
   </div>
 
-  <!-- ٹرین ٹریکنگ ٹیب -->
+  <!-- ================= ٹرین ٹریکنگ ٹیب ================= -->
   <div id="trainTab" class="hidden">
     <div class="banner-card" style="background: linear-gradient(135deg, #0f766e, #115e59);">
-      <h2>🚆 Track My Train - پاک ریلوے لائیو لوکیشن</h2>
-      <p>بلھے شاہ، فرید اور دیگر ایکسپریس ٹرینوں کی لائیو لوکیشن اور اپ (UP) / ڈاؤن (DN) شیڈول</p>
+      <h2>🚆 Track My Train - لائیو اسٹیٹس</h2>
+      <p>بلھے شاہ، فرید اور دیگر ایکسپریس ٹرینوں کی لائیو لوکیشن اور شیڈول</p>
     </div>
 
-    <div class="box" style="background:#f0fdfa; border:2px solid #0f766e; text-align:center;">
-      <div class="box-title" style="border-right-color: #0f766e; justify-content:center;">📱 آفیشل Track My Train ایپ سے لائیو لوکیشن دیکھیں</div>
-      <p style="font-size:13px; color:#115e59; margin-bottom:10px;">ٹرین کی درست اور ریئل ٹائم (Live GPS) لوکیشن دیکھنے کے لیے نیچے دیے گئے بٹن پر کلک کریں:</p>
-      <button onclick="openPlayStoreApp()" class="btn btn-train" style="font-size:15px; box-shadow:0 4px 10px rgba(15,118,110,0.3);">🚆 Track My Train ایپ کھولیں</button>
+    <div class="box" style="background:#f0fdfa; text-align:center;">
+      <p style="font-size:13px; color:#115e59; margin-bottom:8px;">مکمل لائیو GPS ٹریکنگ کے لیے آفیشل ایپ کھولیں:</p>
+      <button onclick="openPlayStoreApp()" class="btn btn-train" style="margin-top:0;">📱 Track My Train ایپ کھولیں</button>
     </div>
 
     <div class="box">
-      <div class="box-title" style="border-right-color: #0f766e;">📍 ٹرین سرچ اور لائیو اسٹیٹس (UP / DN)</div>
-      <p style="font-size:12px; color:#555; margin-bottom:8px;">ٹرین کا نام درج کریں یا لائیو اسٹیٹس چیک کریں:</p>
-      
-      <div style="display:flex; gap:8px; margin-bottom:10px;">
-        <input type="text" id="trainSearchInput" onkeyup="filterTrains()" placeholder="🔍 ٹرین تلاش کریں (مثال: بلھے شاہ، فرید)..." style="margin-top:0;">
-      </div>
-
-      <div id="trainScheduleList" style="margin-top:12px;"></div>
+      <div class="box-title" style="border-right-color:#0f766e;">📍 ٹرین سرچ کریں</div>
+      <input type="text" id="trainSearchInput" onkeyup="filterTrains()" placeholder="🔍 ٹرین کا نام یا کوڈ لکھیں (مثال: بلھے شاہ، فرید)...">
+      <div id="trainScheduleList" style="margin-top:10px;"></div>
     </div>
   </div>
 
-  <!-- ایڈمن ٹیب -->
+  <!-- ================= ایڈمن ٹیب ================= -->
   <div id="adminTab" class="hidden">
     <div class="box" id="adminLoginBox">
-      <div class="box-title" style="justify-content: flex-start;">🔒 ایڈمن پینل لاگ ان</div>
-      
-      <label>ایڈمن یوزر نیم (Username)</label>
+      <div class="box-title">🔒 ایڈمن لاگ ان</div>
+      <label>یوزر نیم</label>
       <input type="text" id="auser" placeholder="یوزر نیم درج کریں">
-
-      <label>ایڈمن پاس ورڈ (Password)</label>
+      <label>پاس ورڈ</label>
       <input type="password" id="apass" placeholder="پاس ورڈ درج کریں">
-
-      <button class="btn btn-black" id="btnAdminLogin">لاگ ان کریں</button>
+      <button class="btn btn-dark" id="btnAdminLogin">لاگ ان کریں</button>
       <p id="astatus" class="status-msg"></p>
     </div>
 
     <div id="adminContent" class="hidden">
-      <div style="text-align: left; margin-bottom: 10px;">
-        <button onclick="adminLogout()" class="btn btn-red" style="padding: 6px 12px; font-size: 12px; width: auto;">🔒 ایڈمن لاگ آؤٹ کریں</button>
-      </div>
-
-      <!-- ایڈمن ٹرین مینجمنٹ سیکشن -->
-      <div class="box">
-        <div class="box-title" onclick="toggleAdminSection('secTrainAdmin')">🚆 ٹرینوں کا لائیو اسٹیٹس اور ٹائم مینج کریں <span style="font-size: 12px; color: #16a34a;">(کلک کریں 🔽)</span></div>
-        <div id="secTrainAdmin" class="collapsible-content hidden">
-          <p style="font-size:12px; color:#555; margin-bottom:10px;">یہاں سے آپ کسی بھی ٹرین کا موجودہ مقام اور تاخیر کا اسٹیٹس تبدیل کر سکتے ہیں:</p>
-          <div id="adminTrainList"></div>
-        </div>
+      <div style="text-align:left; margin-bottom:10px;">
+        <button onclick="adminLogout()" class="btn btn-red" style="padding:6px 12px; font-size:12px; width:auto;">🔒 لاگ آؤٹ</button>
       </div>
 
       <div class="box">
-        <div class="box-title" onclick="toggleAdminSection('secPassengers')">👥 تمام رجسٹرڈ مسافر <span style="font-size: 12px; color: #16a34a;">(کلک کریں 🔽)</span></div>
+        <div class="box-title" onclick="toggleAdminSection('secTrainAdmin')">🚆 ٹرین اسٹیٹس مینج کریں <span>🔽</span></div>
+        <div id="secTrainAdmin" class="collapsible-content hidden"><div id="adminTrainList"></div></div>
+      </div>
+
+      <div class="box">
+        <div class="box-title" onclick="toggleAdminSection('secPassengers')">👥 رجسٹرڈ مسافر <span>🔽</span></div>
         <div id="secPassengers" class="collapsible-content hidden"><div id="adminPassengers"></div></div>
       </div>
 
       <div class="box">
-        <div class="box-title" onclick="toggleAdminSection('secDrivers')">🚘 تمام رجسٹرڈ ڈرائیورز <span style="font-size: 12px; color: #16a34a;">(کلک کریں 🔽)</span></div>
+        <div class="box-title" onclick="toggleAdminSection('secDrivers')">🚘 رجسٹرڈ ڈرائیورز <span>🔽</span></div>
         <div id="secDrivers" class="collapsible-content hidden">
           <div class="vehicle-filter-bar" id="adminDriverFilterBar">
             <button class="v-filter-btn active" onclick="filterAdminDrivers('ALL', this)">تمام (All)</button>
@@ -357,17 +434,17 @@
       </div>
 
       <div class="box">
-        <div class="box-title" onclick="toggleAdminSection('secRidesOffers')">📊 تمام رائیڈ آفرز (مسافر اور ڈرائیورز) <span style="font-size: 12px; color: #16a34a;">(کلک کریں 🔽)</span></div>
+        <div class="box-title" onclick="toggleAdminSection('secRidesOffers')">📊 تمام رائیڈز اور روٹ بڈز <span>🔽</span></div>
         <div id="secRidesOffers" class="collapsible-content hidden">
-          <div style="font-weight: bold; color: #16a34a; margin-bottom: 5px;">مسافروں کی رائیڈز:</div>
+          <div style="font-weight:bold; color:#16a34a; margin-bottom:4px;">مسافروں کی رائیڈز:</div>
           <div id="adminPassengerRidesView"></div>
-          <div style="font-weight: bold; color: #0284c7; margin-top: 15px; margin-bottom: 5px;">ڈرائیورز روٹ بڈز:</div>
+          <div style="font-weight:bold; color:#0284c7; margin-top:12px; margin-bottom:4px;">ڈرائیورز روٹ بڈز:</div>
           <div id="adminDriverSchedulesView"></div>
         </div>
       </div>
 
       <div class="box">
-        <div class="box-title" onclick="toggleAdminSection('secBlocked')">🚫 بلاک لسٹ مینجمنٹ <span style="font-size: 12px; color: #16a34a;">(کلک کریں 🔽)</span></div>
+        <div class="box-title" onclick="toggleAdminSection('secBlocked')">🚫 بلاک لسٹ <span>🔽</span></div>
         <div id="secBlocked" class="collapsible-content hidden"><div id="blockedList"></div></div>
       </div>
     </div>
@@ -396,46 +473,131 @@ const SECURE_ADMIN_USER = "azam85";
 const SECURE_ADMIN_PASS = "ccab6974";
 const appLoadTime = Date.now();
 const DEFAULT_AVATAR = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 24 24' fill='%2316a34a'><circle cx='12' cy='8' r='4'/><path d='M4 20c0-4 4-6 8-6s8 2 8 6'/></svg>";
+const DEFAULT_VEHICLE = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='80' height='60' viewBox='0 0 24 24' fill='%230284c7'><path d='M5 11l1.5-4.5h11L19 11m-1.5 5a1.5 1.5 0 0 1-1.5-1.5 1.5 1.5 0 0 1 1.5-1.5 1.5 1.5 0 0 1 1.5 1.5 1.5 1.5 0 0 1-1.5 1.5m-11 0A1.5 1.5 0 0 1 5 14.5 1.5 1.5 0 0 1 6.5 13 1.5 1.5 0 0 1 8 14.5 1.5 1.5 0 0 1 6.5 16M18.92 6c-.2-.58-.76-1-1.42-1h-11c-.66 0-1.22.42-1.42 1L3 12v8a1 1 0 0 0 1 1h1a1 1 0 0 0 1-1v-1h12v1a1 1 0 0 0 1 1h1a1 1 0 0 0 1-1v-8l-2.08-6z'/></svg>";
 
 const locations = [
-  "Basirpur بصیرپور", "Faisalabad فیصل آباد", "Multan ملتان", "Gujranwala گوجرانوالہ", 
-  "Rawalpindi راولپنڈی", "Islamabad اسلام آباد", "Ganda Singh گنڈا سنگھ", "Tahir Kalan طاہرکلاں", 
-  "Wanan Wala ونانوالہ", "Muhammad Nagar محمد نگر", "Tahir Khurd طاہر خورد", "Kot Sher Khan کوٹ شیر خان", 
-  "Chak 8/D چک 8 ڈی", "Kalasan Hameed کلاسن حمید", "Nihal Mahar نہال مہار", "Rohela Tejeka روہیلہ تیجیکا", 
-  "Ameera Tejeka امیرا تیجیکا", "Qasim Ke قاسم کے", "Mahar Daim Ke Mahar مہار دائم کے مہار", 
-  "Azam Chowk اعظم چوک", "Qari Chowk قاری چوک", "Chah Chowki Wala چاہ چوکی والا", "Manah Khagah منہ کھگھہ", 
-  "Chowk Hafiz Lal چوک حافظ لال", "Chak Hafiz چک حافظ", "Lal Lalu لال لالو", "Gadar Rahman گدڑ رحمان", 
-  "Saonka سائونکا", "Batak Lali Ke بٹک للی کے", "Shahamand شہامند", "Bharpur Shah بھرپور شاہ", 
-  "Dighi Ahmed Yar ڈگھی احمد یار", "Lari Adda Basirpur لاری اڈا", "Railway Station ریلوے اسٹیشن", 
-  "Mohalla Dars محلہ درس", "Allama Iqbal Town علامہ اقبال ٹائون", "Gali Postmaster والی گلی", 
-  "Ghaus Pura غوث پورہ", "Tariq Pura طارق پورہ", "Thokar Gamman ٹھوکر گاماں", "Chak Ahmed Shah چک احمد شاہ", 
-  "Chak Ibrahim چک ابراہیم", "Petrol Pump پٹرول پمپ", "Khole Mureed کھولے مرید", "Khole Jaimil کھولے جیمل", 
-  "Sohag Pul سہاگ پل", "Chak Bota چک بوٹا", "Mahboob Shah محبوب شاہ", "Gilani Chowk گیلانی چوک", 
-  "Mohalla Exchange ایکسچینج", "Depalpur دیپالپور", "Hujra Shah Muqaam حجرہ شاہ مقیم", 
-  "Haveli Lakha حویلی لکھا", "Okara اوکاڑہ", "Mandi Ahmad Abad منڈی احمد آباد", "Sahiwal ساہیوال", 
-  "Kasur قصور", "Lahore لاہور"
+  "Basirpur بصیرپور", "Faisalabad فیصل آباد", "Multan ملتان", "Gujranwala گوجرانوالہ",
+  "Rawalpindi راولپنڈی", "Islamabad اسلام آباد", "Lahore لاہور", "Sahiwal ساہیوال",
+  "Okara اوکاڑہ", "Kasur قصور", "Depalpur دیپالپور", "Hujra Shah Muqaam حجرہ شاہ مقیم",
+  "Haveli Lakha حویلی لکھا", "Mandi Ahmad Abad منڈی احمد آباد", "Lari Adda Basirpur لاری اڈا",
+  "Railway Station ریلوے اسٹیشن", "Azam Chowk اعظم چوک", "Gilani Chowk گیلانی چوک"
 ];
 
-function populateLocationsDatalist() {
-  const datalist = document.getElementById('locationsList');
-  if(!datalist) return;
-  datalist.innerHTML = '';
-  locations.forEach(loc => {
-    datalist.appendChild(new Option(loc, loc));
-  });
+const locationsListEl = document.getElementById('locationsList');
+if (locationsListEl) {
+  locations.forEach(loc => locationsListEl.appendChild(new Option(loc, loc)));
 }
-populateLocationsDatalist();
 
-// --- لائیو کیمرہ منطق (Driver Live Camera Logic) ---
-let cameraStream = null;
-let capturedDriverPhotoBase64 = "";
+// --- WhatsApp / SMS OTP Verification ---
+let pGeneratedOtp = "";
+let pOtpVerified = false;
+let dGeneratedOtp = "";
+let dOtpVerified = false;
 
-function stopCameraStream() {
-  if (cameraStream) {
-    cameraStream.getTracks().forEach(track => track.stop());
-    cameraStream = null;
+function generateSixDigitOtp() {
+  return String(Math.floor(100000 + Math.random() * 900000));
+}
+
+function formatPkPhone(phone) {
+  let clean = (phone || '').replace(/[^0-9]/g, '');
+  if (clean.startsWith('0')) clean = '92' + clean.substring(1);
+  return clean;
+}
+
+function sendOtpViaChannel(phone, code, roleUr, channel) {
+  const formatted = formatPkPhone(phone);
+  const msg = `Chaudhry Cab (CCab) میں ${roleUr} رجسٹریشن کے لیے آپ کا تصدیقی کوڈ ہے: ${code}`;
+  if (channel === 'whatsapp') {
+    const url = `https://api.whatsapp.com/send?phone=${formatted}&text=${encodeURIComponent(msg)}`;
+    const win = window.open(url, '_blank', 'noopener,noreferrer');
+    if (!win) window.location.href = `whatsapp://send?phone=${formatted}&text=${encodeURIComponent(msg)}`;
+  } else {
+    window.location.href = `sms:+${formatted}?body=${encodeURIComponent(msg)}`;
   }
 }
+
+document.getElementById('btnSendPOtpWa')?.addEventListener('click', () => {
+  const phone = document.getElementById('pregPhone').value.trim();
+  if (!phone) { alert('پہلے موبائل نمبر درج کریں!'); return; }
+  pGeneratedOtp = generateSixDigitOtp();
+  pOtpVerified = false;
+  const disp = document.getElementById('pOtpDisplay');
+  disp.style.display = 'block';
+  disp.innerText = `🔐 آپ کا کوڈ: ${pGeneratedOtp}`;
+  document.getElementById('pOtpStatus').innerText = '📲 واٹس ایپ کوڈ بھیج دیا گیا، کوڈ درج کر کے تصدیق کریں۔';
+  sendOtpViaChannel(phone, pGeneratedOtp, 'پسنجر', 'whatsapp');
+});
+
+document.getElementById('btnSendPOtpSms')?.addEventListener('click', () => {
+  const phone = document.getElementById('pregPhone').value.trim();
+  if (!phone) { alert('پہلے موبائل نمبر درج کریں!'); return; }
+  pGeneratedOtp = generateSixDigitOtp();
+  pOtpVerified = false;
+  const disp = document.getElementById('pOtpDisplay');
+  disp.style.display = 'block';
+  disp.innerText = `🔐 آپ کا کوڈ: ${pGeneratedOtp}`;
+  document.getElementById('pOtpStatus').innerText = '✉️ SMS کوڈ تیار ہے، کوڈ درج کر کے تصدیق کریں۔';
+  sendOtpViaChannel(phone, pGeneratedOtp, 'پسنجر', 'sms');
+});
+
+document.getElementById('btnVerifyPOtp')?.addEventListener('click', () => {
+  const entered = document.getElementById('pregOtpInput').value.trim();
+  const st = document.getElementById('pOtpStatus');
+  if (!pGeneratedOtp) { st.innerText = '⚠️ پہلے کوڈ بھیجیں!'; st.style.color = '#dc2626'; return; }
+  if (entered === pGeneratedOtp) {
+    pOtpVerified = true;
+    st.innerText = '✅ کوڈ کی کامیاب تصدیق ہو گئی!';
+    st.style.color = '#16a34a';
+  } else {
+    pOtpVerified = false;
+    st.innerText = '❌ کوڈ غلط ہے، دوبارہ کوشش کریں!';
+    st.style.color = '#dc2626';
+  }
+});
+
+document.getElementById('btnSendDOtpWa')?.addEventListener('click', () => {
+  const phone = document.getElementById('dphoneReg').value.trim();
+  if (!phone) { alert('پہلے موبائل نمبر درج کریں!'); return; }
+  dGeneratedOtp = generateSixDigitOtp();
+  dOtpVerified = false;
+  const disp = document.getElementById('dOtpDisplay');
+  disp.style.display = 'block';
+  disp.innerText = `🔐 آپ کا کوڈ: ${dGeneratedOtp}`;
+  document.getElementById('dOtpStatus').innerText = '📲 واٹس ایپ کوڈ بھیج دیا گیا، کوڈ درج کر کے تصدیق کریں۔';
+  sendOtpViaChannel(phone, dGeneratedOtp, 'ڈرائیور', 'whatsapp');
+});
+
+document.getElementById('btnSendDOtpSms')?.addEventListener('click', () => {
+  const phone = document.getElementById('dphoneReg').value.trim();
+  if (!phone) { alert('پہلے موبائل نمبر درج کریں!'); return; }
+  dGeneratedOtp = generateSixDigitOtp();
+  dOtpVerified = false;
+  const disp = document.getElementById('dOtpDisplay');
+  disp.style.display = 'block';
+  disp.innerText = `🔐 آپ کا کوڈ: ${dGeneratedOtp}`;
+  document.getElementById('dOtpStatus').innerText = '✉️ SMS کوڈ تیار ہے، کوڈ درج کر کے تصدیق کریں۔';
+  sendOtpViaChannel(phone, dGeneratedOtp, 'ڈرائیور', 'sms');
+});
+
+document.getElementById('btnVerifyDOtp')?.addEventListener('click', () => {
+  const entered = document.getElementById('dregOtpInput').value.trim();
+  const st = document.getElementById('dOtpStatus');
+  if (!dGeneratedOtp) { st.innerText = '⚠️ پہلے کوڈ بھیجیں!'; st.style.color = '#dc2626'; return; }
+  if (entered === dGeneratedOtp) {
+    dOtpVerified = true;
+    st.innerText = '✅ کوڈ کی کامیاب تصدیق ہو گئی!';
+    st.style.color = '#16a34a';
+  } else {
+    dOtpVerified = false;
+    st.innerText = '❌ کوڈ غلط ہے، دوبارہ کوشش کریں!';
+    st.style.color = '#dc2626';
+  }
+});
+
+// --- Live Camera & Vehicle Photo ---
+let cameraStream = null;
+let capturedDriverPhotoBase64 = "";
+let capturedVehiclePhotoBase64 = "";
 
 const btnStartCamera = document.getElementById('btnStartCamera');
 const btnCapturePhoto = document.getElementById('btnCapturePhoto');
@@ -445,90 +607,105 @@ const driverCanvas = document.getElementById('driverCanvas');
 const driverPhotoPreview = document.getElementById('driverPhotoPreview');
 const cameraStatus = document.getElementById('cameraStatus');
 
+const dvehiclePhotoInput = document.getElementById('dvehiclePhotoInput');
+const vehiclePhotoPreview = document.getElementById('vehiclePhotoPreview');
+const vehiclePhotoStatus = document.getElementById('vehiclePhotoStatus');
+
+function stopCameraStream() {
+  if (cameraStream) {
+    cameraStream.getTracks().forEach(track => track.stop());
+    cameraStream = null;
+  }
+}
+
 async function startDriverCamera() {
   if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-    cameraStatus.innerText = "❌ آپ کا براؤزر کیمرے کو سپورٹ نہیں کرتا۔";
+    cameraStatus.innerText = "❌ یہ براؤزر کیمرے کو سپورٹ نہیں کرتا۔";
     cameraStatus.style.color = "red";
     return;
   }
   try {
     stopCameraStream();
-    cameraStatus.innerText = "⏳ کیمرہ آن ہو رہا ہے، اجازت (Allow) دیں...";
+    cameraStatus.innerText = "⏳ کیمرہ آن ہو رہا ہے...";
     cameraStatus.style.color = "#166534";
-
     cameraStream = await navigator.mediaDevices.getUserMedia({
       video: { facingMode: "user", width: { ideal: 480 }, height: { ideal: 480 } },
       audio: false
     });
-
     driverVideo.srcObject = cameraStream;
     driverVideo.classList.remove('hidden');
     driverPhotoPreview.classList.add('hidden');
     btnStartCamera.classList.add('hidden');
     btnRetakePhoto.classList.add('hidden');
     btnCapturePhoto.classList.remove('hidden');
-    cameraStatus.innerText = "📷 کیمرہ آن ہے! چہرہ سامنے رکھ کر 'تصویر کھینچیں' دبائیں۔";
+    cameraStatus.innerText = "📷 کیمرہ آن ہے! 'تصویر کھینچیں' دبائیں۔";
   } catch (err) {
-    cameraStatus.innerText = "❌ کیمرہ آن نہیں ہو سکا۔ براہ کرم کیمرے کی اجازت دیں۔";
+    cameraStatus.innerText = "❌ کیمرے کی اجازت درکار ہے (HTTPS لازمی ہے)۔";
     cameraStatus.style.color = "red";
   }
 }
 
-if (btnStartCamera) {
-  btnStartCamera.addEventListener('click', startDriverCamera);
-}
+btnStartCamera?.addEventListener('click', startDriverCamera);
 
-if (btnCapturePhoto) {
-  btnCapturePhoto.addEventListener('click', () => {
-    if (!driverVideo.videoWidth) return;
-    // تصویر کو کمپریس کرنے کے لیے 240x240 سائز رکھیں
-    const size = 240;
-    driverCanvas.width = size;
-    driverCanvas.height = size;
-    const ctx = driverCanvas.getContext('2d');
+btnCapturePhoto?.addEventListener('click', () => {
+  if (!driverVideo.videoWidth) return;
+  const size = 240;
+  driverCanvas.width = size;
+  driverCanvas.height = size;
+  const ctx = driverCanvas.getContext('2d');
+  const vw = driverVideo.videoWidth, vh = driverVideo.videoHeight;
+  const minSide = Math.min(vw, vh);
+  ctx.translate(size, 0);
+  ctx.scale(-1, 1);
+  ctx.drawImage(driverVideo, (vw - minSide) / 2, (vh - minSide) / 2, minSide, minSide, 0, 0, size, size);
+  capturedDriverPhotoBase64 = driverCanvas.toDataURL('image/jpeg', 0.65);
 
-    const vw = driverVideo.videoWidth;
-    const vh = driverVideo.videoHeight;
-    const minSide = Math.min(vw, vh);
-    const sx = (vw - minSide) / 2;
-    const sy = (vh - minSide) / 2;
+  stopCameraStream();
+  driverVideo.classList.add('hidden');
+  driverPhotoPreview.src = capturedDriverPhotoBase64;
+  driverPhotoPreview.classList.remove('hidden');
+  btnCapturePhoto.classList.add('hidden');
+  btnRetakePhoto.classList.remove('hidden');
+  cameraStatus.innerText = "✅ لائیو تصویر محفوظ ہو گئی!";
+  cameraStatus.style.color = "#16a34a";
+});
 
-    // سیلفی مرر سیدھا کرنے کے لیے فلپ کریں
-    ctx.translate(size, 0);
-    ctx.scale(-1, 1);
-    ctx.drawImage(driverVideo, sx, sy, minSide, minSide, 0, 0, size, size);
+btnRetakePhoto?.addEventListener('click', () => {
+  capturedDriverPhotoBase64 = "";
+  startDriverCamera();
+});
 
-    capturedDriverPhotoBase64 = driverCanvas.toDataURL('image/jpeg', 0.65);
+dvehiclePhotoInput?.addEventListener('change', (e) => {
+  const file = e.target.files?.[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = (ev) => {
+    const img = new Image();
+    img.onload = () => {
+      const maxW = 320;
+      const scale = Math.min(1, maxW / img.width);
+      const canvas = document.createElement('canvas');
+      canvas.width = Math.round(img.width * scale);
+      canvas.height = Math.round(img.height * scale);
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+      capturedVehiclePhotoBase64 = canvas.toDataURL('image/jpeg', 0.65);
+      vehiclePhotoPreview.src = capturedVehiclePhotoBase64;
+      vehiclePhotoPreview.classList.remove('hidden');
+      vehiclePhotoStatus.innerText = "✅ گاڑی کی تصویر منتخب ہو گئی!";
+      vehiclePhotoStatus.style.color = "#0284c7";
+    };
+    img.src = ev.target.result;
+  };
+  reader.readAsDataURL(file);
+});
 
-    stopCameraStream();
-    driverVideo.classList.add('hidden');
-    driverPhotoPreview.src = capturedDriverPhotoBase64;
-    driverPhotoPreview.classList.remove('hidden');
-
-    btnCapturePhoto.classList.add('hidden');
-    btnRetakePhoto.classList.remove('hidden');
-    cameraStatus.innerText = "✅ لائیو تصویر محفوظ ہو گئی ہے!";
-    cameraStatus.style.color = "#16a34a";
-  });
-}
-
-if (btnRetakePhoto) {
-  btnRetakePhoto.addEventListener('click', () => {
-    capturedDriverPhotoBase64 = "";
-    startDriverCamera();
-  });
-}
-
-// --- ٹرین ڈیٹا ---
+// --- Trains Data ---
 let globalTrainsData = [
-  { code: "BULLEH-UP", name: "بلھے شاہ ایکسپریس (UP - لاہور سے پاکپتن)", route: "لاہور ➔ قصور ➔ بصیرپور ➔ حویلی لکھا ➔ پاکپتن", timing: "بصیرپور آمد: 10:15 AM", delay: "آن ٹائم (روشن رفتار)", liveLoc: "اس وقت قصور اور بصیرپور کے درمیان رواں دواں ہے" },
-  { code: "BULLEH-DN", name: "بلھے شاہ ایکسپریس (DN - پاکپتن سے لاہور)", route: "پاکپتن ➔ حویلی لکھا ➔ بصیرپور ➔ قصور ➔ لاہور", timing: "بصیرپور آمد: 03:45 PM", delay: "10 منٹ تاخیر", liveLoc: "اس وقت پاکپتن اسٹیشن پر موجود ہے" },
-  { code: "37-UP", name: "فرید ایکسپریس (UP - لاہور سے کراچی)", route: "لاہور ➔ قصور ➔ بصیرپور ➔ حویلی لکھا ➔ پاکپتن ➔ ملتان ➔ کراچی", timing: "بصیرپور آمد: 09:45 PM", delay: "آن ٹائم", liveLoc: "قصور جنکشن کراس کر چکی ہے" },
-  { code: "38-DN", name: "فرید ایکسپریس (DN - کراچی سے لاہور)", route: "کراچی ➔ ملتان ➔ پاکپتن ➔ حویلی لکھا ➔ بصیرپور ➔ قصور ➔ لاہور", timing: "بصیرپور آمد: 04:15 AM", delay: "15 منٹ تاخیر", liveLoc: "پاکپتن اور حویلی لکھا کے درمیان ہے" },
-  { code: "33-UP", name: "پاک بزنس ایکسپریس (UP - لاہور تا کراچی)", route: "لاہور ➔ ساہیوال ➔ ملتان ➔ روہڑی ➔ کراچی", timing: "ساہیوال آمد: 07:45 AM", delay: "آن ٹائم", liveLoc: "ساہیوال اسٹیشن پر رکی ہوئی ہے" },
-  { code: "34-DN", name: "پاک بزنس ایکسپریس (DN - کراچی تا لاہور)", route: "کراچی ➔ ملتان ➔ ساہیوال ➔ لاہور", timing: "ساہیوال آمد: 06:15 PM", delay: "20 منٹ تاخیر", liveLoc: "ملتان اور ساہیوال کے درمیان ہے" },
-  { code: "7-UP", name: "تیزگام ایکسپریس (UP - راولپنڈی تا کراچی)", route: "راولپنڈی ➔ لاہور ➔ اوکاڑہ ➔ ساہیوال ➔ ملتان ➔ کراچی", timing: "اوکاڑہ آمد: 10:30 AM", delay: "آن ٹائم", liveLoc: "اوکاڑہ جنکشن سے گزر رہی ہے" },
-  { code: "8-DN", name: "تیزگام ایکسپریس (DN - کراچی تا راولپنڈی)", route: "کراچی ➔ ملتان ➔ ساہیوال ➔ اوکاڑہ ➔ لاہور ➔ راولپنڈی", timing: "اوکاڑہ آمد: 04:10 PM", delay: "30 منٹ تاخیر", liveLoc: "ساہیوال اسٹیشن کراس کر چکی ہے" }
+  { code: "BULLEH-UP", name: "بلھے شاہ ایکسپریس (UP)", route: "لاہور ➔ قصور ➔ بصیرپور ➔ پاکپتن", timing: "بصیرپور: 10:15 AM", delay: "آن ٹائم", liveLoc: "بصیرپور کے قریب" },
+  { code: "BULLEH-DN", name: "بلھے شاہ ایکسپریس (DN)", route: "پاکپتن ➔ بصیرپور ➔ قصور ➔ لاہور", timing: "بصیرپور: 03:45 PM", delay: "10 منٹ تاخیر", liveLoc: "پاکپتن اسٹیشن" },
+  { code: "37-UP", name: "فرید ایکسپریس (UP)", route: "لاہور ➔ بصیرپور ➔ ملتان ➔ کراچی", timing: "بصیرپور: 09:45 PM", delay: "آن ٹائم", liveLoc: "قصور جنکشن" },
+  { code: "38-DN", name: "فرید ایکسپریس (DN)", route: "کراچی ➔ ملتان ➔ بصیرپور ➔ لاہور", timing: "بصیرپور: 04:15 AM", delay: "15 منٹ تاخیر", liveLoc: "حویلی لکھا کے قریب" }
 ];
 
 onValue(ref(db, 'trainsStatus'), snap => {
@@ -536,10 +713,7 @@ onValue(ref(db, 'trainsStatus'), snap => {
   if (serverData) {
     globalTrainsData = Object.values(serverData);
   } else {
-    // اگر فائر بیس پر ڈیٹا موجود نہ ہو تو ڈیفالٹ سیٹ کر دیں
-    globalTrainsData.forEach(t => {
-      set(ref(db, 'trainsStatus/' + t.code.replace(/[^a-zA-Z0-9]/g, '_')), t);
-    });
+    globalTrainsData.forEach(t => set(ref(db, 'trainsStatus/' + t.code.replace(/[^a-zA-Z0-9]/g, '_')), t));
   }
   renderTrainsUI();
   renderAdminTrainsUI();
@@ -549,47 +723,31 @@ function renderTrainsUI() {
   const query = (document.getElementById('trainSearchInput')?.value || '').toLowerCase().trim();
   const container = document.getElementById('trainScheduleList');
   if (!container) return;
-
-  const filtered = globalTrainsData.filter(t => 
-    t.name.toLowerCase().includes(query) || 
-    t.route.toLowerCase().includes(query) || 
-    t.code.toLowerCase().includes(query)
+  const filtered = globalTrainsData.filter(t =>
+    t.name.toLowerCase().includes(query) || t.route.toLowerCase().includes(query) || t.code.toLowerCase().includes(query)
   );
-
   container.innerHTML = filtered.length ? filtered.map(t => `
     <div class="card" style="border-right:4px solid #0f766e; background:#f0fdfa;">
-      <div style="display:flex; justify-content:space-between; align-items:center;">
-        <b style="color:#0f766e; font-size:14px;">🚆 ${t.name}</b>
-        <span class="badge" style="background:#0f766e;">${t.code}</span>
-      </div>
-      <div style="margin-top:5px; font-size:12px;"><b>روٹ:</b> ${t.route}</div>
-      <div style="margin-top:3px; font-size:12px; color:#1e40af;"><b>🕒 اسٹیشن ٹائم:</b> ${t.timing}</div>
-      <div style="margin-top:4px; font-size:12px; color:#b91c1c; font-weight:bold;">⏳ اسٹیٹس: ${t.delay}</div>
-      <div style="margin-top:3px; font-size:12px; color:#047857; font-weight:bold;">📍 موجودہ لوکیشن: ${t.liveLoc}</div>
+      <b>🚆 ${t.name}</b> <span class="badge" style="background:#0f766e;">${t.code}</span><br>
+      <span style="font-size:12px;">روٹ: ${t.route}</span><br>
+      <span style="font-size:12px; color:#1e40af;">🕒 ${t.timing} | ⏳ ${t.delay}</span><br>
+      <span style="font-size:12px; color:#047857; font-weight:bold;">📍 ${t.liveLoc}</span>
     </div>
-  `).join('') : '<p style="font-size:12px; color:#666; text-align:center;">اس نام سے کوئی ٹرین نہیں ملی۔</p>';
+  `).join('') : '<p style="font-size:12px; color:#666; text-align:center;">کوئی ٹرین نہیں ملی۔</p>';
 }
 
 function renderAdminTrainsUI() {
   const adminContainer = document.getElementById('adminTrainList');
   if (!adminContainer) return;
-
   adminContainer.innerHTML = globalTrainsData.map(t => {
     const key = t.code.replace(/[^a-zA-Z0-9]/g, '_');
     return `
-      <div class="card" style="background:#f8fafc; border-right:4px solid #0f766e; margin-bottom:12px;">
-        <b style="color:#0f766e; font-size:14px;">🚆 ${t.name}</b>
-        
-        <label style="font-size:12px; margin-top:6px;">موجودہ لوکیشن (اسٹیشن یا مقام):</label>
-        <input type="text" id="adminLiveLoc_${key}" value="${t.liveLoc}" style="padding:8px; font-size:13px;">
-
-        <label style="font-size:12px; margin-top:6px;">اسٹیٹس / تاخیر (Delay):</label>
-        <input type="text" id="adminDelay_${key}" value="${t.delay}" style="padding:8px; font-size:13px;">
-
-        <label style="font-size:12px; margin-top:6px;">اسٹیشن کا مقررہ وقت (Timing):</label>
-        <input type="text" id="adminTiming_${key}" value="${t.timing}" style="padding:8px; font-size:13px;">
-
-        <button onclick="updateTrainByAdmin('${key}')" class="btn btn-train" style="padding:8px; font-size:13px; margin-top:8px;">💾 لائیو اسٹیٹس اپڈیٹ کریں</button>
+      <div class="card">
+        <b>🚆 ${t.name}</b>
+        <label>موجودہ لوکیشن:</label><input type="text" id="adminLiveLoc_${key}" value="${t.liveLoc}">
+        <label>اسٹیٹس / تاخیر:</label><input type="text" id="adminDelay_${key}" value="${t.delay}">
+        <label>وقت:</label><input type="text" id="adminTiming_${key}" value="${t.timing}">
+        <button onclick="updateTrainByAdmin('${key}')" class="btn btn-train" style="padding:8px; font-size:12px;">💾 اپڈیٹ کریں</button>
       </div>
     `;
   }).join('');
@@ -598,428 +756,265 @@ function renderAdminTrainsUI() {
 window.updateTrainByAdmin = function(key) {
   const trainObj = globalTrainsData.find(t => t.code.replace(/[^a-zA-Z0-9]/g, '_') === key);
   if (!trainObj) return;
-
   const liveLoc = document.getElementById(`adminLiveLoc_${key}`).value.trim();
   const delay = document.getElementById(`adminDelay_${key}`).value.trim();
   const timing = document.getElementById(`adminTiming_${key}`).value.trim();
-
-  if(!liveLoc || !delay || !timing) {
-    alert('براہ کرم تمام فیلڈز پر کچھ نہ کچھ درج کریں!');
-    return;
-  }
-
-  set(ref(db, 'trainsStatus/' + key), {
-    code: trainObj.code,
-    name: trainObj.name,
-    route: trainObj.route,
-    timing, delay, liveLoc
-  }).then(() => {
-    alert(`✅ ٹرین (${trainObj.name}) کا لائیو اسٹیٹس کامیابی سے اپڈیٹ کر دیا گیا ہے!`);
-  }).catch(err => {
-    alert('❌ خامی پیش آئی: ' + err.message);
-  });
+  if (!liveLoc || !delay || !timing) { alert('تمام فیلڈز پر کریں!'); return; }
+  set(ref(db, 'trainsStatus/' + key), { ...trainObj, liveLoc, delay, timing })
+    .then(() => alert('✅ ٹرین اسٹیٹس اپڈیٹ ہو گیا!'));
 };
 
-window.filterTrains = function() {
-  renderTrainsUI();
-};
+window.filterTrains = renderTrainsUI;
 
 window.openPlayStoreApp = function() {
   const pkg = "com.apps.tmt";
   const intentUrl = `intent://details?id=${pkg}#Intent;package=com.android.vending;scheme=market;end;`;
   const webUrl = `https://play.google.com/store/apps/details?id=${pkg}`;
-
   const win = window.open(intentUrl, '_blank', 'noopener,noreferrer');
-  setTimeout(() => {
-    if (!win || win.closed || typeof win.closed === 'undefined') {
-      window.open(webUrl, '_blank', 'noopener,noreferrer');
-    }
-  }, 500);
+  setTimeout(() => { if (!win || win.closed) window.open(webUrl, '_blank', 'noopener,noreferrer'); }, 500);
 };
 
+// --- Fare Slider ---
 let fare = 300;
 const rg = document.getElementById('farerange'), nm = document.getElementById('farenum'), sh = document.getElementById('fareshow');
-function syncFare(v) { fare = parseInt(v) || 100; if(fare < 100) fare = 100; if(rg) rg.value = fare; if(nm) nm.value = fare; if(sh) sh.innerText = 'Rs ' + fare; }
-if(rg) rg.addEventListener('input', e => syncFare(e.target.value)); 
-if(nm) nm.addEventListener('input', e => syncFare(e.target.value));
+function syncFare(v) {
+  fare = parseInt(v) || 100;
+  if (fare < 100) fare = 100;
+  if (rg) rg.value = fare;
+  if (nm) nm.value = fare;
+  if (sh) sh.innerText = 'Rs ' + fare;
+}
+rg?.addEventListener('input', e => syncFare(e.target.value));
+nm?.addEventListener('input', e => syncFare(e.target.value));
 
+// --- Tabs & Helpers ---
 window.switchTab = function(tabId) {
   stopCameraStream();
-  ['passengerTab', 'driverTab', 'trainTab', 'adminTab'].forEach(id => { 
-    const el = document.getElementById(id);
-    if(el) el.classList.add('hidden'); 
-  });
-  const targetEl = document.getElementById(tabId);
-  if(targetEl) targetEl.classList.remove('hidden');
-
-  const buttons = document.querySelectorAll('.tab-btn'); 
-  buttons.forEach(btn => btn.classList.remove('active'));
-  
-  if(tabId==='passengerTab') buttons[0].classList.add('active'); 
-  if(tabId==='driverTab') buttons[1].classList.add('active'); 
-  if(tabId==='trainTab') {
-    buttons[2].classList.add('active');
-    renderTrainsUI();
-  }
-  if(tabId==='adminTab') buttons[3].classList.add('active');
-  
-  if(tabId === 'passengerTab' && map) {
-    setTimeout(() => { map.invalidateSize(); }, 200);
-  }
-}
-
-window.toggleAdminSection = function(id) {
-  const sections = ['secTrainAdmin', 'secPassengers', 'secDrivers', 'secRidesOffers', 'secBlocked'];
-  sections.forEach(secId => {
-    const el = document.getElementById(secId);
-    if(el) {
-      if(secId === id) el.classList.toggle('hidden');
-      else el.classList.add('hidden');
-    }
-  });
-}
-
-window.triggerSOS = function() {
-  if (confirm("🚨 کیا آپ واقعی ایمرجنسی SOS الرٹ فعال کرنا چاہتے ہیں؟")) {
-    window.location.href = "tel:15";
-  }
+  ['passengerTab', 'driverTab', 'trainTab', 'adminTab'].forEach(id => document.getElementById(id)?.classList.add('hidden'));
+  document.getElementById(tabId)?.classList.remove('hidden');
+  const btns = document.querySelectorAll('.tab-btn');
+  btns.forEach(b => b.classList.remove('active'));
+  if (tabId === 'passengerTab') btns[0]?.classList.add('active');
+  if (tabId === 'driverTab') btns[1]?.classList.add('active');
+  if (tabId === 'trainTab') { btns[2]?.classList.add('active'); renderTrainsUI(); }
+  if (tabId === 'adminTab') btns[3]?.classList.add('active');
+  if (tabId === 'passengerTab' && map) setTimeout(() => map.invalidateSize(), 200);
 };
 
-function playBeepSound() {
-  try {
-    const ctx = new (window.AudioContext || window.webkitAudioContext)();
-    const osc = ctx.createOscillator();
-    osc.type = 'sine';
-    osc.frequency.setValueAtTime(880, ctx.currentTime);
-    osc.connect(ctx.destination);
-    osc.start();
-    osc.stop(ctx.currentTime + 0.25);
-  } catch (e) {}
-}
+window.toggleAdminSection = function(id) {
+  ['secTrainAdmin', 'secPassengers', 'secDrivers', 'secRidesOffers', 'secBlocked'].forEach(secId => {
+    const el = document.getElementById(secId);
+    if (!el) return;
+    if (secId === id) el.classList.toggle('hidden');
+    else el.classList.add('hidden');
+  });
+};
+
+window.triggerSOS = function() {
+  if (confirm("🚨 کیا آپ ایمرجنسی SOS کال (15) کرنا چاہتے ہیں؟")) window.location.href = "tel:15";
+};
 
 function showLiveAlert(title, body, waPhone, waText) {
-  playBeepSound();
   const banner = document.getElementById('liveAlertBanner');
-  if(!banner) return;
+  if (!banner) return;
   document.getElementById('alertTitle').innerText = title;
   document.getElementById('alertBody').innerText = body;
-  const waBtn = document.getElementById('alertWaBtn');
-  waBtn.onclick = () => {
-    openWhatsApp(waPhone, waText);
-    closeLiveAlert();
-  };
+  document.getElementById('alertWaBtn').onclick = () => { openWhatsApp(waPhone, waText); closeLiveAlert(); };
   banner.classList.remove('hidden');
 }
 
-window.closeLiveAlert = function() {
-  document.getElementById('liveAlertBanner').classList.add('hidden');
-};
+window.closeLiveAlert = () => document.getElementById('liveAlertBanner')?.classList.add('hidden');
+window.closeBroadcastModal = () => document.getElementById('broadcastModal')?.classList.add('hidden');
 
 function openBroadcastModal(title, desc, targets, messageText) {
   document.getElementById('broadcastModalTitle').innerText = title;
   document.getElementById('broadcastModalDesc').innerText = desc;
   const listDiv = document.getElementById('broadcastTargetsList');
-  
-  if (!targets || targets.length === 0) {
-    listDiv.innerHTML = '<p style="font-size:13px; color:#dc2626; text-align:center;">اس وقت کوئی آن لائن ممبر دستیاب نہیں ہے۔</p>';
-  } else {
-    listDiv.innerHTML = targets.map(t => `
+  listDiv.innerHTML = (!targets || !targets.length)
+    ? '<p style="font-size:12px; color:#dc2626; text-align:center;">اس وقت کوئی آن لائن ممبر نہیں ہے۔</p>'
+    : targets.map(t => `
       <div class="card" style="display:flex; justify-content:space-between; align-items:center; background:#f0fdf4;">
-        <div>
-          <b>${t.name}</b><br>
-          <span style="font-size:11px; color:#555;">${t.info} | 📞 ${t.phone}</span>
-        </div>
-        <button onclick="openWhatsApp('${t.phone}', \`${messageText.replace(/`/g, "'")}\`)" class="btn btn-whatsapp" style="width:auto; padding:6px 12px; margin-top:0; font-size:12px;">💬 میسج بھیجیں</button>
+        <div><b>${t.name}</b><br><span style="font-size:11px; color:#555;">${t.info} | 📞 ${t.phone}</span></div>
+        <button onclick="openWhatsApp('${t.phone}', \`${messageText.replace(/`/g, "'")}\`)" class="btn btn-whatsapp" style="width:auto; padding:6px 12px; margin-top:0; font-size:12px;">💬 میسج</button>
       </div>
     `).join('');
-  }
   document.getElementById('broadcastModal').classList.remove('hidden');
 }
 
-window.closeBroadcastModal = function() {
-  document.getElementById('broadcastModal').classList.add('hidden');
-};
-
 window.openWhatsApp = function(phone, text) {
-  var cleanPhone = phone.replace(/[^0-9]/g, ''); 
-  if(cleanPhone.startsWith('0')) cleanPhone = '92' + cleanPhone.substring(1);
-  
-  const encodedText = encodeURIComponent(text);
-  const waWebUrl = `https://api.whatsapp.com/send?phone=${cleanPhone}&text=${encodedText}`;
-  
-  const win = window.open(waWebUrl, '_blank', 'noopener,noreferrer');
-  if (!win) {
-    window.location.href = `whatsapp://send?phone=${cleanPhone}&text=${encodedText}`;
-  }
+  const cleanPhone = formatPkPhone(phone);
+  const url = `https://api.whatsapp.com/send?phone=${cleanPhone}&text=${encodeURIComponent(text)}`;
+  const win = window.open(url, '_blank', 'noopener,noreferrer');
+  if (!win) window.location.href = `whatsapp://send?phone=${cleanPhone}&text=${encodeURIComponent(text)}`;
 };
 
+// --- Map & Sessions ---
 let map, marker, userLat, userLng;
+let blockedPhones = {};
+let allRegisteredDriversList = [];
+let allOnlineDriversList = [];
+let allOnlinePassengersList = [];
+let currentVehicleFilter = 'ALL';
+let currentAdminDriverFilter = 'ALL';
+
+onValue(ref(db, 'blocked'), snap => { blockedPhones = snap.val() || {}; });
+function isBlocked(ph) { return !!blockedPhones[ph]?.blocked; }
+
 document.addEventListener("DOMContentLoaded", () => {
   const mapEl = document.getElementById('map');
-  if(mapEl) {
+  if (mapEl && typeof L !== 'undefined') {
     map = L.map('map').setView([30.5786, 73.8385], 13);
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      maxZoom: 19,
-      attribution: '© OpenStreetMap'
-    }).addTo(map);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19, attribution: '© OpenStreetMap' }).addTo(map);
   }
-
   checkPassengerSession();
   checkDriverSession();
-  
-  if(localStorage.getItem('ccab_admin_logged') === 'true') {
-    const adminLoginBox = document.getElementById('adminLoginBox');
-    const adminContent = document.getElementById('adminContent');
-    if(adminLoginBox) adminLoginBox.classList.add('hidden');
-    if(adminContent) adminContent.classList.remove('hidden');
+  if (localStorage.getItem('ccab_admin_logged') === 'true') {
+    document.getElementById('adminLoginBox')?.classList.add('hidden');
+    document.getElementById('adminContent')?.classList.remove('hidden');
   }
 });
 
+// --- Passenger Registration & Online Toggle ---
 async function checkPassengerSession() {
-  const savedPPhone = localStorage.getItem('ccab_pphone');
-  if(savedPPhone) {
-    const snap = await get(ref(db, 'passengers/' + savedPPhone));
-    if(snap.exists()) {
-      const pphoneLogin = document.getElementById('pphoneLogin');
-      if(pphoneLogin) pphoneLogin.value = savedPPhone;
-      verifyPassengerActive(savedPPhone);
-    } else {
-      resetPassengerSession();
-    }
+  const saved = localStorage.getItem('ccab_pphone');
+  if (!saved) return;
+  const snap = await get(ref(db, 'passengers/' + saved));
+  if (snap.exists()) {
+    document.getElementById('pphoneLogin').value = saved;
+    verifyPassengerActive(saved);
+  } else {
+    resetPassengerSession();
   }
 }
 
 async function verifyPassengerActive(phone) {
   const snap = await get(ref(db, 'passengers/' + phone));
-  if(snap.exists()) {
-    const data = snap.val();
-    if(data.name) {
-      const pname = document.getElementById('pname');
-      const pregName = document.getElementById('pregName');
-      if(pname) pname.value = data.name;
-      if(pregName) pregName.value = data.name;
-    }
-    if(data.phone) {
-      const pphone = document.getElementById('pphone');
-      const pregPhone = document.getElementById('pregPhone');
-      if(pphone) pphone.value = data.phone;
-      if(pregPhone) pregPhone.value = data.phone;
-    }
-    const pregCity = document.getElementById('pregCity');
-    if(data.city && pregCity) pregCity.value = data.city;
+  if (!snap.exists()) return;
+  const d = snap.val();
+  document.getElementById('pname').value = d.name || '';
+  document.getElementById('pphone').value = d.phone || '';
+  document.getElementById('passengerRegBox').classList.add('hidden');
+  document.getElementById('passengerWelcomeBox').classList.remove('hidden');
+  document.getElementById('passengerWelcomeMsg').innerText = `👤 خوش آمدید مسافر: ${d.name} (${d.phone})`;
 
-    const passengerRegBox = document.getElementById('passengerRegBox');
-    const passengerWelcomeBox = document.getElementById('passengerWelcomeBox');
-    const passengerWelcomeMsg = document.getElementById('passengerWelcomeMsg');
-    if(passengerRegBox) passengerRegBox.classList.add('hidden');
-    if(passengerWelcomeBox) passengerWelcomeBox.classList.remove('hidden');
-    if(passengerWelcomeMsg) passengerWelcomeMsg.innerText = `👤 خوش آمدید مسافر: ${data.name} (${data.phone})`;
-
-    const passengerMainContent = document.getElementById('passengerMainContent');
-    const btnPassengerOnline = document.getElementById('btnPassengerOnline');
-    const btnPassengerOffline = document.getElementById('btnPassengerOffline');
-
-    if(data.online) {
-      if(passengerMainContent) passengerMainContent.classList.remove('hidden');
-      if(btnPassengerOnline) btnPassengerOnline.classList.add('hidden');
-      if(btnPassengerOffline) btnPassengerOffline.classList.remove('hidden');
-    } else {
-      if(passengerMainContent) passengerMainContent.classList.add('hidden');
-      if(btnPassengerOnline) btnPassengerOnline.classList.remove('hidden');
-      if(btnPassengerOffline) btnPassengerOffline.classList.add('hidden');
-    }
+  if (d.online) {
+    document.getElementById('passengerMainContent').classList.remove('hidden');
+    document.getElementById('btnPassengerOnline').classList.add('hidden');
+    document.getElementById('btnPassengerOffline').classList.remove('hidden');
+  } else {
+    document.getElementById('passengerMainContent').classList.add('hidden');
+    document.getElementById('btnPassengerOnline').classList.remove('hidden');
+    document.getElementById('btnPassengerOffline').classList.add('hidden');
   }
 }
 
 window.resetPassengerSession = function() {
+  pGeneratedOtp = "";
+  pOtpVerified = false;
   localStorage.removeItem('ccab_pphone');
-  const passengerRegBox = document.getElementById('passengerRegBox');
-  const passengerWelcomeBox = document.getElementById('passengerWelcomeBox');
-  const passengerMainContent = document.getElementById('passengerMainContent');
-  const btnPassengerOnline = document.getElementById('btnPassengerOnline');
-  const btnPassengerOffline = document.getElementById('btnPassengerOffline');
-  const pphoneLogin = document.getElementById('pphoneLogin');
-  const pregPhone = document.getElementById('pregPhone');
-
-  if(passengerRegBox) passengerRegBox.classList.remove('hidden');
-  if(passengerWelcomeBox) passengerWelcomeBox.classList.add('hidden');
-  if(passengerMainContent) passengerMainContent.classList.add('hidden');
-  if(btnPassengerOnline) btnPassengerOnline.classList.remove('hidden');
-  if(btnPassengerOffline) btnPassengerOffline.classList.add('hidden');
-  if(pphoneLogin) pphoneLogin.value = '';
-  if(pregPhone) pregPhone.value = '';
+  document.getElementById('passengerRegBox').classList.remove('hidden');
+  document.getElementById('passengerWelcomeBox').classList.add('hidden');
+  document.getElementById('passengerMainContent').classList.add('hidden');
+  document.getElementById('btnPassengerOnline').classList.remove('hidden');
+  document.getElementById('btnPassengerOffline').classList.add('hidden');
+  document.getElementById('pphoneLogin').value = '';
+  document.getElementById('pregOtpInput').value = '';
+  document.getElementById('pOtpDisplay').style.display = 'none';
+  document.getElementById('pOtpStatus').innerText = '';
 };
 
-const btnRegisterPassengerDirect = document.getElementById('btnRegisterPassengerDirect');
-if(btnRegisterPassengerDirect) {
-  btnRegisterPassengerDirect.addEventListener('click', async () => {
-    const name = document.getElementById('pregName').value.trim();
-    const phone = document.getElementById('pregPhone').value.trim();
-    const city = document.getElementById('pregCity').value.trim();
+document.getElementById('btnRegisterPassengerDirect')?.addEventListener('click', async () => {
+  const name = document.getElementById('pregName').value.trim();
+  const phone = document.getElementById('pregPhone').value.trim();
+  const city = document.getElementById('pregCity').value.trim();
+  if (!name || !phone) { alert('نام اور موبائل نمبر لازمی ہے!'); return; }
+  if (!pOtpVerified) { alert('🔐 براہ کرم پہلے واٹس ایپ / SMS کوڈ کی تصدیق کریں!'); return; }
+  if (isBlocked(phone)) { alert('🚫 یہ نمبر بلاک ہے۔'); return; }
 
-    if(!name || !phone) {
-      alert('نام اور موبائل نمبر درج کرنا لازمی ہے!');
-      return;
-    }
-    if(isBlocked(phone)){ alert('🚫 آپ کو بلاک کیا گیا ہے'); return; }
+  const [pSnap, dSnap] = await Promise.all([get(ref(db, 'passengers/' + phone)), get(ref(db, 'drivers/' + phone))]);
+  if (pSnap.exists() || dSnap.exists()) {
+    alert('❌ یہ نمبر پہلے ہی رجسٹرڈ ہے۔');
+    return;
+  }
+  const existingLocal = localStorage.getItem('ccab_pphone');
+  if (existingLocal && existingLocal !== phone) {
+    alert('❌ اس براؤزر میں پہلے ہی ایک نمبر رجسٹرڈ ہے۔');
+    return;
+  }
 
-    const passengerSnap = await get(ref(db, 'passengers/' + phone));
-    const driverSnap = await get(ref(db, 'drivers/' + phone));
+  await set(ref(db, 'passengers/' + phone), { name, phone, city: city || 'بصیرپور', verified: true, online: false, registeredAt: Date.now() });
+  localStorage.setItem('ccab_pphone', phone);
+  document.getElementById('pphoneLogin').value = phone;
+  verifyPassengerActive(phone);
+  alert('✅ پسنجر رجسٹریشن مکمل! اب "آن لائن ہوں" دبائیں۔');
+});
 
-    if (passengerSnap.exists() || driverSnap.exists()) {
-      let existingName = passengerSnap.exists() ? passengerSnap.val().name : driverSnap.val().name;
-      alert(`❌ یہ موبائل نمبر (${phone}) پہلے ہی "${existingName}" کے نام سے رجسٹرڈ ہے۔`);
-      return;
-    }
+document.getElementById('btnPassengerOnline')?.addEventListener('click', async () => {
+  const phone = document.getElementById('pphoneLogin').value.trim();
+  const regPhone = localStorage.getItem('ccab_pphone');
+  if (!phone || regPhone !== phone) { alert('❌ یہ نمبر اس ڈیوائس پر رجسٹرڈ نہیں ہے!'); return; }
+  if (isBlocked(phone)) { alert('🚫 آپ بلاک ہیں۔'); return; }
+  const snap = await get(ref(db, 'passengers/' + phone));
+  if (!snap.exists()) { alert('⚠️ اکاؤنٹ نہیں ملا۔'); return; }
 
-    const existingRegisteredPhone = localStorage.getItem('ccab_pphone');
-    if(existingRegisteredPhone && existingRegisteredPhone !== phone) {
-      alert('❌ سیکیورٹی ایرر: اس براؤزر میں پہلے ہی ایک اور نمبر رجسٹرڈ ہے۔');
-      return;
-    }
+  const timeStr = new Date().toLocaleTimeString('ur-PK', { hour: '2-digit', minute: '2-digit' });
+  await update(ref(db, 'passengers/' + phone), { online: true, onlineTime: timeStr, time: Date.now() });
+  verifyPassengerActive(phone);
+  document.getElementById('pstatusLogin').innerText = `🟢 آپ آن لائن ہیں (${timeStr})`;
+});
 
-    await set(ref(db, 'passengers/' + phone), {
-      name, phone, city: city || 'بصیرپور', online: false, registeredAt: Date.now()
-    });
+document.getElementById('btnPassengerOffline')?.addEventListener('click', async () => {
+  const phone = document.getElementById('pphoneLogin').value.trim();
+  const regPhone = localStorage.getItem('ccab_pphone');
+  if (!phone || regPhone !== phone) return;
+  const timeStr = new Date().toLocaleTimeString('ur-PK', { hour: '2-digit', minute: '2-digit' });
+  await update(ref(db, 'passengers/' + phone), { online: false, offlineTime: timeStr, time: Date.now() });
+  verifyPassengerActive(phone);
+  document.getElementById('pstatusLogin').innerText = `🔴 آپ آف لائن ہیں (${timeStr})`;
+});
 
-    localStorage.setItem('ccab_pphone', phone);
-    const pphoneLogin = document.getElementById('pphoneLogin');
-    if(pphoneLogin) pphoneLogin.value = phone;
-
-    verifyPassengerActive(phone);
-    alert('✅ پسنجر اکاؤنٹ کامیابی سے رجسٹر ہو گیا ہے! اب "آن لائن ہوں" کا بٹن دبائیں۔');
-  });
-}
-
-const btnPassengerOnline = document.getElementById('btnPassengerOnline');
-if(btnPassengerOnline) {
-  btnPassengerOnline.addEventListener('click', async () => {
-    const phone = document.getElementById('pphoneLogin').value.trim();
-    const registeredPhone = localStorage.getItem('ccab_pphone');
-
-    if(!phone){ alert('پہلے اپنا موبائل نمبر درج کریں'); return; }
-    if(!registeredPhone || registeredPhone !== phone) {
-      alert('❌ سیکیورٹی ایرر: یہ نمبر اس ڈیوائیس یا براؤزر پر رجسٹرڈ نہیں ہے!');
-      const pstatusLogin = document.getElementById('pstatusLogin');
-      if(pstatusLogin) pstatusLogin.innerText = "❌ غیر رجسٹرڈ نمبر!";
-      return;
-    }
-    if(isBlocked(phone)){ alert('🚫 آپ کو بلاک کیا گیا ہے'); return; }
-
-    const snap = await get(ref(db, 'passengers/' + phone));
-    if(!snap.exists()) { alert('⚠️ اس فون نمبر سے کوئی مسافر اکاؤنٹ نہیں ملا۔'); return; }
-
-    const pData = snap.val();
-    const timeStr = new Date().toLocaleTimeString('ur-PK', { hour: '2-digit', minute: '2-digit' });
-
-    update(ref(db,'passengers/'+phone), { online:true, onlineTime: timeStr, time:Date.now() });
-    
-    document.getElementById('passengerRegBox').classList.add('hidden');
-    document.getElementById('passengerWelcomeBox').classList.remove('hidden');
-    document.getElementById('passengerWelcomeMsg').innerText = `👤 خوش آمدید مسافر: ${pData.name} (${phone})`;
-    document.getElementById('passengerMainContent').classList.remove('hidden');
-    
-    document.getElementById('btnPassengerOnline').classList.add('hidden');
-    document.getElementById('btnPassengerOffline').classList.remove('hidden');
-    document.getElementById('pstatusLogin').innerText = `🟢 خوش آمدید ${pData.name}! آپ اب آن لائن ہیں (${timeStr})۔`;
-  });
-}
-
-const btnPassengerOffline = document.getElementById('btnPassengerOffline');
-if(btnPassengerOffline) {
-  btnPassengerOffline.addEventListener('click', () => {
-    const phone = document.getElementById('pphoneLogin').value.trim();
-    const registeredPhone = localStorage.getItem('ccab_pphone');
-    if(!phone || registeredPhone !== phone){ alert('صحیح رجسٹرڈ نمبر درج کریں'); return; }
-    
-    const timeStr = new Date().toLocaleTimeString('ur-PK', { hour: '2-digit', minute: '2-digit' });
-    update(ref(db,'passengers/'+phone), { online:false, offlineTime: timeStr, time:Date.now() });
-    document.getElementById('passengerMainContent').classList.add('hidden');
-    
-    document.getElementById('btnPassengerOffline').classList.add('hidden');
-    document.getElementById('btnPassengerOnline').classList.remove('hidden');
-    document.getElementById('pstatusLogin').innerText = `🔴 آپ اب آف لائن ہو چکے ہیں۔ (${timeStr})`;
-  });
-}
-
+// --- Driver Registration & Online Toggle ---
 async function checkDriverSession() {
-  const savedDPhone = localStorage.getItem('ccab_dphone');
-  if(savedDPhone) {
-    const snap = await get(ref(db, 'drivers/' + savedDPhone));
-    if(snap.exists()) {
-      const dphone = document.getElementById('dphone');
-      const dphoneReg = document.getElementById('dphoneReg');
-      if(dphone) dphone.value = savedDPhone;
-      if(dphoneReg) dphoneReg.value = savedDPhone;
-      verifyDriverActive(savedDPhone);
-    } else {
-      resetDriverSession();
-    }
+  const saved = localStorage.getItem('ccab_dphone');
+  if (!saved) return;
+  const snap = await get(ref(db, 'drivers/' + saved));
+  if (snap.exists()) {
+    document.getElementById('dphone').value = saved;
+    verifyDriverActive(saved);
+  } else {
+    resetDriverSession();
   }
 }
 
 async function verifyDriverActive(phone) {
   const snap = await get(ref(db, 'drivers/' + phone));
-  if(snap.exists()) {
-    const data = snap.val();
-    if(data.name) {
-      const dname = document.getElementById('dname');
-      if(dname) dname.value = data.name;
-    }
-    if(data.phone) {
-      const dphoneReg = document.getElementById('dphoneReg');
-      if(dphoneReg) dphoneReg.value = data.phone;
-    }
-    if(data.lic) {
-      const dlicense = document.getElementById('dlicense');
-      if(dlicense) dlicense.value = data.lic;
-    }
-    if(data.veh) {
-      const dvehicle = document.getElementById('dvehicle');
-      if(dvehicle) dvehicle.value = data.veh;
-    }
-    if(data.car) {
-      const dcar = document.getElementById('dcar');
-      if(dcar) dcar.value = data.car;
-    }
+  if (!snap.exists()) return;
+  const d = snap.val();
+  document.getElementById('driverRegBox').classList.add('hidden');
+  document.getElementById('driverWelcomeBox').classList.remove('hidden');
+  document.getElementById('driverWelcomeMsg').innerText = `🚗 خوش آمدید ڈرائیور: ${d.name} (${d.phone}) | CNIC: ${d.cnic || '-'}`;
+  const wPhoto = document.getElementById('driverWelcomePhoto');
+  if (wPhoto && d.photo) { wPhoto.src = d.photo; wPhoto.classList.remove('hidden'); }
+  const wVehPhoto = document.getElementById('driverWelcomeVehiclePhoto');
+  if (wVehPhoto && d.vehiclePhoto) { wVehPhoto.src = d.vehiclePhoto; wVehPhoto.classList.remove('hidden'); }
 
-    const driverRegBox = document.getElementById('driverRegBox');
-    const driverWelcomeBox = document.getElementById('driverWelcomeBox');
-    const driverWelcomeMsg = document.getElementById('driverWelcomeMsg');
-    const driverWelcomePhoto = document.getElementById('driverWelcomePhoto');
-
-    if(driverRegBox) driverRegBox.classList.add('hidden');
-    if(driverWelcomeBox) driverWelcomeBox.classList.remove('hidden');
-    if(driverWelcomeMsg) driverWelcomeMsg.innerText = `🚗 خوش آمدید ڈرائیور: ${data.name} (${data.phone})`;
-    
-    if(driverWelcomePhoto) {
-      if(data.photo) {
-        driverWelcomePhoto.src = data.photo;
-        driverWelcomePhoto.classList.remove('hidden');
-      } else {
-        driverWelcomePhoto.classList.add('hidden');
-      }
-    }
-
-    const driverMainContent = document.getElementById('driverMainContent');
-    const btnDriverOnline = document.getElementById('btnDriverOnline');
-    const btnDriverOffline = document.getElementById('btnDriverOffline');
-
-    if(data.online) {
-      if(driverMainContent) driverMainContent.classList.remove('hidden');
-      if(btnDriverOnline) btnDriverOnline.classList.add('hidden');
-      if(btnDriverOffline) btnDriverOffline.classList.remove('hidden');
-    } else {
-      if(driverMainContent) driverMainContent.classList.add('hidden');
-      if(btnDriverOnline) btnDriverOnline.classList.remove('hidden');
-      if(btnDriverOffline) btnDriverOffline.classList.add('hidden');
-    }
+  if (d.online) {
+    document.getElementById('driverMainContent').classList.remove('hidden');
+    document.getElementById('btnDriverOnline').classList.add('hidden');
+    document.getElementById('btnDriverOffline').classList.remove('hidden');
+  } else {
+    document.getElementById('driverMainContent').classList.add('hidden');
+    document.getElementById('btnDriverOnline').classList.remove('hidden');
+    document.getElementById('btnDriverOffline').classList.add('hidden');
   }
 }
 
 window.resetDriverSession = function() {
   stopCameraStream();
   capturedDriverPhotoBase64 = "";
+  capturedVehiclePhotoBase64 = "";
+  dGeneratedOtp = "";
+  dOtpVerified = false;
   localStorage.removeItem('ccab_dphone');
   document.getElementById('driverRegBox').classList.remove('hidden');
   document.getElementById('driverWelcomeBox').classList.add('hidden');
@@ -1027,536 +1022,396 @@ window.resetDriverSession = function() {
   document.getElementById('btnDriverOnline').classList.remove('hidden');
   document.getElementById('btnDriverOffline').classList.add('hidden');
   document.getElementById('dphone').value = '';
-  document.getElementById('dphoneReg').value = '';
-
-  // کیمرہ یو آئی ری سیٹ کریں
+  document.getElementById('dregOtpInput').value = '';
+  document.getElementById('dOtpDisplay').style.display = 'none';
+  document.getElementById('dOtpStatus').innerText = '';
+  if (dvehiclePhotoInput) dvehiclePhotoInput.value = '';
   driverVideo.classList.add('hidden');
   driverPhotoPreview.classList.add('hidden');
+  vehiclePhotoPreview.classList.add('hidden');
   btnStartCamera.classList.remove('hidden');
   btnCapturePhoto.classList.add('hidden');
   btnRetakePhoto.classList.add('hidden');
   cameraStatus.innerText = "";
+  vehiclePhotoStatus.innerText = "";
 };
 
-const btnRegisterDriverDirect = document.getElementById('btnRegisterDriverDirect');
-if(btnRegisterDriverDirect) {
-  btnRegisterDriverDirect.addEventListener('click', async () => {
-    const phone = document.getElementById('dphoneReg').value.trim();
-    const name = document.getElementById('dname').value.trim();
-    const lic = document.getElementById('dlicense').value.trim();
-    const veh = document.getElementById('dvehicle').value.trim();
-    const car = document.getElementById('dcar').value;
-    
-    if(!phone || !name) { alert('ڈرائیور کا نام اور موبائل نمبر درج کرنا لازمی ہے!'); return; }
-    if(!lic || !veh) { alert('لائسنس نمبر اور گاڑی نمبر درج کرنا لازمی ہے!'); return; }
-    if(!capturedDriverPhotoBase64) {
-      alert('📸 براہ کرم رجسٹریشن مکمل کرنے سے پہلے کیمرے سے اپنی لائیو تصویر کھینچیں!');
-      return;
-    }
-    if(isBlocked(phone)){ alert('🚫 آپ بلاک ہیں'); return; }
+document.getElementById('btnRegisterDriverDirect')?.addEventListener('click', async () => {
+  const name = document.getElementById('dname').value.trim();
+  const phone = document.getElementById('dphoneReg').value.trim();
+  const cnic = document.getElementById('dcnic').value.trim();
+  const lic = document.getElementById('dlicense').value.trim();
+  const veh = document.getElementById('dvehicle').value.trim();
+  const car = document.getElementById('dcar').value;
 
-    const passengerSnap = await get(ref(db, 'passengers/' + phone));
-    const driverSnap = await get(ref(db, 'drivers/' + phone));
+  if (!name || !phone || !cnic || !lic || !veh) { alert('نام، فون، شناختی کارڈ نمبر، لائسنس اور گاڑی نمبر لازمی ہیں!'); return; }
+  if (!dOtpVerified) { alert('🔐 براہ کرم پہلے واٹس ایپ / SMS کوڈ کی تصدیق کریں!'); return; }
+  if (!capturedDriverPhotoBase64) { alert('📸 براہ کرم کیمرے سے اپنی لائیو تصویر کھینچیں!'); return; }
+  if (!capturedVehiclePhotoBase64) { alert('🚗 براہ کرم اپنی گاڑی کی تصویر منتخب کریں!'); return; }
+  if (isBlocked(phone)) { alert('🚫 یہ نمبر بلاک ہے۔'); return; }
 
-    if (passengerSnap.exists() || driverSnap.exists()) {
-      let existingName = passengerSnap.exists() ? passengerSnap.val().name : driverSnap.val().name;
-      alert(`❌ یہ موبائل نمبر (${phone}) پہلے ہی "${existingName}" کے نام سے رجسٹرڈ ہے۔`);
-      return;
-    }
+  const [pSnap, dSnap] = await Promise.all([get(ref(db, 'passengers/' + phone)), get(ref(db, 'drivers/' + phone))]);
+  if (pSnap.exists() || dSnap.exists()) { alert('❌ یہ نمبر پہلے ہی رجسٹرڈ ہے۔'); return; }
 
-    const existingDriverPhone = localStorage.getItem('ccab_dphone');
-    if(existingDriverPhone && existingDriverPhone !== phone) {
-      alert('❌ سیکیورٹی ایرر: اس براؤزر میں پہلے ہی ایک اور ڈرائیور نمبر رجسٹرڈ ہے۔');
-      return;
-    }
+  const existingLocal = localStorage.getItem('ccab_dphone');
+  if (existingLocal && existingLocal !== phone) { alert('❌ اس براؤزر میں پہلے ہی ایک ڈرائیور نمبر رجسٹرڈ ہے۔'); return; }
 
-    stopCameraStream();
-
-    await set(ref(db,'drivers/'+phone), {
-      name, phone, lic, veh, car, 
-      photo: capturedDriverPhotoBase64,
-      online:false, 
-      time:Date.now()
-    });
-    
-    localStorage.setItem('ccab_dphone', phone);
-    document.getElementById('dphone').value = phone;
-
-    verifyDriverActive(phone);
-    alert('✅ ڈرائیور پروفائل لائیو تصویر کے ساتھ رجسٹر ہو گئی ہے! اب اوپر "آن لائن ہوں" کا بٹن دبائیں۔');
+  stopCameraStream();
+  await set(ref(db, 'drivers/' + phone), {
+    name, phone, cnic, lic, veh, car,
+    photo: capturedDriverPhotoBase64,
+    vehiclePhoto: capturedVehiclePhotoBase64,
+    verified: true, online: false, time: Date.now()
   });
-}
+  localStorage.setItem('ccab_dphone', phone);
+  document.getElementById('dphone').value = phone;
+  verifyDriverActive(phone);
+  alert('✅ ڈرائیور رجسٹریشن مکمل! اب "آن لائن ہوں" دبائیں۔');
+});
 
-const btnGetLoc = document.getElementById('btnGetLoc');
-if(btnGetLoc) {
-  btnGetLoc.addEventListener('click', () => {
-    const status = document.getElementById('pstatus');
-    if (!navigator.geolocation) { status.innerText = "❌ آپ کا براؤزر جیو لوکیشن کو سپورٹ نہیں کرتا۔"; return; }
-    status.innerText = "📡 لوکیشن حاصل کی جا رہی ہے، براہ کرم انتظار کریں...";
-    
-    navigator.geolocation.getCurrentPosition(p => {
-      userLat = p.coords.latitude; userLng = p.coords.longitude;
-      if(map) {
-        map.setView([userLat, userLng], 15);
-        if(marker) map.removeLayer(marker);
-        marker = L.marker([userLat, userLng]).addTo(map).bindPopup("آپ کی لائیو لوکیشن").openPopup();
-      }
-      status.innerText = "✅ لوکیشن کامیابی سے حاصل کر لی گئی ہے۔";
-    }, err => {
-      status.innerText = "❌ لوکیشن حاصل کرنے میں خامی پیش آئی۔ GPS آن کریں۔";
-    }, { enableHighAccuracy: true, timeout: 10000 });
-  });
-}
+document.getElementById('btnDriverOnline')?.addEventListener('click', async () => {
+  const phone = document.getElementById('dphone').value.trim();
+  const regPhone = localStorage.getItem('ccab_dphone');
+  if (!phone || regPhone !== phone) { alert('❌ یہ نمبر اس ڈیوائس پر رجسٹرڈ نہیں ہے!'); return; }
+  if (isBlocked(phone)) { alert('🚫 آپ بلاک ہیں۔'); return; }
+  const snap = await get(ref(db, 'drivers/' + phone));
+  if (!snap.exists()) { alert('⚠️ ڈرائیور اکاؤنٹ نہیں ملا۔'); return; }
 
-let blockedPhones = {};
-onValue(ref(db,'blocked'), snap=>{ blockedPhones = snap.val()||{}; });
-function isBlocked(ph){ return blockedPhones[ph]?.blocked; }
+  const timeStr = new Date().toLocaleTimeString('ur-PK', { hour: '2-digit', minute: '2-digit' });
+  await update(ref(db, 'drivers/' + phone), { online: true, onlineTime: timeStr, time: Date.now() });
+  verifyDriverActive(phone);
+  document.getElementById('dstatus').innerText = `🟢 آپ آن لائن ہیں (${timeStr})`;
+});
 
-let allRegisteredDriversList = [];
-let allOnlineDriversList = [];
-let allOnlinePassengersList = [];
-let currentVehicleFilter = 'ALL';
-let currentAdminDriverFilter = 'ALL';
+document.getElementById('btnDriverOffline')?.addEventListener('click', async () => {
+  const phone = document.getElementById('dphone').value.trim();
+  const regPhone = localStorage.getItem('ccab_dphone');
+  if (!phone || regPhone !== phone) return;
+  const timeStr = new Date().toLocaleTimeString('ur-PK', { hour: '2-digit', minute: '2-digit' });
+  await update(ref(db, 'drivers/' + phone), { online: false, offlineTime: timeStr, time: Date.now() });
+  verifyDriverActive(phone);
+  document.getElementById('dstatus').innerText = `🔴 آپ آف لائن ہیں (${timeStr})`;
+});
 
-function matchVehicleCategory(carType, category) {
-  if (category === 'ALL') return true;
+// --- Location, Ride Post & Schedule ---
+document.getElementById('btnGetLoc')?.addEventListener('click', () => {
+  const status = document.getElementById('pstatus');
+  if (!navigator.geolocation) { status.innerText = "❌ GPS دستیاب نہیں۔"; return; }
+  status.innerText = "📡 لوکیشن حاصل کی جا رہی ہے...";
+  navigator.geolocation.getCurrentPosition(p => {
+    userLat = p.coords.latitude; userLng = p.coords.longitude;
+    if (map) {
+      map.setView([userLat, userLng], 15);
+      if (marker) map.removeLayer(marker);
+      marker = L.marker([userLat, userLng]).addTo(map).bindPopup("آپ کی لائیو لوکیشن").openPopup();
+    }
+    status.innerText = "✅ لوکیشن سیٹ ہو گئی۔";
+  }, () => { status.innerText = "❌ لوکیشن نہیں مل سکی، GPS آن کریں۔"; });
+});
+
+document.getElementById('btnBook')?.addEventListener('click', async () => {
+  const phone = document.getElementById('pphone').value.trim();
+  const regPhone = localStorage.getItem('ccab_pphone');
+  if (!phone || regPhone !== phone) { alert('❌ سیکیورٹی ایرر!'); return; }
+  if (isBlocked(phone)) { alert('🚫 آپ بلاک ہیں۔'); return; }
+
+  const name = document.getElementById('pname').value.trim() || 'مسافر';
+  const vType = document.getElementById('pVehicleType').value;
+  const from = document.getElementById('pfrom').value.trim();
+  const to = document.getElementById('pto').value.trim();
+  if (!from || !to) { alert('پک اپ اور ڈراپ آف مقام لکھیں!'); return; }
+
+  const locLink = userLat ? `https://maps.google.com/?q=${userLat},${userLng}` : 'موجود نہیں';
+  const timeStr = new Date().toLocaleDateString('ur-PK', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });
+  const r = push(ref(db, 'bookings'));
+  await set(r, { id: r.key, name, phone, vehicleType: vType, from, to, fare, locLink, timeStr, status: 'Open Offer', time: Date.now() });
+
+  const waMsg = `CCab رائیڈ آفر:\nمسافر: ${name} (${phone})\nگاڑی: ${vType}\nروٹ: ${from} ➔ ${to}\nکرایہ: Rs ${fare}\nلوکیشن: ${locLink}`;
+  openBroadcastModal('✅ رائیڈ پوسٹ ہو گئی!', 'آن لائن ڈرائیورز کو واٹس ایپ میسج بھیجیں:', allOnlineDriversList.map(d => ({ name: d.name, phone: d.phone, info: d.car })), waMsg);
+});
+
+document.getElementById('btnPostSchedule')?.addEventListener('click', async () => {
+  const dPhone = document.getElementById('dphone').value.trim();
+  const regPhone = localStorage.getItem('ccab_dphone');
+  if (!dPhone || regPhone !== dPhone) { alert('❌ تصدیق ناکام!'); return; }
+  if (isBlocked(dPhone)) { alert('🚫 آپ بلاک ہیں۔'); return; }
+
+  const from = document.getElementById('dsFrom').value.trim();
+  const to = document.getElementById('dsTo').value.trim();
+  const stops = document.getElementById('dsStops').value.trim();
+  const dateTime = document.getElementById('dsTime').value;
+  const fareVal = document.getElementById('dsFare').value;
+  if (!from || !to || !dateTime) { alert('روٹ اور وقت لازمی درج کریں!'); return; }
+
+  const snap = await get(ref(db, 'drivers/' + dPhone));
+  const dName = snap.exists() ? snap.val().name : 'ڈرائیور';
+  const dCar = snap.exists() ? snap.val().car : '';
+
+  const r = push(ref(db, 'schedules'));
+  await set(r, { id: r.key, driverName: dName, driverPhone: dPhone, driverCar: dCar, from, to, stops: stops || 'ڈائریکٹ', dateTime, fare: fareVal || 'حسبِ منشا', timePosted: Date.now() });
+
+  const waMsg = `CCab روٹ آفر:\nڈرائیور: ${dName} (${dPhone})\nگاڑی: ${dCar}\nروٹ: ${from} ➔ ${to}\nوقت: ${dateTime.replace('T', ' ')}\nکرایہ: Rs ${fareVal || 'حسبِ منشا'}`;
+  openBroadcastModal('✅ روٹ پوسٹ ہو گیا!', 'آن لائن مسافروں کو واٹس ایپ میسج بھیجیں:', allOnlinePassengersList.map(p => ({ name: p.name, phone: p.phone, info: p.city || '' })), waMsg);
+});
+
+// --- Realtime Listeners ---
+function matchVehicleCategory(carType, cat) {
+  if (cat === 'ALL') return true;
   const c = carType || '';
-  if (category === 'موٹر سائیکل') return c.includes('موٹر سائیکل') || c.includes('بائیک');
-  if (category === 'رکشہ') return c.includes('رکشہ');
-  if (category === 'کار') return c.includes('کار');
-  if (category === 'ٹرک') return c.includes('ٹرک') || c.includes('بس') || c.includes('لوڈر');
-  return c.includes(category);
+  if (cat === 'موٹر سائیکل') return c.includes('موٹر سائیکل') || c.includes('بائیک');
+  if (cat === 'رکشہ') return c.includes('رکشہ');
+  if (cat === 'کار') return c.includes('کار');
+  if (cat === 'ٹرک') return c.includes('ٹرک') || c.includes('بس') || c.includes('لوڈر');
+  return c.includes(cat);
 }
 
-window.filterOnlineDrivers = function(category, btnEl) {
-  currentVehicleFilter = category;
+window.filterOnlineDrivers = function(cat, btnEl) {
+  currentVehicleFilter = cat;
   document.querySelectorAll('#passengerMainContent .v-filter-btn').forEach(b => b.classList.remove('active'));
-  if(btnEl) btnEl.classList.add('active');
+  btnEl?.classList.add('active');
   renderFilteredDrivers();
 };
 
 function renderFilteredDrivers() {
   const container = document.getElementById('passengerAllOnlineDrivers');
-  if(!container) return;
-  const filtered = allOnlineDriversList.filter(d => matchVehicleCategory(d.car, currentVehicleFilter));
-
+  if (!container) return;
   const pName = document.getElementById('pname')?.value.trim() || 'مسافر';
-  const renderOnlineCard = d => `
+  const list = allOnlineDriversList.filter(d => matchVehicleCategory(d.car, currentVehicleFilter));
+  container.innerHTML = list.length ? list.map(d => `
     <div class="card" style="border-right:4px solid #16a34a; background:#f0fdf4;">
       <div class="driver-card-flex">
         <img src="${d.photo || DEFAULT_AVATAR}" class="driver-avatar" alt="${d.name}">
+        <img src="${d.vehiclePhoto || DEFAULT_VEHICLE}" class="vehicle-thumb" alt="${d.car}">
         <div>
           <b>🟢 ${d.name}</b> <span class="badge" style="background:#0284c7;">${d.car}</span><br>
-          گاڑی نمبر: ${d.veh || 'موجود نہیں'} | 📞 ${d.phone}<br>
-          <span class="time-text">🕒 آن لائن وقت: ${d.onlineTime || 'حال ہی میں'}</span>
+          گاڑی: ${d.veh || '-'} | 📞 ${d.phone}<br>
+          <span class="time-text">🕒 آن لائن: ${d.onlineTime || 'حالیہ'}</span>
         </div>
       </div>
-      <button onclick="openWhatsApp('${d.phone}', 'سلام ${d.name}! میں CCab مسافر (${pName}) ہوں، مجھے آپ کی ${d.car} درکار ہے۔')" class="btn btn-whatsapp" style="padding:7px; margin-top:8px; font-size:12px;">💬 ڈائریکٹ واٹس ایپ میسج کریں</button>
+      <button onclick="openWhatsApp('${d.phone}', 'سلام ${d.name}! میں CCab مسافر (${pName}) ہوں، مجھے ${d.car} درکار ہے۔')" class="btn btn-whatsapp" style="padding:7px; font-size:12px;">💬 واٹس ایپ رابطہ</button>
     </div>
-  `;
-
-  container.innerHTML = filtered.length ? filtered.map(renderOnlineCard).join('') : `<p style="font-size:12px;color:#888;text-align:center;padding:10px;">اس کیٹیگری میں اس وقت کوئی ڈرائیور آن لائن نہیں ہے</p>`;
+  `).join('') : '<p style="font-size:12px; color:#888; text-align:center;">اس کیٹیگری میں کوئی آن لائن ڈرائیور نہیں۔</p>';
 }
 
-window.filterAdminDrivers = function(category, btnEl) {
-  currentAdminDriverFilter = category;
+window.filterAdminDrivers = function(cat, btnEl) {
+  currentAdminDriverFilter = cat;
   document.querySelectorAll('#adminDriverFilterBar .v-filter-btn').forEach(b => b.classList.remove('active'));
-  if(btnEl) btnEl.classList.add('active');
+  btnEl?.classList.add('active');
   renderAdminDrivers();
 };
 
 function renderAdminDrivers() {
-  const adminDriversEl = document.getElementById('adminDrivers');
-  if(!adminDriversEl) return;
-  const filtered = allRegisteredDriversList.filter(d => matchVehicleCategory(d.car, currentAdminDriverFilter));
-  adminDriversEl.innerHTML = filtered.length ? filtered.map(d => {
+  const el = document.getElementById('adminDrivers');
+  if (!el) return;
+  const list = allRegisteredDriversList.filter(d => matchVehicleCategory(d.car, currentAdminDriverFilter));
+  el.innerHTML = list.length ? list.map(d => {
     const blocked = isBlocked(d.phone);
     return `
       <div class="card">
         <div class="driver-card-flex">
           <img src="${d.photo || DEFAULT_AVATAR}" class="driver-avatar" alt="${d.name}">
+          <img src="${d.vehiclePhoto || DEFAULT_VEHICLE}" class="vehicle-thumb" alt="${d.car}">
           <div>
-            <b>${d.name}</b> (${d.phone}) - ${d.online ? `🟢 آن لائن` : `🔴 آف لائن`} - <span class="badge" style="background:#0284c7;">${d.car}</span><br>
-            <span style="font-size:11px; color:#555;">گاڑی نمبر: ${d.veh || 'N/A'} | لائسنس: ${d.lic || 'N/A'}</span>
+            <b>${d.name}</b> (${d.phone}) - ${d.online ? '🟢 آن لائن' : '🔴 آف لائن'} <span class="badge" style="background:#0284c7;">${d.car}</span><br>
+            <span style="font-size:11px; color:#555;">CNIC: ${d.cnic || '-'} | گاڑی: ${d.veh || '-'} | لائسنس: ${d.lic || '-'}</span>
           </div>
         </div>
-        <div style="display: flex; gap: 5px; margin-top: 8px;">
-          <button onclick="openWhatsApp('${d.phone}', 'سلام ${d.name}! CCab ایڈمن کی جانب سے رابطہ کیا جا رہا ہے۔')" class="btn btn-whatsapp" style="padding:4px 8px; font-size:12px; margin-top:0;">💬 میسج</button>
-          ${blocked ? 
-            `<button onclick="unblockUser('${d.phone}')" class="btn btn-green" style="padding:4px 8px; font-size:12px; margin-top:0;">ان بلاک</button>` : 
-            `<button onclick="blockUser('${d.phone}','driver')" class="btn btn-red" style="padding:4px 8px; font-size:12px; margin-top:0;">بلاک</button>
-             <button onclick="deleteDriver('${d.phone}')" class="btn btn-black" style="padding:4px 8px; font-size:12px; margin-top:0;">ریموو</button>`
+        <div style="display:flex; gap:5px; margin-top:8px;">
+          <button onclick="openWhatsApp('${d.phone}', 'سلام ${d.name}! CCab ایڈمن کی جانب سے رابطہ ہے۔')" class="btn btn-whatsapp" style="padding:4px 8px; font-size:12px; margin-top:0;">💬 میسج</button>
+          ${blocked
+            ? `<button onclick="unblockUser('${d.phone}')" class="btn btn-green" style="padding:4px 8px; font-size:12px; margin-top:0;">ان بلاک</button>`
+            : `<button onclick="blockUser('${d.phone}','driver')" class="btn btn-red" style="padding:4px 8px; font-size:12px; margin-top:0;">بلاک</button>
+               <button onclick="deleteDriver('${d.phone}')" class="btn btn-dark" style="padding:4px 8px; font-size:12px; margin-top:0;">ریموو</button>`
           }
         </div>
       </div>
     `;
-  }).join('') : `<p style="font-size:12px;color:#666;text-align:center;padding:8px;">اس کیٹیگری میں کوئی رجسٹرڈ ڈرائیور نہیں ہے</p>`;
+  }).join('') : '<p style="font-size:12px; color:#666; text-align:center;">کوئی ڈرائیور نہیں۔</p>';
 }
 
-const btnBook = document.getElementById('btnBook');
-if(btnBook) {
-  btnBook.addEventListener('click', async () => {
-    const phone = document.getElementById('pphone').value.trim();
-    const registeredPhone = localStorage.getItem('ccab_pphone');
-    
-    if(!phone || !registeredPhone || registeredPhone !== phone) {
-      alert('❌ سیکیورٹی ایرر: یہ نمبر اس ڈیوائیس پر رجسٹرڈ نہیں ہے!');
-      return;
-    }
-
-    const snap = await get(ref(db, 'passengers/' + phone));
-    if(!snap.exists()) { resetPassengerSession(); return; }
-    if(isBlocked(phone)){ alert('🚫 آپ کو بلاک کیا گیا ہے'); return; }
-
-    const name = document.getElementById('pname').value.trim() || 'پسنجر';
-    const vType = document.getElementById('pVehicleType').value;
-    const from = document.getElementById('pfrom').value.trim(); 
-    const to = document.getElementById('pto').value.trim();
-
-    if(!from || !to) { alert('براہ کرم پک اپ اور ڈراپ آف لوکیشن درج کریں!'); return; }
-
-    let locLink = userLat ? `https://maps.google.com/?q=${userLat},${userLng}` : 'موجود نہیں';
-    const timeString = new Date().toLocaleDateString('ur-PK', { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });
-
-    const r = push(ref(db,'bookings')); 
-    await set(r,{
-      id:r.key, name, phone, vehicleType: vType, from, to, fare, locLink, 
-      timeStr: timeString, 
-      status:'Open Offer', 
-      time:Date.now()
-    });
-
-    const targetDrivers = allOnlineDriversList.map(d => ({
-      name: d.name,
-      phone: d.phone,
-      info: `${d.car} (${d.veh || ''})`
-    }));
-
-    const waMessage = `CCab نئی رائیڈ آفر:\nمسافر: ${name} (${phone})\nمطلوبہ گاڑی: ${vType}\nروٹ: ${from} ➔ ${to}\nکرایہ آفر: Rs ${fare}\nلوکیشن: ${locLink}`;
-    
-    openBroadcastModal(
-      '✅ رائیڈ پوسٹ ہو گئی! ڈرائیورز کو واٹس ایپ میسج بھیجیں',
-      'تمام آن لائن ڈرائیورز کو لائیو نوٹیفکیشن چلا گیا ہے۔ نیچے بٹن دبا کر انہیں ڈائریکٹ واٹس ایپ میسج بھی بھیجیں:',
-      targetDrivers,
-      waMessage
-    );
-  });
-}
-
-const btnDriverOnline = document.getElementById('btnDriverOnline');
-if(btnDriverOnline) {
-  btnDriverOnline.addEventListener('click', async () => {
-    const phone = document.getElementById('dphone').value.trim();
-    const registeredPhone = localStorage.getItem('ccab_dphone');
-
-    if(!phone){ alert('پہلے اپنا موبائل نمبر درج کریں'); return; }
-    if(!registeredPhone || registeredPhone !== phone) {
-      alert('❌ سیکیورٹی ایرر: یہ ڈرائیور نمبر اس ڈیوائیس یا براؤزر پر رجسٹرڈ نہیں ہے!');
-      return;
-    }
-    if(isBlocked(phone)){ alert('🚫 آپ بلاک ہیں'); return; }
-
-    const snap = await get(ref(db, 'drivers/' + phone));
-    if(!snap.exists()) { alert('⚠️ اس فون نمبر سے کوئی ڈرائیور اکاؤنٹ نہیں ملا۔'); return; }
-
-    const driverData = snap.val();
-    const timeStr = new Date().toLocaleTimeString('ur-PK', { hour: '2-digit', minute: '2-digit' });
-
-    update(ref(db,'drivers/'+phone),{ online:true, onlineTime: timeStr, time:Date.now()});
-    verifyDriverActive(phone);
-    document.getElementById('dstatus').innerText=`🟢 خوش آمدید ${driverData.name}! آپ اب آن لائن ہیں (${timeStr})۔`;
-  });
-}
-
-const btnDriverOffline = document.getElementById('btnDriverOffline');
-if(btnDriverOffline) {
-  btnDriverOffline.addEventListener('click', () => {
-    const phone = document.getElementById('dphone').value.trim();
-    const registeredPhone = localStorage.getItem('ccab_dphone');
-    if(!phone || registeredPhone !== phone){ alert('صحیح رجسٹرڈ نمبر درج کریں'); return; }
-    
-    const timeStr = new Date().toLocaleTimeString('ur-PK', { hour: '2-digit', minute: '2-digit' });
-    update(ref(db,'drivers/'+phone),{online:false, offlineTime: timeStr, time:Date.now()});
-    document.getElementById('driverMainContent').classList.add('hidden');
-    document.getElementById('btnDriverOffline').classList.add('hidden');
-    document.getElementById('btnDriverOnline').classList.remove('hidden');
-    document.getElementById('dstatus').innerText=`🔴 آپ اب آف لائن ہو چکے ہیں۔ (${timeStr})`;
-  });
-}
-
-const btnPostSchedule = document.getElementById('btnPostSchedule');
-if(btnPostSchedule) {
-  btnPostSchedule.addEventListener('click', async () => {
-    const dPhone = document.getElementById('dphone').value.trim();
-    const registeredPhone = localStorage.getItem('ccab_dphone');
-    
-    if(registeredPhone !== dPhone) { alert('❌ تصدیق ناکام!'); return; }
-
-    const from = document.getElementById('dsFrom').value.trim();
-    const to = document.getElementById('dsTo').value.trim();
-    const stops = document.getElementById('dsStops').value.trim();
-    const time = document.getElementById('dsTime').value;
-    const fareVal = document.getElementById('dsFare').value;
-
-    if(!dPhone || !from || !to || !time) { alert('براہ کرم تمام لازمی فیلڈز درج کریں!'); return; }
-    if(isBlocked(dPhone)){ alert('🚫 آپ بلاک ہیں'); return; }
-
-    let dName = document.getElementById('dname').value.trim();
-    let dCar = document.getElementById('dcar').value;
-    if(!dName) {
-      const snap = await get(ref(db, 'drivers/' + dPhone));
-      if(snap.exists()) { dName = snap.val().name; dCar = snap.val().car; }
-    }
-
-    const r = push(ref(db, 'schedules'));
-    await set(r, {
-      id: r.key, driverName: dName, driverPhone: dPhone, driverCar: dCar,
-      from, to, stops: stops || 'کوئی درمیانی اسٹاپ نہیں',
-      dateTime: time, fare: fareVal || 'حسبِ منشا', timePosted: Date.now()
-    });
-
-    const targetPassengers = allOnlinePassengersList.map(p => ({
-      name: p.name,
-      phone: p.phone,
-      info: `شہر: ${p.city || 'بصیرپور'}`
-    }));
-
-    const waMessage = `CCab ڈرائیور روٹ آفر:\nڈرائیور: ${dName} (${dPhone})\nگاڑی: ${dCar}\nروٹ: ${from} ➔ ${to}\nاسٹاپس: ${stops || 'ڈائریکٹ'}\nوقت: ${time.replace('T', ' ')}\nکرایہ: Rs ${fareVal || 'حسبِ منشا'}`;
-
-    openBroadcastModal(
-      '✅ روٹ پوسٹ ہو گیا! پسنجرز کو واٹس ایپ میسج بھیجیں',
-      'تمام آن لائن مسافروں کو لائیو الرٹ چلا گیا ہے۔ نیچے بٹن دبا کر انہیں ڈائریکٹ واٹس ایپ میسج بھی بھیجیں:',
-      targetPassengers,
-      waMessage
-    );
-  });
-}
-
-let notifiedBookingIds = new Set();
-let notifiedScheduleIds = new Set();
-
-onValue(ref(db, 'passengers'), snap => {
-  const data = snap.val(); const passengers = data ? Object.values(data) : [];
-  allOnlinePassengersList = passengers.filter(p => p.online && !isBlocked(p.phone));
-
-  const adminPassengers = document.getElementById('adminPassengers');
-  if(adminPassengers) {
-    adminPassengers.innerHTML = passengers.map(p => {
-      const blocked = isBlocked(p.phone);
-      return `
-        <div class="card">
-          <b>👤 ${p.name}</b> (${p.phone}) - شہر: ${p.city} - ${p.online?`🟢 آن لائن`:`🔴 آف لائن`}<br>
-          <div style="display: flex; gap: 5px; margin-top: 5px;">
-            <button onclick="openWhatsApp('${p.phone}', 'سلام ${p.name}! CCab ایڈمن کی جانب سے رابطہ کیا جا رہا ہے۔')" class="btn btn-whatsapp" style="padding:4px 8px; font-size:12px; margin-top:0;">💬 میسج</button>
-            ${blocked ? 
-              `<button onclick="unblockUser('${p.phone}')" class="btn btn-green" style="padding:4px 8px; font-size:12px; margin-top:0;">ان بلاک</button>` : 
-              `<button onclick="blockUser('${p.phone}','passenger')" class="btn btn-red" style="padding:4px 8px; font-size:12px; margin-top:0;">بلاک</button>
-               <button onclick="deletePassenger('${p.phone}')" class="btn btn-black" style="padding:4px 8px; font-size:12px; margin-top:0;">ریموو</button>`
-            }
-          </div>
-        </div>
-      `;
-    }).join('') || '<p style="font-size:12px;color:#666;">کوئی رجسٹرڈ مسافر نہیں</p>';
-  }
-});
-
-onValue(ref(db, 'schedules'), snap => {
-  const data = snap.val(); const list = data ? Object.values(data).reverse() : [];
-  const currentDriverPhone = localStorage.getItem('ccab_dphone') || '';
-  const currentPassengerPhone = localStorage.getItem('ccab_pphone') || '';
-
-  if (list.length > 0 && currentPassengerPhone) {
-    const latest = list[0];
-    if (latest.timePosted > appLoadTime && !notifiedScheduleIds.has(latest.id)) {
-      notifiedScheduleIds.add(latest.id);
-      showLiveAlert(
-        `🚘 نیا ڈرائیور روٹ: ${latest.from} ➔ ${latest.to}`,
-        `ڈرائیور ${latest.driverName} (${latest.driverCar || ''}) نے Rs ${latest.fare} میں روٹ پوسٹ کیا ہے۔`,
-        latest.driverPhone,
-        `سلام ${latest.driverName}! میں CCab پر آپ کے روٹ (${latest.from} تا ${latest.to}) پر سفر کرنا چاہتا ہوں۔`
-      );
-    }
-  }
-
-  const scheduleHtml = list.length ? list.map(s => `
-    <div class="card" style="border-right:4px solid #0284c7; background:#f0f9ff;">
-      <span class="badge">ڈرائیور پیشکش / بڈ</span> ${s.driverCar ? `<span class="badge" style="background:#16a34a;">${s.driverCar}</span>` : ''}<br>
-      <b>🚗 ڈرائیور: ${s.driverName}</b> (${s.driverPhone})<br>
-      <b>روٹ:</b> ${s.from} ➔ ${s.to}<br>
-      <b>تجویز کردہ اسٹاپس:</b> ${s.stops}<br>
-      <b>وقت/تاریخ:</b> ${s.dateTime ? s.dateTime.replace('T', ' ') : 'فوری'}<br>
-      <b>کرایہ / پیشکش:</b> Rs ${s.fare}<br>
-      <button onclick="openWhatsApp('${s.driverPhone}', 'سلام! میں آپ کی شیڈول شدہ گاڑی / بڈ آفر (روٹ: ${s.from} تا ${s.to}) پر سیٹ بک کرنا چاہتا ہوں۔')" class="btn btn-whatsapp" style="padding:6px;margin-top:5px;">💬 ڈرائیور سے رابطہ کریں (WhatsApp)</button>
-      ${s.driverPhone === currentDriverPhone ? `<button onclick="deleteSchedule('${s.id}')" class="btn btn-red" style="padding:6px;margin-top:5px;">🗑️ روٹ ریموو کریں</button>` : ''}
-    </div>
-  `).join('') : '<p style="font-size:12px;color:#666;">کوئی شیڈول شدہ روٹ / بڈ موجود نہیں</p>';
-
-  const adminScheduleHtml = list.length ? list.map(s => `
-    <div class="card" style="border-right:4px solid #0284c7; background:#f0f9ff;">
-      <b>🚗 ڈرائیور: ${s.driverName}</b> (${s.driverPhone})<br>
-      <b>روٹ:</b> ${s.from} ➔ ${s.to}<br>
-      <b>اسٹاپس:</b> ${s.stops} | <b>کرایہ:</b> Rs ${s.fare}<br>
-      <span class="time-text">🕒 وقت: ${s.dateTime ? s.dateTime.replace('T', ' ') : ''}</span>
-      <button onclick="deleteSchedule('${s.id}')" class="btn btn-red" style="padding:5px; margin-top:5px; font-size:12px;">🗑️ روٹ ریموو کریں</button>
-    </div>
-  `).join('') : '<p style="font-size:12px;color:#666;">کوئی شیڈولڈ روٹ موجود نہیں</p>';
-
-  const passengerScheduledRides = document.getElementById('passengerScheduledRides');
-  const adminDriverSchedulesView = document.getElementById('adminDriverSchedulesView');
-  if(passengerScheduledRides) passengerScheduledRides.innerHTML = scheduleHtml;
-  if(adminDriverSchedulesView) adminDriverSchedulesView.innerHTML = adminScheduleHtml;
-});
-
-onValue(ref(db,'bookings'), snap=>{
-  const data=snap.val(); const bookings=data?Object.values(data).reverse():[];
-  const open=bookings.filter(b=>b.status==='Open Offer' && !isBlocked(b.phone));
-  const currentPassengerPhone = localStorage.getItem('ccab_pphone') || '';
-  const currentDriverPhone = localStorage.getItem('ccab_dphone') || '';
-
-  if (open.length > 0 && currentDriverPhone) {
-    const latestRide = open[0];
-    if (latestRide.time > appLoadTime && !notifiedBookingIds.has(latestRide.id)) {
-      notifiedBookingIds.add(latestRide.id);
-      showLiveAlert(
-        `🔔 نئی رائیڈ آفر: ${latestRide.from} ➔ ${latestRide.to}`,
-        `مسافر ${latestRide.name} (${latestRide.vehicleType || 'گاڑی'}) - کرایہ آفر: Rs ${latestRide.fare}`,
-        latestRide.phone,
-        `سلام ${latestRide.name}! میں CCab ڈرائیور ہوں، آپ کی رائیڈ (${latestRide.from} تا ${latestRide.to}) Rs ${latestRide.fare} میں قبول کرنے کے لیے تیار ہوں۔`
-      );
-    }
-  }
-  
-  const myRides = bookings.filter(b => b.phone === currentPassengerPhone && b.status === 'Open Offer');
-  const myPassengerRides = document.getElementById('myPassengerRides');
-  if(myPassengerRides) {
-    myPassengerRides.innerHTML = myRides.length ? myRides.map(b => `
-      <div class="card" style="border-right: 4px solid #f59e0b; background: #fffbeb;">
-        <b>روٹ:</b> ${b.from} ➔ ${b.to} (${b.vehicleType || ''})<br>
-        <b>پیشکش کرایہ:</b> Rs ${b.fare}<br>
-        <span class="time-text">🕒 وقت: ${b.timeStr || ''}</span>
-        <button onclick="cancelMyRide('${b.id}')" class="btn btn-red" style="padding:6px; margin-top:5px; font-size:12px;">❌ رائیڈ منسوخ کریں</button>
-      </div>
-    `).join('') : '<p style="font-size:12px;color:#666;">آپ کی کوئی فعال رائیڈ موجود نہیں ہے</p>';
-  }
-
-  const driverOpenRides = document.getElementById('driverOpenRides');
-  if(driverOpenRides) {
-    driverOpenRides.innerHTML = open.length? open.map(b=>`
-      <div class="card" style="background:#f0fdf4; border-right:4px solid #16a34a;">
-        <b>👤 مسافر: ${b.name}</b> | 📞 ${b.phone} ${b.vehicleType ? `<span class="badge">${b.vehicleType}</span>` : ''}<br>
-        <b>روٹ:</b> ${b.from} ➔ ${b.to}<br>
-        <b>پیشکش کرایہ: Rs ${b.fare}</b><span class="time-text">🕒 بکنگ وقت: ${b.timeStr || 'حالیہ'}</span>
-        ${b.locLink && b.locLink !== 'موجود نہیں' ? `<a href="${b.locLink}" target="_blank" style="display:inline-block; margin-top:4px; font-weight:bold; color:#0284c7;">📍 مسافر کی لوکیشن دیکھیں</a><br>` : ''}
-        <input type="number" id="driverOffer_${b.id}" value="${b.fare}" style="margin-top:6px;" placeholder="اپنا کرایہ لکھیں">
-        <div style="display:flex; gap:6px; margin-top:6px;">
-          <button onclick="sendOffer('${b.id}','${b.phone}')" class="btn btn-blue" style="margin-top:0; padding:8px; font-size:12px;">💵 آفر واٹس ایپ پر بھیجیں</button>
-          <button onclick="openWhatsApp('${b.phone}', 'سلام ${b.name}! میں CCab ڈرائیور ہوں، آپ کی رائیڈ (${b.from} تا ${b.to}) کے حوالے سے رابطہ کر رہا ہوں۔')" class="btn btn-whatsapp" style="margin-top:0; padding:8px; font-size:12px;">💬 ڈائریکٹ میسج</button>
-        </div>
-      </div>
-    `).join('') : '<p style="font-size:12px;color:#666;">کوئی ایکٹو رائیڈ آفر دستیاب نہیں</p>';
-  }
-  
-  const adminPassengerRidesHtml = bookings.length ? bookings.map(b => `
-    <div class="card" style="border-right:4px solid #16a34a;">
-      <b>👤 مسافر: ${b.name}</b> (${b.phone})<br>
-      <b>روٹ:</b> ${b.from} ➔ ${b.to}<br>
-      <b>کرایہ:</b> Rs ${b.fare} | <b>اسٹیٹس:</b> ${b.status}<br>
-      <span class="time-text">🕒 وقت: ${b.timeStr || ''}</span>
-      <button onclick="deleteBooking('${b.id}')" class="btn btn-red" style="padding:5px; margin-top:5px; font-size:12px;">🗑️ رائیڈ ریموو کریں</button>
-    </div>
-  `).join('') : '<p style="font-size:12px;color:#666;">کوئی پسنجر رائیڈ موجود نہیں</p>';
-
-  const adminPassengerRidesView = document.getElementById('adminPassengerRidesView');
-  if(adminPassengerRidesView) adminPassengerRidesView.innerHTML = adminPassengerRidesHtml;
-  
-  const blockedList = document.getElementById('blockedList');
-  if(blockedList) {
-    blockedList.innerHTML = Object.keys(blockedPhones).length? Object.values(blockedPhones).map(b=>`<div class="card" style="background:#fee2e2;"><b>${b.phone}</b> (${b.type}) <button onclick="unblockUser('${b.phone}')" style="background:#16a34a;color:#fff;border:0;padding:4px 8px;border-radius:4px;cursor:pointer;">ان بلاک</button> <button onclick="removeBlockedPermanently('${b.phone}')" style="background:#dc2626;color:#fff;border:0;padding:4px 8px;border-radius:4px;cursor:pointer;margin-right:5px;">🗑️ مکمل ریموو کریں</button></div>`).join('') : '<p>کوئی نمبر بلاک نہیں ہے</p>';
-  }
-});
-
-onValue(ref(db,'drivers'), snap=>{
-  const data=snap.val(); 
+onValue(ref(db, 'drivers'), snap => {
+  const data = snap.val();
   allRegisteredDriversList = data ? Object.values(data) : [];
   allOnlineDriversList = allRegisteredDriversList.filter(d => d.online && !isBlocked(d.phone));
-  
   renderFilteredDrivers();
   renderAdminDrivers();
 });
 
-window.deletePassenger = function(phone) {
-  if(confirm('کیا آپ اس مسافر (' + phone + ') کو سسٹم سے مکمل ریموو کرنا چاہتے ہیں؟')) {
-    remove(ref(db, 'passengers/' + phone));
+onValue(ref(db, 'passengers'), snap => {
+  const data = snap.val();
+  const passengers = data ? Object.values(data) : [];
+  allOnlinePassengersList = passengers.filter(p => p.online && !isBlocked(p.phone));
+  const adminP = document.getElementById('adminPassengers');
+  if (adminP) {
+    adminP.innerHTML = passengers.length ? passengers.map(p => {
+      const blocked = isBlocked(p.phone);
+      return `
+        <div class="card">
+          <b>👤 ${p.name}</b> (${p.phone}) - ${p.city || ''} - ${p.online ? '🟢 آن لائن' : '🔴 آف لائن'}
+          <div style="display:flex; gap:5px; margin-top:6px;">
+            <button onclick="openWhatsApp('${p.phone}', 'سلام ${p.name}! CCab ایڈمن کی جانب سے رابطہ ہے۔')" class="btn btn-whatsapp" style="padding:4px 8px; font-size:12px; margin-top:0;">💬 میسج</button>
+            ${blocked
+              ? `<button onclick="unblockUser('${p.phone}')" class="btn btn-green" style="padding:4px 8px; font-size:12px; margin-top:0;">ان بلاک</button>`
+              : `<button onclick="blockUser('${p.phone}','passenger')" class="btn btn-red" style="padding:4px 8px; font-size:12px; margin-top:0;">بلاک</button>
+                 <button onclick="deletePassenger('${p.phone}')" class="btn btn-dark" style="padding:4px 8px; font-size:12px; margin-top:0;">ریموو</button>`
+            }
+          </div>
+        </div>
+      `;
+    }).join('') : '<p style="font-size:12px; color:#666;">کوئی مسافر نہیں۔</p>';
   }
+});
+
+let notifiedBookingIds = new Set();
+let notifiedScheduleIds = new Set();
+
+onValue(ref(db, 'schedules'), snap => {
+  const data = snap.val();
+  const list = data ? Object.values(data).reverse() : [];
+  const dPhone = localStorage.getItem('ccab_dphone') || '';
+  const pPhone = localStorage.getItem('ccab_pphone') || '';
+
+  if (list.length && pPhone) {
+    const latest = list[0];
+    if (latest.timePosted > appLoadTime && !notifiedScheduleIds.has(latest.id)) {
+      notifiedScheduleIds.add(latest.id);
+      showLiveAlert(`🚘 نیا روٹ: ${latest.from} ➔ ${latest.to}`, `ڈرائیور ${latest.driverName} (${latest.driverCar}) - Rs ${latest.fare}`, latest.driverPhone, `سلام ${latest.driverName}! میں آپ کے روٹ (${latest.from} تا ${latest.to}) پر سفر کرنا چاہتا ہوں۔`);
+    }
+  }
+
+  const html = list.length ? list.map(s => `
+    <div class="card" style="border-right:4px solid #0284c7; background:#f0f9ff;">
+      <span class="badge" style="background:#0284c7;">روٹ آفر</span> ${s.driverCar ? `<span class="badge">${s.driverCar}</span>` : ''}<br>
+      <b>🚗 ${s.driverName}</b> (${s.driverPhone})<br>
+      روٹ: <b>${s.from} ➔ ${s.to}</b> | اسٹاپس: ${s.stops}<br>
+      وقت: ${s.dateTime ? s.dateTime.replace('T', ' ') : '-'} | کرایہ: <b>Rs ${s.fare}</b><br>
+      <button onclick="openWhatsApp('${s.driverPhone}', 'سلام! میں آپ کے روٹ (${s.from} تا ${s.to}) پر سیٹ بک کرنا چاہتا ہوں۔')" class="btn btn-whatsapp" style="padding:6px; font-size:12px;">💬 ڈرائیور سے رابطہ</button>
+      ${s.driverPhone === dPhone ? `<button onclick="deleteSchedule('${s.id}')" class="btn btn-red" style="padding:6px; font-size:12px;">🗑️ روٹ ہٹائیں</button>` : ''}
+    </div>
+  `).join('') : '<p style="font-size:12px; color:#666;">کوئی روٹ آفر موجود نہیں۔</p>';
+
+  const pSched = document.getElementById('passengerScheduledRides');
+  if (pSched) pSched.innerHTML = html;
+
+  const aSched = document.getElementById('adminDriverSchedulesView');
+  if (aSched) {
+    aSched.innerHTML = list.length ? list.map(s => `
+      <div class="card"><b>${s.driverName}</b> (${s.driverPhone}) - ${s.from} ➔ ${s.to} (Rs ${s.fare})
+      <button onclick="deleteSchedule('${s.id}')" class="btn btn-red" style="padding:4px 8px; font-size:11px;">🗑️ حذف</button></div>
+    `).join('') : '<p style="font-size:12px; color:#666;">کوئی روٹ نہیں۔</p>';
+  }
+});
+
+onValue(ref(db, 'bookings'), snap => {
+  const data = snap.val();
+  const bookings = data ? Object.values(data).reverse() : [];
+  const open = bookings.filter(b => b.status === 'Open Offer' && !isBlocked(b.phone));
+  const pPhone = localStorage.getItem('ccab_pphone') || '';
+  const dPhone = localStorage.getItem('ccab_dphone') || '';
+
+  if (open.length && dPhone) {
+    const latest = open[0];
+    if (latest.time > appLoadTime && !notifiedBookingIds.has(latest.id)) {
+      notifiedBookingIds.add(latest.id);
+      showLiveAlert(`🔔 نئی رائیڈ: ${latest.from} ➔ ${latest.to}`, `مسافر ${latest.name} (${latest.vehicleType}) - Rs ${latest.fare}`, latest.phone, `سلام ${latest.name}! میں CCab ڈرائیور ہوں، آپ کی رائیڈ (${latest.from} تا ${latest.to}) Rs ${latest.fare} میں قبول کرنے کے لیے تیار ہوں۔`);
+    }
+  }
+
+  const myRides = bookings.filter(b => b.phone === pPhone && b.status === 'Open Offer');
+  const myRidesEl = document.getElementById('myPassengerRides');
+  if (myRidesEl) {
+    myRidesEl.innerHTML = myRides.length ? myRides.map(b => `
+      <div class="card" style="border-right:4px solid #f59e0b; background:#fffbeb;">
+        <b>${b.from} ➔ ${b.to}</b> (${b.vehicleType}) | کرایہ: <b>Rs ${b.fare}</b>
+        <span class="time-text">🕒 ${b.timeStr || ''}</span>
+        <button onclick="cancelMyRide('${b.id}')" class="btn btn-red" style="padding:6px; font-size:12px;">❌ منسوخ کریں</button>
+      </div>
+    `).join('') : '<p style="font-size:12px; color:#666;">کوئی فعال رائیڈ نہیں۔</p>';
+  }
+
+  const dRidesEl = document.getElementById('driverOpenRides');
+  if (dRidesEl) {
+    dRidesEl.innerHTML = open.length ? open.map(b => `
+      <div class="card" style="background:#f0fdf4; border-right:4px solid #16a34a;">
+        <b>👤 ${b.name}</b> | 📞 ${b.phone} <span class="badge">${b.vehicleType}</span><br>
+        روٹ: <b>${b.from} ➔ ${b.to}</b> | پیشکش: <b>Rs ${b.fare}</b><br>
+        ${b.locLink && b.locLink !== 'موجود نہیں' ? `<a href="${b.locLink}" target="_blank" style="color:#0284c7; font-weight:bold; font-size:12px;">📍 لوکیشن دیکھیں</a><br>` : ''}
+        <input type="number" id="driverOffer_${b.id}" value="${b.fare}" placeholder="اپنی بڈ / کرایہ لکھیں">
+        <div style="display:flex; gap:6px; margin-top:6px;">
+          <button onclick="sendOffer('${b.id}','${b.phone}')" class="btn btn-blue" style="margin-top:0; padding:8px; font-size:12px;">💵 آفر بھیجیں</button>
+          <button onclick="openWhatsApp('${b.phone}', 'سلام ${b.name}! میں CCab ڈرائیور ہوں، آپ کی رائیڈ (${b.from} تا ${b.to}) کے لیے دستیاب ہوں۔')" class="btn btn-whatsapp" style="margin-top:0; padding:8px; font-size:12px;">💬 واٹس ایپ</button>
+        </div>
+      </div>
+    `).join('') : '<p style="font-size:12px; color:#666;">کوئی رائیڈ آفر دستیاب نہیں۔</p>';
+  }
+
+  const aRidesEl = document.getElementById('adminPassengerRidesView');
+  if (aRidesEl) {
+    aRidesEl.innerHTML = bookings.length ? bookings.map(b => `
+      <div class="card"><b>${b.name}</b> (${b.phone}) - ${b.from} ➔ ${b.to} (Rs ${b.fare})
+      <button onclick="deleteBooking('${b.id}')" class="btn btn-red" style="padding:4px 8px; font-size:11px;">🗑️ حذف</button></div>
+    `).join('') : '<p style="font-size:12px; color:#666;">کوئی رائیڈ نہیں۔</p>';
+  }
+
+  const blockedEl = document.getElementById('blockedList');
+  if (blockedEl) {
+    blockedEl.innerHTML = Object.keys(blockedPhones).length ? Object.values(blockedPhones).map(b => `
+      <div class="card" style="background:#fee2e2;">
+        <b>${b.phone}</b> (${b.type})
+        <button onclick="unblockUser('${b.phone}')" style="background:#16a34a; color:#fff; border:0; padding:4px 8px; border-radius:4px; cursor:pointer;">ان بلاک</button>
+        <button onclick="removeBlockedPermanently('${b.phone}')" style="background:#dc2626; color:#fff; border:0; padding:4px 8px; border-radius:4px; cursor:pointer; margin-right:5px;">🗑️ مکمل حذف</button>
+      </div>
+    `).join('') : '<p style="font-size:12px; color:#666;">کوئی نمبر بلاک نہیں۔</p>';
+  }
+});
+
+// --- Actions ---
+window.sendOffer = async function(bookId, passengerPhone) {
+  const val = document.getElementById('driverOffer_' + bookId)?.value;
+  const dPhone = document.getElementById('dphone').value.trim();
+  const regPhone = localStorage.getItem('ccab_dphone');
+  if (!dPhone || regPhone !== dPhone) { alert('❌ تصدیق ناکام!'); return; }
+  if (isBlocked(dPhone)) { alert('🚫 آپ بلاک ہیں۔'); return; }
+  const snap = await get(ref(db, 'drivers/' + dPhone));
+  const dName = snap.exists() ? snap.val().name : 'ڈرائیور';
+  const dCar = snap.exists() ? snap.val().car : '';
+  openWhatsApp(passengerPhone, `CCab ڈرائیور آفر:\nنام: ${dName} (${dCar})\nفون: ${dPhone}\nکرایہ آفر: Rs ${val}`);
 };
 
-window.deleteSchedule = function(id) {
-  if(confirm('کیا آپ اس روٹ کو حذف کرنا چاہتے ہیں؟')) {
-    remove(ref(db, 'schedules/' + id));
-  }
-};
-
-window.cancelMyRide = function(id) {
-  if(confirm('کیا آپ اپنی اس رائیڈ آفر کو منسوخ کرنا چاہتے ہیں؟')) {
-    remove(ref(db, 'bookings/' + id));
-  }
-};
-
-window.blockUser = function(phone, type){ 
-  if(confirm(phone + ' کو بلاک کرنا چاہتے ہیں؟')){ 
-    set(ref(db,'blocked/'+phone),{phone, type, blocked:true, time:Date.now()}); 
-    if(type === 'driver') update(ref(db,'drivers/'+phone),{online:false}); 
-    if(type === 'passenger') update(ref(db,'passengers/'+phone),{online:false}); 
-  } 
-};
-window.unblockUser = function(phone){ remove(ref(db,'blocked/'+phone)); };
-window.removeBlockedPermanently = function(phone){
-  if(confirm('کیا آپ اس نمبر (' + phone + ') کو مکمل حذف کرنا چاہتے ہیں؟')) {
+window.cancelMyRide = id => { if (confirm('رائیڈ منسوخ کریں؟')) remove(ref(db, 'bookings/' + id)); };
+window.deleteSchedule = id => { if (confirm('روٹ حذف کریں؟')) remove(ref(db, 'schedules/' + id)); };
+window.deleteBooking = id => { if (confirm('رائیڈ حذف کریں؟')) remove(ref(db, 'bookings/' + id)); };
+window.deletePassenger = phone => { if (confirm('مسافر ریموو کریں؟')) remove(ref(db, 'passengers/' + phone)); };
+window.deleteDriver = phone => { if (confirm('ڈرائیور ریموو کریں؟')) remove(ref(db, 'drivers/' + phone)); };
+window.unblockUser = phone => remove(ref(db, 'blocked/' + phone));
+window.removeBlockedPermanently = phone => {
+  if (confirm('نمبر مکمل حذف کریں؟')) {
     remove(ref(db, 'blocked/' + phone));
     remove(ref(db, 'drivers/' + phone));
     remove(ref(db, 'passengers/' + phone));
   }
 };
-window.deleteBooking = function(id){ if(confirm('کیا آپ اسے حذف کرنا چاہتے ہیں؟')) remove(ref(db,'bookings/'+id)); };
-window.deleteDriver = function(phone){
-  if(confirm('کیا آپ اس ڈرائیور (' + phone + ') کو سسٹم سے ریموو کرنا چاہتے ہیں؟')) {
-    remove(ref(db, 'drivers/' + phone));
+window.blockUser = function(phone, type) {
+  if (confirm(phone + ' کو بلاک کریں؟')) {
+    set(ref(db, 'blocked/' + phone), { phone, type, blocked: true, time: Date.now() });
+    if (type === 'driver') update(ref(db, 'drivers/' + phone), { online: false });
+    if (type === 'passenger') update(ref(db, 'passengers/' + phone), { online: false });
   }
 };
 
-window.sendOffer = async function(bookId, passengerPhone){
-  const val = document.getElementById('driverOffer_'+bookId).value; 
-  const dPhone = document.getElementById('dphone').value.trim();
-  const registeredPhone = localStorage.getItem('ccab_dphone');
-  
-  if(!dPhone || registeredPhone !== dPhone) { alert('❌ تصدیق ناکام!'); return; }
-  if(isBlocked(dPhone)){ alert('آپ بلاک ہیں'); return; }
-
-  let dName = 'ڈرائیور', dCar = '';
-  const snap = await get(ref(db, 'drivers/' + dPhone));
-  if(snap.exists()) { dName = snap.val().name; dCar = snap.val().car; }
-  
-  const text = `CCab ڈرائیور آفر:\nنام: ${dName} (${dCar})\nفون: ${dPhone}\nکرایہ کی پیشکش: Rs ${val}`; 
-  openWhatsApp(passengerPhone, text);
-};
-
-const btnAdminLogin = document.getElementById('btnAdminLogin');
-if(btnAdminLogin) {
-  btnAdminLogin.addEventListener('click', () => {
-    const enteredUser = document.getElementById('auser').value.trim();
-    const enteredPass = document.getElementById('apass').value.trim();
-    const astatus = document.getElementById('astatus');
-
-    if(enteredUser === SECURE_ADMIN_USER && enteredPass === SECURE_ADMIN_PASS){ 
-      localStorage.setItem('ccab_admin_logged', 'true');
-      document.getElementById('adminLoginBox').classList.add('hidden');
-      document.getElementById('adminContent').classList.remove('hidden'); 
-    } else { 
-      astatus.innerText = '❌ غلط یوزر نیم یا پاس ورڈ درج کیا گیا ہے!'; 
-      astatus.style.color = 'red'; 
-    }
-  });
-}
+document.getElementById('btnAdminLogin')?.addEventListener('click', () => {
+  const u = document.getElementById('auser').value.trim();
+  const p = document.getElementById('apass').value.trim();
+  const st = document.getElementById('astatus');
+  if (u === SECURE_ADMIN_USER && p === SECURE_ADMIN_PASS) {
+    localStorage.setItem('ccab_admin_logged', 'true');
+    document.getElementById('adminLoginBox').classList.add('hidden');
+    document.getElementById('adminContent').classList.remove('hidden');
+  } else {
+    st.innerText = '❌ غلط یوزر نیم یا پاس ورڈ!';
+    st.style.color = 'red';
+  }
+});
 
 window.adminLogout = function() {
   localStorage.removeItem('ccab_admin_logged');
